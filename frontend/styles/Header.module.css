@@ -5,3 +5,12 @@
   background: transparent;
   border: solid blue;
 }
+
+.communiBtn {
+  display: flex;
+  border: 0;
+  background-color: transparent;
+  color: black;
+  font-size: 24px;
+  margin: auto;
+}

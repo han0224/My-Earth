@@ -1,5 +1,5 @@
 import { Suspense, useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, MeshProps, useFrame } from "@react-three/fiber";
 import {
   useGLTF,
   Html,
@@ -7,6 +7,8 @@ import {
   Environment,
   ContactShadows,
 } from "@react-three/drei";
+import * as THREE from "three";
+import styles from "../styles/Earth.module.css";
 
 function Star() {
   const obj = new Array(300)
@@ -16,12 +18,13 @@ function Star() {
       Math.random() * 8 - 4,
       Math.random() * 8 - 4,
     ]);
-
+  //materials.push( new THREE.MeshPhongMaterial( { color: 0x000000, specular: 0x666666, emissive: 0xff0000, shininess: 10, opacity: 0.9, transparent: true }
+  //materials[ materials.length - 2 ].emissive.setHSL( 0.54, 1, 0.35 * ( 0.5 + 0.5 * Math.sin( 35 * timer ) ) );
   return (
     <group dispose={null}>
       {obj.map((v, i) => (
         <mesh scale={0.01} position={[v[0], v[1], v[2]]} key={i}>
-          <sphereGeometry args={[1, 1, 0.3, 50]} color="red" />
+          <sphereGeometry args={[1, 1, 0.3, 50]} />
           <meshStandardMaterial attach="material" />
         </mesh>
       ))}
@@ -61,7 +64,7 @@ function Model(props: any) {
 }
 
 const Earth = () => {
-  const ref = useRef();
+  const ref = useRef<THREE.Mesh>(null);
   useFrame(() => (ref.current.rotation.y += 0.01));
 
   return (
@@ -76,7 +79,7 @@ export default function Viewer() {
 
   return (
     <Canvas
-      style={{ background: "transparent" }}
+      className={styles.earth}
       dpr={[1, 2]}
       camera={{ position: [5, 0, 0], fov: 50 }}
     >
@@ -84,8 +87,8 @@ export default function Viewer() {
       <directionalLight position={[0, 3, 0]} color="#11E8BB" />
       <directionalLight position={[0, -3, -0.3]} color="#8200C9" />
       <Suspense fallback={null}>
-        <Star />
         <Earth />
+        <Star />
         <Environment preset="city" />
       </Suspense>
       <OrbitControls
