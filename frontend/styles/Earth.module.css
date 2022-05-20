@@ -1,4 +1,5 @@
 .earth {
-  z-index: -1;
   background: linear-gradient(to bottom, #0eac8a 0%, #420065 100%);
+  height: 100vh;
+  width: 100vw;
 }

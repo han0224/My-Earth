@@ -3,10 +3,6 @@
   height: 100vh;
 }
 
-.canvas {
-  background: linear-gradient(to bottom, #11e8bb 0%, #8200c9 100%);
-}
-
 .space {
   display: flex;
   justify-content: center;

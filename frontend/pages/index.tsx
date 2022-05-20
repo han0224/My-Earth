@@ -6,10 +6,10 @@ import Layout from "../components/layout/Layout";
 const Home: NextPage = () => {
   return (
     <Layout>
+      <Earth />
       <div className={styles.space}>
-        <div className={styles.sidebar}></div>
+        <div className={styles.sidebar}>side</div>
         <p className={styles.time}>TIME</p>
-        <Earth />
       </div>
     </Layout>
   );

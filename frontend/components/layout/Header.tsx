@@ -2,13 +2,12 @@ import React from "react";
 import styles from "../../styles/Header.module.css";
 import { CgProfile } from "react-icons/cg";
 
-const buttons = [];
-
 const Header = () => {
-  const Right = () => {
+  const User = () => {
     return (
-      <div>
+      <div className={styles.user}>
         <CgProfile />
+        <button>User</button>
       </div>
     );
   };
@@ -19,10 +18,12 @@ const Header = () => {
   return (
     <div className={styles.header}>
       My Earth
-      <button className={styles.communiBtn} onClick={communityBtn}>
-        community
-      </button>
-      <Right />
+      <div className={styles.menu}>
+        <button className={styles.communiBtn} onClick={communityBtn}>
+          community
+        </button>
+        <User />
+      </div>
     </div>
   );
 };
