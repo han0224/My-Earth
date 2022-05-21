@@ -52,6 +52,13 @@ const Audios = () => {
       audio.loop = true;
     }
   }, [music]);
+
+  const stop = () => {
+    if (audio) {
+      audio.pause();
+    }
+  };
+
   return (
     <div className={styles.layout}>
       <Play
@@ -64,6 +71,7 @@ const Audios = () => {
         setCurrentMusic={setMusic}
         currentMusic={music}
       />
+      <button onClick={stop}>stop</button>
     </div>
   );
 };
