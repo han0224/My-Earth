@@ -1,8 +1,3 @@
-.scene {
-  width: 100vw;
-  height: 100vh;
-}
-
 .space {
   display: flex;
   justify-content: center;
@@ -29,4 +24,15 @@
   margin: 0;
   font-size: 32px;
   font-weight: 700;
+}
+
+.todo {
+  position: fixed;
+  display: flex;
+  border: solid red;
+  width: 25%;
+  height: 60%;
+  top: 60px;
+  right: 75%;
+  background-color: rgba(00, 00, 00, 0.3);
 }

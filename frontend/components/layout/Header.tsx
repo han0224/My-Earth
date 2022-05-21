@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../../styles/Header.module.css";
 import { CgProfile } from "react-icons/cg";
 
 const Header = () => {
+  const [isLogin, setIsLogin] = useState(false);
+
+  const Login = () => {};
+
   const User = () => {
     return (
       <div className={styles.user}>
-        <CgProfile />
-        <button>User</button>
+        <button>
+          <CgProfile size={20} />
+          User
+        </button>
+        <button>setting</button>
       </div>
     );
   };
@@ -17,7 +24,7 @@ const Header = () => {
   };
   return (
     <div className={styles.header}>
-      My Earth
+      <button className={styles.title}>My Earth</button>
       <div className={styles.menu}>
         <button className={styles.communiBtn} onClick={communityBtn}>
           community
