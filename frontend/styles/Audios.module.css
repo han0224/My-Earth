@@ -3,10 +3,25 @@
   flex-direction: column;
   width: 100%;
 }
+.music {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
 .musicBtn {
   background-color: rgba(00, 00, 00, 0.3);
   border: solid rgba(00, 00, 00, 0.2);
   border-radius: 20%;
   padding: 9px;
   margin: auto;
+}
+.volumediv {
+  display: flex;
+  width: fit-content;
+}
+.volume {
+  transform: rotate(-90deg);
+  width: 50px;
+  height: 10px;
 }
