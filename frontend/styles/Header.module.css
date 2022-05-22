@@ -5,7 +5,7 @@
   align-items: center;
   width: 100vw;
   padding: 0 2%;
-  height: 56px;
+  height: 70px;
   background: transparent;
   border: solid blue;
 }
@@ -28,10 +28,12 @@
 
 .user button {
   font-size: 20px;
+  display: flex;
 }
 
 .title {
-  font-size: 30px;
+  font-size: 40px;
+  font-family: "yg-jalnan";
 }
 .menu {
   position: fixed;

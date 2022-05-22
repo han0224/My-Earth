@@ -12,8 +12,8 @@
   border: solid red;
   width: 10%;
   height: 60%;
-  top: 60px;
-  left: 90%;
+  top: 20%;
+  left: 88%;
 }
 
 .time {
@@ -35,7 +35,7 @@
   border: solid red;
   width: 25%;
   height: 60%;
-  top: 60px;
-  right: 75%;
+  top: 20%;
+  right: 73%;
   background-color: rgba(00, 00, 00, 0.3);
 }
