@@ -4,7 +4,6 @@ export default class CustomDocument extends Document {
     return (
       <Html>
         <Head>
-          <title>My Earth</title>
           <link rel="icon" href="/favicon.ico" />
           <meta property="custom" content="123123" />
           <link
