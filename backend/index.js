@@ -7,12 +7,26 @@ const { auth } = require("./middleware/auth");
 
 const app = express();
 const port = 5000;
+const db = require("./config/keys");
+const cors = require("cors");
+
+//tset
+const whitelist = ["http://localhost:3000"];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("not allowd origin!"));
+    }
+  },
+};
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(cors());
 
-const db = require("./config/keys");
 const mongoose = require("mongoose");
 mongoose
   .connect(db.MongoURI, {
@@ -34,6 +48,7 @@ app.post("/register", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
+  console.log(req.body);
   User.findOne({ email: req.body.email }, (err, user) => {
     if (!user) {
       return res.json({
@@ -63,6 +78,7 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/auth", auth, (req, res) => {
+  console.log(req);
   res.status(200).json({
     _id: req.user._id,
     isAdmin: req.user.role === 0 ? false : true,

@@ -51,7 +51,6 @@ userSchema.pre("save", function (next) {
 
 userSchema.methods.comparePassword = function (plainPassword, cb) {
   // 입력된 비밀번호와 데이터베이스에 있는 암호화된 비밀번호가 같은지 확인(비교) -> 평문을 암호화해서 비교
-  console.log(plainPassword, this.password);
   bcrypt.compare(plainPassword, this.password, function (err, isMatch) {
     if (err) return cb(err);
     cb(null, isMatch);
@@ -72,7 +71,7 @@ userSchema.methods.generateToken = function (cb) {
     if (err) return cb(err);
     cb(null, user);
   });
-  console.log("login - token", user);
+  // console.log("login - token", user);
 };
 
 userSchema.statics.findToken = function (token, cb) {

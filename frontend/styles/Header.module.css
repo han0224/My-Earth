@@ -57,3 +57,7 @@
 .menu button:hover::after {
   transform: scaleX(1);
 }
+
+.label {
+  /* font-size: 10px; */
+}

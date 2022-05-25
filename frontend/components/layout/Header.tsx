@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../styles/Header.module.css";
-import { CgProfile } from "react-icons/cg";
+import { BiUser } from "react-icons/bi";
+import { FiSettings } from "react-icons/fi";
+import Link from "next/link";
 
 const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
 
-  const Login = () => {};
+  useEffect(() => {}, []);
 
   const User = () => {
     return (
       <div className={styles.user}>
         <button>
-          <CgProfile size={20} />
-          User
+          <div className={styles.label}>login</div>
         </button>
-        <button>setting</button>
+        <button>
+          <div className={styles.label}>setting</div>
+        </button>
       </div>
     );
   };
@@ -24,7 +27,9 @@ const Header = () => {
   };
   return (
     <div className={styles.header}>
-      <button className={styles.title}>My Earth</button>
+      <Link href="/">
+        <a className={styles.title}>My Earth</a>
+      </Link>
       <div className={styles.menu}>
         <button className={styles.communiBtn} onClick={communityBtn}>
           community
