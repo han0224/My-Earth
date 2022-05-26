@@ -27,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors());
 
+const session = require("express-session");
 const mongoose = require("mongoose");
 mongoose
   .connect(db.MongoURI, {
@@ -35,6 +36,17 @@ mongoose
   })
   .then(() => console.log("MongoDB connected..."))
   .catch((error) => console.log(error));
+const mongoStore = require("connect-mongo");
+
+app.use(
+  session({
+    secret: "ASDFASDFE",
+    resave: false,
+    saveUninitialized: false,
+    store: mongoStore.create({ mongoUrl: db.MongoURI }),
+    cookie: { maxAge: 3.6e6 * 24, httpOnly: true }, //24시간 뒤 만료
+  })
+);
 
 app.post("/register", (req, res) => {
   // 회원가입시 필요한 정보들을 client 에서 가져오면
@@ -47,9 +59,10 @@ app.post("/register", (req, res) => {
   });
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
   console.log(req.body);
   User.findOne({ email: req.body.email }, (err, user) => {
+    console.log("user", user);
     if (!user) {
       return res.json({
         loginSuccess: false,
@@ -65,14 +78,17 @@ app.post("/login", (req, res) => {
           error: isMath,
         });
       }
-      user.generateToken((err, user) => {
-        if (err) return res.status(400).send(err);
 
-        res.cookie("x_auth", user.token).status(200).json({
-          loginSuccess: true,
-          userID: user._id,
-        });
-      });
+      // user.generateToken((err, user) => {
+      //   if (err) return res.status(400).send(err);
+
+      //   res.cookie("x_auth", user.token, { httpOnly: true }).status(200).json({
+      //     loginSuccess: true,
+      //     token: user.token,
+      //   });
+      // });
+      req.session.user = req.body.email;
+      res.json({ loginSuccess: true, userid: user.email });
     });
   });
 });

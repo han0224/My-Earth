@@ -26,6 +26,7 @@ export const register = async (
       email: email,
       password: password,
     });
+
     console.log(result);
     return result.data.success;
   } catch (e) {

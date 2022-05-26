@@ -7,17 +7,29 @@ import Link from "next/link";
 const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (window.localStorage.getItem("isLogin") === "true") {
+      setIsLogin(true);
+    } else setIsLogin(false);
+    console.log("isLogin", isLogin);
+  }, []);
 
   const User = () => {
     return (
       <div className={styles.user}>
-        <button>
-          <div className={styles.label}>login</div>
-        </button>
-        <button>
-          <div className={styles.label}>setting</div>
-        </button>
+        {isLogin ? (
+          <Link href="/user">
+            <a className={styles.label}>User</a>
+          </Link>
+        ) : (
+          <Link href="/login">
+            <a className={styles.label}>login</a>
+          </Link>
+        )}
+
+        <Link href="/">
+          <a className={styles.label}>setting</a>
+        </Link>
       </div>
     );
   };
