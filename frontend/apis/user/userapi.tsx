@@ -1,15 +1,20 @@
 import axios from "axios";
+import { setCookie } from "../../util/cookie";
 
 const URL = "http://localhost:5000/";
 
 export const login = async (email: string, password: string) => {
   try {
-    const result = await axios.post(URL + "login", {
-      email: email,
-      password: password,
-    });
+    const result = await axios.post(
+      URL + "login",
+      {
+        email: email,
+        password: password,
+      },
+      { withCredentials: true }
+    );
     console.log(result);
-    return result.data.loginSuccess;
+    return result.data;
   } catch (e) {
     console.log("error", e);
   }
@@ -21,11 +26,15 @@ export const register = async (
   password: string
 ) => {
   try {
-    const result = await axios.post(URL + "register", {
-      name: name,
-      email: email,
-      password: password,
-    });
+    const result = await axios.post(
+      URL + "register",
+      {
+        name: name,
+        email: email,
+        password: password,
+      },
+      { withCredentials: true }
+    );
 
     console.log(result);
     return result.data.success;
@@ -36,8 +45,9 @@ export const register = async (
 
 export const auth = async () => {
   try {
-    const result = await axios.get(URL + "auth");
-    return result.data.isAuth;
+    const result = await axios.get(URL + "auth", { withCredentials: true });
+    console.log(result);
+    return result.data.success;
   } catch (e) {
     console.log("error", e);
   }

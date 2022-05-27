@@ -22,12 +22,6 @@ const userSchema = mongoose.Schema({
     default: 0,
   },
   image: String,
-  token: {
-    type: String,
-  },
-  tokenExp: {
-    type: Number,
-  },
 });
 // server/models/User.js
 
@@ -57,40 +51,6 @@ userSchema.methods.comparePassword = function (plainPassword, cb) {
   });
 };
 
-// 로그인 - 토큰 생성
-userSchema.methods.generateToken = function (cb) {
-  var user = this;
-  // jsonwebtoken을 이용해서 토큰 생성
-  var token = jwt.sign(user._id.toHexString(), "secretToken");
-  // user._id + 'secretToken' = token 을 통해 토큰 생성
-  // 토큰 해석을 위해 'secretToken' 입력 -> user._id 가 나옴
-  // 토큰을 가지고 누구인지 알 수 있는 것
-  user.token = token;
-
-  user.save(function (err, user) {
-    if (err) return cb(err);
-    cb(null, user);
-  });
-  // console.log("login - token", user);
-};
-
-userSchema.statics.findToken = function (token, cb) {
-  const user = this;
-  // token decode
-  jwt.verify(token, "secretToken", function (err, decoded) {
-    // user id이용하여 user 찾고, client에서 가져온 token과 db에 보관된 토큰 일치하는지
-    user.findOne(
-      {
-        _id: decoded,
-        token: token,
-      },
-      function (err, user) {
-        if (err) return cb(err);
-        cb(null, user);
-      }
-    );
-  });
-};
 const User = mongoose.model("User", userSchema);
 
 module.exports = { User };

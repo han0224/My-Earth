@@ -3,8 +3,9 @@ import styles from "../styles/Login.module.css";
 import React from "react";
 import Link from "next/link";
 import useInput from "../hooks/useInput";
-import { login } from "../apis/user/userapi";
+import { auth, login } from "../apis/user/userapi";
 import { useRouter } from "next/router";
+import { setCookie } from "../util/cookie";
 
 const Login = () => {
   const userid = useInput("");
@@ -15,15 +16,24 @@ const Login = () => {
   const submitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await login(userid.value, userpassword.value);
-    if (res) {
+    if (res.success) {
       alert(`성공`);
+      window.localStorage.setItem("isLogin", "true");
+      router.push("/");
       console.log("로그인 성공", res);
-      // window.localStorage.setItem("isLogin", "true");
-      // router.push("/");
     } else {
-      window.localStorage.setItem("isLogin", "false");
-      alert("다시 확인해주세요");
+      alert(res.message);
       console.log("실패");
+    }
+  };
+
+  const test = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    const res = await auth();
+    if (res) {
+      alert("로그인 성공");
+    } else {
+      alert(`로그인 필요`);
     }
   };
 
@@ -56,6 +66,9 @@ const Login = () => {
           </Link>
         </div>
       </div>
+      <button onClick={test} style={{ background: "#fff", fontSize: "60px" }}>
+        [test] login check
+      </button>
     </Layout>
   );
 };

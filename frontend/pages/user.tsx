@@ -7,10 +7,6 @@ import { off } from "process";
 import { useRouter } from "next/router";
 
 const User = () => {
-  const userid = useInput("");
-  const userpassword = useInput("");
-  const username = useInput("");
-  const [checkpw, setCheckpw] = useState("");
   const router = useRouter();
 
   const isLogin = async () => {
@@ -18,9 +14,9 @@ const User = () => {
     if (res) {
       console.log("로그인 중", res);
     } else {
+      // alert("로그인 해주세요");
       router.push("/");
-      window.localStorage.setItem("isLogin", "false");
-      alert("로그인 해주세요");
+      // window.localStorage.setItem("isLogin", "false");
     }
   };
   useEffect(() => {

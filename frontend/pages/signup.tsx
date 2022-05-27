@@ -11,13 +11,16 @@ const Signup = () => {
   const userpassword = useInput("");
   const username = useInput("");
   const [checkpw, setCheckpw] = useState("");
-  const [okPw, setOkPw] = useState(false);
-  const ref = useRef<HTMLInputElement>(null);
+  const [okPw, setOkPw] = useState(true);
+  const ref = useRef<HTMLLabelElement>(null);
   const router = useRouter();
 
   const submitSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    if (!okPw) {
+      ref.current.style.color = "red";
+      return;
+    }
     const res = await register(
       username.value,
       userid.value,
@@ -79,6 +82,12 @@ const Signup = () => {
               onChange={comparePw}
               required
             />
+            <label
+              ref={ref}
+              className={okPw ? styles.notActive : styles.active}
+            >
+              비밀번호를 확인해주세요
+            </label>
             <div className={styles.btn}>
               <input type="submit" value="Sign Up" />
             </div>
