@@ -6,7 +6,7 @@ const URL = "http://localhost:5000/";
 export const login = async (email: string, password: string) => {
   try {
     const result = await axios.post(
-      URL + "login",
+      URL + "user/login",
       {
         email: email,
         password: password,
@@ -27,7 +27,7 @@ export const register = async (
 ) => {
   try {
     const result = await axios.post(
-      URL + "register",
+      URL + "user/register",
       {
         name: name,
         email: email,
@@ -45,7 +45,9 @@ export const register = async (
 
 export const auth = async () => {
   try {
-    const result = await axios.get(URL + "auth", { withCredentials: true });
+    const result = await axios.get(URL + "user/auth", {
+      withCredentials: true,
+    });
     console.log(result);
     return result.data.success;
   } catch (e) {
@@ -55,7 +57,10 @@ export const auth = async () => {
 
 export const logout = async () => {
   try {
-    const result = await axios.get(URL + "logout");
+    const result = await axios.get(URL + "user/logout", {
+      withCredentials: true,
+    });
+    console.log("logout result", result);
     return result.data.success;
   } catch (e) {
     console.log("error", e);

@@ -22,6 +22,10 @@ const userSchema = mongoose.Schema({
     default: 0,
   },
   image: String,
+  time: {
+    type: Number,
+    default: 0,
+  },
 });
 // server/models/User.js
 

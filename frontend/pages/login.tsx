@@ -66,9 +66,9 @@ const Login = () => {
           </Link>
         </div>
       </div>
-      <button onClick={test} style={{ background: "#fff", fontSize: "60px" }}>
+      {/* <button onClick={test} style={{ background: "#fff", fontSize: "60px" }}>
         [test] login check
-      </button>
+      </button> */}
     </Layout>
   );
 };

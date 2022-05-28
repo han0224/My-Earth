@@ -1,0 +1,77 @@
+.userPage {
+  background: linear-gradient(to bottom, #0eac8a 0%, #420065 100%);
+  width: 100vw;
+  height: 100vh;
+}
+.erea {
+  display: flex;
+  /* flex-direction: column; */
+  padding-top: 70px;
+  height: calc(100% - 70px);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.userCard {
+  background-color: aliceblue;
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  width: 70%;
+  height: 80%;
+}
+
+/* linear-gradient(to bottom, #0eac8a 0%, #420065 100%) */
+/* #cdd1ff; */
+
+.study_menu {
+  margin: auto 0;
+  /* position: absolute;
+  top: 80px; */
+  display: flex;
+  flex-direction: column;
+}
+
+.study_menu button {
+  margin: 5px 0 5px 5px;
+  width: 80px;
+  height: 40px;
+  background-color: #cdd1ff;
+  /* box-shadow: 1px -1px 2px #cdd1ff; */
+  border: solid 2px rgba(00, 00, 00, 0.3);
+  border-radius: 10px;
+}
+
+.menu {
+  display: flex;
+  margin: 10px 0;
+  padding: 0;
+}
+
+.menu input[type="radio"] {
+  display: none;
+}
+
+.menu input[type="radio"] + label {
+  display: inline-block;
+  cursor: pointer;
+  background-color: #bef7ff;
+  border: 2px solid #cdd1ff;
+  margin: 0 10px;
+  border-radius: 10px;
+  width: 100px;
+  height: 30px;
+  text-align: center;
+}
+
+.menu input[type="radio"]:checked + label {
+  background-color: #0094aa;
+  color: white;
+}

@@ -3,7 +3,7 @@ import styles from "../../styles/Header.module.css";
 import { BiUser } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 import Link from "next/link";
-import { auth } from "../../apis/user/userapi";
+import { auth, logout } from "../../apis/user/userapi";
 import { useRouter } from "next/router";
 
 const Header = () => {
@@ -28,9 +28,20 @@ const Header = () => {
       router.push("/login");
     }
   };
-  const communityBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log("click", event);
+
+  const clicklogout = async (e) => {
+    if (isLogin) {
+      const res = await logout();
+      if (res) {
+        alert(`정상적으로 로그아웃 되었습니다. ${res}`);
+        window.localStorage.setItem("isLogin", "false");
+        setIsLogin(false);
+      } else {
+        alert(`비정상로그아웃`);
+      }
+    }
   };
+
   useEffect(() => {
     if (window.localStorage.getItem("isLogin") === "true") {
       setIsLogin(true);
@@ -44,7 +55,44 @@ const Header = () => {
         <a className={styles.title}>My Earth</a>
       </Link>
       <div className={styles.menu}>
-        <button className={styles.communiBtn} onClick={communityBtn}>
+        <ul className={styles.mainmenu}>
+          <li>
+            <div className={styles.fixed}>community</div>
+          </li>
+          {isLogin ? (
+            <li>
+              <div className={styles.fixed} onClick={onClick}>
+                User
+              </div>
+            </li>
+          ) : (
+            <li>
+              <div className={styles.fixed} onClick={onClick}>
+                Login
+              </div>
+            </li>
+          )}
+          <li>
+            {" "}
+            <div>
+              <FiSettings size={30} />
+            </div>
+            <ul className={styles.submenu}>
+              <li>
+                <div>about</div>
+              </li>
+              <li>
+                <div>????</div>
+              </li>
+              {isLogin === true && (
+                <li>
+                  <div onClick={clicklogout}>Logout</div>
+                </li>
+              )}
+            </ul>
+          </li>
+        </ul>
+        {/* <button className={styles.communiBtn} onClick={communityBtn}>
           community
         </button>
         <div className={styles.user}>
@@ -57,7 +105,7 @@ const Header = () => {
           <div className={styles.setting}>
             <FiSettings size={30} />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

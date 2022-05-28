@@ -5,6 +5,7 @@ import Layout from "../components/layout/Layout";
 import Audios from "../components/Audios";
 import React, { useEffect, useRef, useState } from "react";
 import Timer from "../components/Timer";
+import Todo from "../components/Todo";
 
 const Home: NextPage = () => {
   return (
@@ -14,7 +15,9 @@ const Home: NextPage = () => {
         <div className={styles.sidebar}>
           <Audios />
         </div>
-        <div className={styles.todo}>todo</div>
+        <div className={styles.todo}>
+          <Todo />
+        </div>
         <div className={styles.time}>
           <div className={styles.timer}>
             <Timer />
