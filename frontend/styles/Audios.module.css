@@ -11,12 +11,19 @@
   justify-content: center;
   align-items: center;
 }
-.musicBtn {
-  background-color: rgba(00, 00, 00, 0.3);
-  border: solid rgba(00, 00, 00, 0.2);
+.music button {
   border-radius: 20%;
   padding: 9px;
   margin: 8px 0;
+}
+.pauseBtn {
+  background-color: rgba(255, 255, 255, 0.815);
+  border: solid 2px #cbadda;
+}
+.playBtn {
+  background-color: #af8dc0;
+  border: solid 2px #cbadda;
+  box-shadow: 2px 2px 5px #cbadda;
 }
 .volumediv {
   display: flex;

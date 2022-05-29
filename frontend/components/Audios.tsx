@@ -20,15 +20,21 @@ const Play = ({
   const btnRef = useRef();
 
   const handleMusic = () => {
-    console.log("music Btn Click", musicName);
-    setCurrentMusic(musicName);
-    setIsPlay(true);
+    if (isPlay) {
+      setCurrentMusic("");
+      setIsPlay(false);
+    } else {
+      setCurrentMusic(musicName);
+      setIsPlay(true);
+    }
+    console.log("isplay", isPlay, currentMusic);
   };
 
   const VolumeChange = (e) => {
     console.log(e.target.value);
-
-    setVolume(e.target.value);
+    if (isPlay) {
+      setVolume(e.target.value);
+    }
   };
 
   useEffect(() => {
@@ -42,7 +48,10 @@ const Play = ({
 
   return (
     <div className={styles.music}>
-      <button className={styles.musicBtn} onClick={handleMusic}>
+      <button
+        className={isPlay ? styles.playBtn : styles.pauseBtn}
+        onClick={handleMusic}
+      >
         <CgMusic size={30} />
       </button>
       <div className={styles.volumediv}>
@@ -66,16 +75,17 @@ const Audios = () => {
 
   useEffect(() => {
     console.log("useEffect music");
-    console.log("typeof currentMusic", typeof setMusic);
     if (!audio) {
       setAudio(new Audio());
-    } else {
+    } else if (music !== "") {
       console.log("music change");
       audio.src = `audio/${music}.mp3`;
       audio.load();
       audio.play();
       audio.volume = volume * 0.01;
       audio.loop = true;
+    } else {
+      audio.pause();
     }
   }, [music]);
 
@@ -86,12 +96,6 @@ const Audios = () => {
       audio.volume = volume * 0.01;
     }
   }, [volume]);
-
-  const stop = () => {
-    if (audio) {
-      audio.pause();
-    }
-  };
 
   return (
     <div className={styles.layout}>
@@ -107,7 +111,6 @@ const Audios = () => {
         currentMusic={music}
         setVolume={setVolume}
       />
-      <button onClick={stop}>stop</button>
     </div>
   );
 };
