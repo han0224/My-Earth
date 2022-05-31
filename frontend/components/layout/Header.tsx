@@ -11,7 +11,7 @@ const Header = () => {
   const router = useRouter();
   const goUser = async () => {
     const res = await auth();
-    if (res) {
+    if (res.success) {
       console.log("로그인 중", res);
       router.push("/user");
     } else {
@@ -36,6 +36,7 @@ const Header = () => {
         alert(`정상적으로 로그아웃 되었습니다. ${res}`);
         window.localStorage.setItem("isLogin", "false");
         setIsLogin(false);
+        router.push("/");
       } else {
         alert(`비정상로그아웃`);
       }

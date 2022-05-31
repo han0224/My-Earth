@@ -49,7 +49,7 @@ export const auth = async () => {
       withCredentials: true,
     });
     console.log(result);
-    return result.data.success;
+    return result.data;
   } catch (e) {
     console.log("error", e);
   }

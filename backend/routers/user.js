@@ -52,11 +52,22 @@ userRouter.post("/login", async (req, res) => {
 });
 
 userRouter.get("/auth", (req, res) => {
-  console.log(req.session);
   if (req.session.userEmail) {
-    return res.json({ success: true });
+    User.findOne({ email: req.session.userEmail }, (err, user) => {
+      if (!user) {
+        return res.json({ success: false });
+      }
+      console.log(user);
+      res.json({
+        success: true,
+        email: user.email,
+        name: user.name,
+        time: user.time,
+      });
+    });
+  } else {
+    res.json({ success: false });
   }
-  return res.json({ success: false });
 });
 
 userRouter.get("/logout", (req, res) => {

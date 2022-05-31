@@ -7,11 +7,12 @@ import Profile from "../components/Profile";
 
 const User = () => {
   const [selected, setSelected] = useState("profile");
+
   const router = useRouter();
 
   const isLogin = async () => {
     const res = await auth();
-    if (res) {
+    if (res.success) {
       console.log("로그인 중", res);
     } else {
       window.localStorage.setItem("isLogin", "false");

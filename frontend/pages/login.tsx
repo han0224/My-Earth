@@ -30,7 +30,7 @@ const Login = () => {
   const test = async (e: React.MouseEvent) => {
     e.preventDefault();
     const res = await auth();
-    if (res) {
+    if (res.success) {
       alert("로그인 성공");
     } else {
       alert(`로그인 필요`);
