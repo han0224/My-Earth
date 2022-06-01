@@ -1,7 +1,7 @@
 import Layout from "../components/layout/Layout";
 import styles from "../styles/User.module.css";
 import React, { useEffect, useRef, useState } from "react";
-import { auth } from "../apis/user/userapi";
+import { auth } from "../apis/userapi";
 import { useRouter } from "next/router";
 import Profile from "../components/Profile";
 

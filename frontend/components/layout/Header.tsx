@@ -3,7 +3,7 @@ import styles from "../../styles/Header.module.css";
 import { BiUser } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 import Link from "next/link";
-import { auth, logout } from "../../apis/user/userapi";
+import { auth, logout } from "../../apis/userapi";
 import { useRouter } from "next/router";
 
 const Header = () => {

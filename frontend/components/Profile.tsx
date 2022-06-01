@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { auth } from "../apis/user/userapi";
+import { saveTime } from "../apis/timeapi";
+import { auth } from "../apis/userapi";
 import styles from "../styles/Profile.module.css";
 
 const Profile = () => {
@@ -21,13 +22,18 @@ const Profile = () => {
       router.push("/");
     }
   };
+  const test = async () => {
+    const res = await saveTime("2022-06-01", 600);
+    console.log(res);
+  };
   useEffect(() => {
-    getAuth();
-  });
+    if (name === "") getAuth();
+  }, []);
   return (
     <div className={styles.profile}>
       <div className={styles.profile_image}>
         <img src="/images/test.jpg"></img>
+        <button onClick={test}>test</button>
       </div>
       <div className={styles.table}>
         <div className={styles.tbody}>

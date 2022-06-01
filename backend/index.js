@@ -41,8 +41,10 @@ app.use(
 );
 
 const userRouter = require("./routers/user");
+const timeRouter = require("./routers/time");
 
 app.use("/user", userRouter);
+app.use("/time", timeRouter);
 
 app.get("/", (req, res) => res.send("Develog!"));
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

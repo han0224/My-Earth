@@ -1,6 +1,7 @@
 const express = require("express");
 const userRouter = express.Router();
 const { User } = require("../models/User");
+const { auth } = require("../middleware/auth");
 
 userRouter.get("/", (req, res) => {
   res.send("user");
@@ -51,23 +52,13 @@ userRouter.post("/login", async (req, res) => {
   console.log("userinfo", userInfo);
 });
 
-userRouter.get("/auth", (req, res) => {
-  if (req.session.userEmail) {
-    User.findOne({ email: req.session.userEmail }, (err, user) => {
-      if (!user) {
-        return res.json({ success: false });
-      }
-      console.log(user);
-      res.json({
-        success: true,
-        email: user.email,
-        name: user.name,
-        time: user.time,
-      });
-    });
-  } else {
-    res.json({ success: false });
-  }
+userRouter.get("/auth", auth, (req, res) => {
+  res.json({
+    success: true,
+    email: req.user.email,
+    name: req.user.name,
+    time: req.user.totaltime,
+  });
 });
 
 userRouter.get("/logout", (req, res) => {

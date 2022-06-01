@@ -3,7 +3,7 @@ import styles from "../styles/Login.module.css";
 import React from "react";
 import Link from "next/link";
 import useInput from "../hooks/useInput";
-import { auth, login } from "../apis/user/userapi";
+import { auth, login } from "../apis/userapi";
 import { useRouter } from "next/router";
 import { setCookie } from "../util/cookie";
 

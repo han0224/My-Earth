@@ -22,12 +22,18 @@ const userSchema = mongoose.Schema({
     default: 0,
   },
   image: String,
-  time: {
+  totaltime: {
     type: Number,
     default: 0,
   },
+  study: [
+    {
+      date: String,
+      time: [Number],
+    },
+  ],
 });
-// server/models/User.js
+// study[date:0000-00-00 , time: 초단위로]
 
 userSchema.pre("save", function (next) {
   const user = this;

@@ -2,7 +2,7 @@ import Layout from "../components/layout/Layout";
 import styles from "../styles/Login.module.css";
 import React, { useEffect, useRef, useState } from "react";
 import useInput from "../hooks/useInput";
-import { register } from "../apis/user/userapi";
+import { register } from "../apis/userapi";
 import { off } from "process";
 import { useRouter } from "next/router";
 
@@ -29,7 +29,10 @@ const Signup = () => {
     if (res) {
       console.log("회원가입 성공", res);
       router.push("/login");
-    } else console.log("실패");
+    } else {
+      alert("실패");
+      console.log("실패");
+    }
   };
 
   const comparePw = (e: React.ChangeEvent<HTMLInputElement>) => {
