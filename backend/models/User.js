@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const jwt = require("jsonwebtoken");
 
 const userSchema = mongoose.Schema({
   name: {
@@ -23,13 +22,19 @@ const userSchema = mongoose.Schema({
   },
   image: String,
   totaltime: {
-    type: Number,
-    default: 0,
+    type: String,
+    default: "00:00:00",
   },
   study: [
     {
       date: String,
-      time: [Number],
+      timeinfo: [
+        {
+          start: Date,
+          end: Date,
+          time: String,
+        },
+      ],
     },
   ],
 });

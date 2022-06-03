@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/Timer.module.css";
+import { VscDebugStart } from "react-icons/vsc";
+import { saveTime } from "../apis/timeapi";
 
 // 시간 1 초마다 timer 를 증가시키는 방법으로
 // 아주 매우 정확하지는 않음
@@ -8,22 +10,45 @@ const Timer = () => {
   const [time, setTime] = useState(0);
   const [start, setStart] = useState(false);
   const [opacity, setOpacity] = useState(1);
+  const [startTime, setStartTime] = useState(new Date());
   const increment = useRef(null);
 
-  const btnHandle = (e: React.MouseEvent<HTMLImageElement>) => {
+  const btnHandle = (e: React.MouseEvent) => {
     setStart(!start);
     if (start) {
-      e.target.src = "/images/play.png";
       setOpacity(1);
       clearInterval(increment.current);
+      savetimeapi();
     } else {
-      e.target.src = "/images/pause.png";
       setOpacity(0);
+      setStartTime(new Date());
       increment.current = setInterval(() => {
         setTime((time) => time + 1);
       }, 1000);
     }
-    console.log("startBtn Click", e.target);
+  };
+
+  const stop = () => {
+    setTime(0);
+    setOpacity(1);
+    clearInterval(increment.current);
+    if (start) {
+      savetimeapi();
+      setStart(false);
+    }
+  };
+
+  const savetimeapi = async () => {
+    console.log(startTime.toLocaleDateString(), startTime, new Date());
+    const res = await saveTime(
+      startTime.toLocaleDateString(),
+      startTime,
+      new Date()
+    );
+    if (!res.success) {
+      alert("시간 저장에 실패했습니다.");
+    }
+    // console.log(res);
   };
 
   const formatTime = () => {
@@ -35,8 +60,10 @@ const Timer = () => {
   return (
     <div className={styles.timer}>
       <div>{formatTime()}</div>
+      <button onClick={stop}>중지</button>
       <div className={styles.btn} style={{ opacity: opacity }}>
-        <img src="/images/play.png" onClick={btnHandle}></img>
+        <VscDebugStart onClick={btnHandle} size={80} />
+        {/* <img src="/images/play.png" onClick={btnHandle}></img> */}
       </div>
     </div>
   );

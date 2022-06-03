@@ -4,8 +4,8 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  top: calc(50% - 25px);
-  left: calc(50% - 25px);
+  top: calc(50% - 40px);
+  left: calc(50% - 40px);
 }
 .btn img {
   width: 50px;

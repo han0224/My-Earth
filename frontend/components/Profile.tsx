@@ -22,10 +22,14 @@ const Profile = () => {
       router.push("/");
     }
   };
-  const test = async () => {
-    const res = await saveTime("2022-06-01", 600);
-    console.log(res);
+
+  const formatTime = () => {
+    const format = time.split(":").map((v) => +v);
+    return `${`0${format[0]}`.slice(-2)}:${`0${format[1]}`.slice(-2)}:${`0${
+      format[2] % 60
+    }`.slice(-2)}`;
   };
+
   useEffect(() => {
     if (name === "") getAuth();
   }, []);
@@ -33,7 +37,6 @@ const Profile = () => {
     <div className={styles.profile}>
       <div className={styles.profile_image}>
         <img src="/images/test.jpg"></img>
-        <button onClick={test}>test</button>
       </div>
       <div className={styles.table}>
         <div className={styles.tbody}>
@@ -46,7 +49,7 @@ const Profile = () => {
         </div>
         <div className={styles.tbody}>
           <div>time</div>
-          <span>{time}</span>
+          <span>{formatTime()}</span>
         </div>
       </div>
     </div>
