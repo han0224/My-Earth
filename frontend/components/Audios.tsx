@@ -30,7 +30,7 @@ const Play = ({
     console.log("isplay", isPlay, currentMusic);
   };
 
-  const VolumeChange = (e) => {
+  const VolumeChange = (e: any) => {
     console.log(e.target.value);
     if (isPlay) {
       setVolume(e.target.value);
