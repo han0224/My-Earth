@@ -29,7 +29,7 @@ const Header = () => {
     }
   };
 
-  const clicklogout = async (e) => {
+  const clicklogout = async (e: any) => {
     if (isLogin) {
       const res = await logout();
       if (res) {

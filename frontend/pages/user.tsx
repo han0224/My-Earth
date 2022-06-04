@@ -22,7 +22,7 @@ const User = () => {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     setSelected(e.target.value);
     console.log(e.target);
     console.log(selected);
