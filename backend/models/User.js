@@ -25,18 +25,6 @@ const userSchema = mongoose.Schema({
     type: String,
     default: "00:00:00",
   },
-  study: [
-    {
-      date: String,
-      timeinfo: [
-        {
-          start: Date,
-          end: Date,
-          time: String,
-        },
-      ],
-    },
-  ],
 });
 // study[date:0000-00-00 , time: 초단위로]
 

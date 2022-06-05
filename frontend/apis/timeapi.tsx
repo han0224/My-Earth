@@ -24,7 +24,6 @@ export const saveTime = async (
       {
         date: date,
         time: `${hh}:${mm}:${ss}`,
-        start: startTime,
         end: endTime,
       },
       { withCredentials: true }

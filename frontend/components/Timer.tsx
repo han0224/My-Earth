@@ -11,7 +11,7 @@ const Timer = () => {
   const [start, setStart] = useState(false);
   const [opacity, setOpacity] = useState(1);
   const [startTime, setStartTime] = useState(new Date());
-  const increment = useRef(null);
+  const increment = useRef<ReturnType<typeof setInterval>>();
 
   const btnHandle = (e: React.MouseEvent) => {
     setStart(!start);
@@ -19,6 +19,7 @@ const Timer = () => {
       setOpacity(1);
       clearInterval(increment.current);
       savetimeapi();
+      console.log("increment", increment, typeof increment);
     } else {
       setOpacity(0);
       setStartTime(new Date());
@@ -39,7 +40,7 @@ const Timer = () => {
   };
 
   const savetimeapi = async () => {
-    console.log(startTime.toLocaleDateString(), startTime, new Date());
+    console.log("savetime", startTime.toLocaleDateString());
     const res = await saveTime(
       startTime.toLocaleDateString(),
       startTime,

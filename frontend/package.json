@@ -5,7 +5,7 @@
   "scripts": {
     "server": "nodemon ../backend/index.js",
     "client": "next dev",
-    "dev": "concurrently \"yarn server\" \"yarn client",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
