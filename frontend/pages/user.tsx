@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { auth } from "../apis/userapi";
 import { useRouter } from "next/router";
 import Profile from "../components/Profile";
+import Chart from "../components/Chart";
 // import Chart from "../components/Chart";
 
 const User = () => {
@@ -69,7 +70,7 @@ const User = () => {
               />
               <label htmlFor="chart">study chart</label>
             </div>
-            {selected === "chart" ? <></> : <Profile />}
+            {selected === "chart" ? <Chart></Chart> : <Profile />}
             {/* <Profile /> */}
           </div>
         </div>
