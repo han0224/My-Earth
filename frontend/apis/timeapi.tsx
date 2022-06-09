@@ -1,30 +1,23 @@
 import axios from "axios";
+import moment, { months } from "moment";
 
 const URL = "http://localhost:5000/";
 
-export const saveTime = async (
-  date: String,
-  startTime: Date,
-  endTime: Date
-) => {
-  const ss = ((endTime.getTime() - startTime.getTime()) / 1000) % 60;
-  const mm = Math.floor(
-    ((endTime.getTime() - startTime.getTime()) / (1000 * 60)) % 60
-  );
-  const hh = Math.floor(
-    ((endTime.getTime() - startTime.getTime()) / (1000 * 60 * 60)) % 60
-  );
-  console.log("time api");
-  console.log(startTime, startTime.getTime());
-  console.log(endTime, endTime.getTime());
-  console.log(hh, mm, ss);
+interface monthProps {
+  day: String;
+}
+export const getDay = async (month: monthProps) => {};
+
+// body: {date: 'YYYY.MM.DD', time:Number (초)}
+// res:{success: true/false}
+export const saveTime = async (startTime: Date, endTime: Date) => {
+  const ss = Math.floor((endTime.getTime() - startTime.getTime()) / 1000);
   try {
     const result = await axios.post(
       URL + "time/save",
       {
-        date: date,
-        time: `${hh}:${mm}:${ss}`,
-        end: endTime,
+        date: moment(startTime).format("YYYY.MM.DD"),
+        time: ss,
       },
       { withCredentials: true }
     );

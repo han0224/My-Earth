@@ -1,13 +1,8 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
 const timeSchema = mongoose.Schema({
-  user_id: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
+  date: String,
+  time: Number,
 });
 // study[date:0000-00-00 , time: 초단위로]
 

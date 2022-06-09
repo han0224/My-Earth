@@ -42,7 +42,6 @@ const Timer = () => {
   const savetimeapi = async () => {
     console.log("savetime", startTime.toLocaleDateString());
     const res = await saveTime(
-      startTime.toLocaleDateString(),
       startTime,
       new Date()
     );

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const time = require("./Time");
 const saltRounds = 10;
 
 const userSchema = mongoose.Schema({
@@ -25,6 +26,7 @@ const userSchema = mongoose.Schema({
     type: String,
     default: "00:00:00",
   },
+  study: [{ type: mongoose.SchemaTypes.ObjectId, ref: time }],
 });
 // study[date:0000-00-00 , time: 초단위로]
 

@@ -53,6 +53,7 @@ userRouter.post("/login", async (req, res) => {
 });
 
 userRouter.get("/auth", auth, (req, res) => {
+  console.log(req.user);
   res.json({
     success: true,
     email: req.user.email,
