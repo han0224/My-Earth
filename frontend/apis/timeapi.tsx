@@ -3,10 +3,15 @@ import moment, { months } from "moment";
 
 const URL = "http://localhost:5000/";
 
-interface monthProps {
-  day: String;
-}
-export const getDay = async (month: monthProps) => {};
+// day기준으로 day+num 날까지
+//body{day:String, num:Number}
+//res{success:true/false, time:[date:String, time:Number]} ->분기준
+export const getDay = async (num: Number, day: string) => {};
+
+// month 달부터 month+num달까지 res.data.time.time -> 분기준
+// body{month:String, num:Number}
+// res{success:true,false, time:[month:Number, time:Number]}
+export const geMonth = async (month: String, num: Number) => {};
 
 // body: {date: 'YYYY.MM.DD', time:Number (초)}
 // res:{success: true/false}
