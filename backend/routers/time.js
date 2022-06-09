@@ -1,6 +1,8 @@
+const e = require("express");
 const express = require("express");
 const { auth } = require("../middleware/auth");
 const { Time } = require("../models/Time");
+const { User } = require("../models/User");
 const timeRouter = express.Router();
 
 const timeformat = (time) => {
@@ -19,7 +21,46 @@ timeRouter.get("/day", auth, (req, res) => {
   // 한루 단위로 시간 가져오기
 });
 
-timeRouter.get("/month", (req, res) => {
+timeRouter.get("/month/:year-:month-:num", auth, async (req, res) => {
+  const year = req.params.year;
+  const month = req.params.month;
+  const num = req.params.num;
+
+  if (num > 12) {
+    res.json({ success: false, message: "2년 이상 조회 불가" });
+  }
+  let call = "";
+  for (let i = 0; i < num; i++) {
+    let yy = year;
+    if (+month + i > 12) {
+      yy = +year + 1;
+    }
+    call += `${yy}.${+month + i}.* |`;
+  }
+
+  // const reg = new RegExp(`${year}.\[${month}-${month + num}\].*`);
+  // const call = `${month}-${+month + +num}`;
+  const reg = new RegExp(call);
+  console.log(reg);
+
+  const user = req.user;
+  const usertime = [];
+
+  const promises = user.study.map(async (v) => {
+    const time = await Time.findOne({ _id: v })
+      .exec()
+      .then((result) => {
+        console.log(result);
+        if (result.date.match(reg)) {
+          const day = result.date.replaceAll(".", "-");
+          usertime.push({ value: result.time, day: day });
+        }
+      })
+      .catch((e) => console.error(e));
+  });
+  await Promise.all(promises);
+  console.log("!!!!!!", usertime);
+  res.json({ success: true, data: usertime });
   // 한달 한위로 시간 가져오기
 });
 
@@ -36,12 +77,10 @@ timeRouter.post("/save", auth, async (req, res) => {
       const t = new Time({ date: key, time: body.time });
       console.log("t id", t._id);
       user.study.push(t._id);
-      // addtime = t.time;
       t.save();
     } else {
       console.log(time);
       time.time += body.time;
-      // addtime = time.time;
       time.save();
     }
     const formattime = timeformat(body.time);

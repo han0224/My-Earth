@@ -1,5 +1,18 @@
-.profile {
+.profilePage {
   width: 100%;
+  height: 100%;
+  display: flex;
+}
+.chart {
+  width: 50%;
+  height: 100%;
+  background-color: aqua;
+}
+.chart div {
+  height: 50%;
+}
+.profile {
+  width: 50%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -45,4 +58,12 @@
   width: 50%;
   font-size: 18px;
   padding-left: 10px;
+}
+@media (max-width: 1440px) {
+  .profile {
+    width: 100%;
+  }
+  .chart {
+    display: none;
+  }
 }

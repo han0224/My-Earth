@@ -6,6 +6,7 @@ import {
   OrbitControls,
   Environment,
   ContactShadows,
+  Stars,
 } from "@react-three/drei";
 import * as THREE from "three";
 import styles from "../styles/Earth.module.css";
@@ -112,7 +113,15 @@ const Viewer = () => {
       <directionalLight position={[0, -3, -0.3]} color="#8200C9" />
       <Suspense fallback={null}>
         <Earth />
-        <Star />
+        {/* <Star /> */}
+        <Stars
+          radius={30}
+          depth={10}
+          count={300}
+          factor={7}
+          saturation={0}
+          fade={true}
+        />
         <Environment preset="city" />
       </Suspense>
       <OrbitControls
