@@ -32,7 +32,7 @@ const mongoStore = require("connect-mongo");
 
 app.use(
   session({
-    secret: config.sessionSecert,
+    secret: process.env.PORT || config.sessionSecert,
     resave: false,
     saveUninitialized: true,
     store: mongoStore.create({ mongoUrl: db.MongoURI }),
