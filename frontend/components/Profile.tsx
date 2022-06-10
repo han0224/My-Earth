@@ -1,11 +1,16 @@
 import { CalendarDatum } from "@nivo/calendar";
 import moment from "moment";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { getMonth } from "../apis/timeapi";
+import { getMonth, saveTime } from "../apis/timeapi";
 import { auth } from "../apis/userapi";
 import styles from "../styles/Profile.module.css";
-import { MyResponsiveTimeRange } from "./nivoChart";
+// import { MyResponsiveTimeRange } from "./nivoChart";
+
+const MyResponsiveTimeRange = dynamic(() => import("../components/nivoChart"), {
+  ssr: false,
+});
 
 const Profile = () => {
   type Data = { value: Number; day: String };
@@ -38,8 +43,21 @@ const Profile = () => {
     }`.slice(-2)}`;
   };
 
-  const test = () => {
-    // const res = getMonth("2022", "6", "12");
+  // const test = () => {
+  //   // const res = getMonth("2022", "6", "12");
+  // };
+
+  const test = async () => {
+    // console.log("savetime", startTime.toLocaleDateString());
+    const start = new Date("2022-12-31 12:10:10");
+    const end = new Date("2022-12-31 19:10:10");
+    const res = await saveTime(start, end);
+    if (!res.success) {
+      alert("시간 저장에 실패했습니다.");
+    } else {
+      console.log("ok");
+    }
+    // console.log(res);
   };
 
   const getTime = async () => {

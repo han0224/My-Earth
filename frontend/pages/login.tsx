@@ -5,7 +5,6 @@ import Link from "next/link";
 import useInput from "../hooks/useInput";
 import { auth, login } from "../apis/userapi";
 import { useRouter } from "next/router";
-import { setCookie } from "../util/cookie";
 
 const Login = () => {
   const userid = useInput("");

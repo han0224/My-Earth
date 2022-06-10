@@ -25,10 +25,10 @@ const Chart = () => {
     { value: 6, day: "2022-06-07" },
     { value: 6, day: "2022-07-01" },
   ];
-  const changeOption = (e) => {
-    setOption(e.target.value);
-    console.log(option);
-  };
+  // const changeOption = (e) => {
+  //   setOption(e.target.value);
+  //   console.log(option);
+  // };
 
   return (
     <div className={styles.chartComponent}>

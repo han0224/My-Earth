@@ -1,9 +1,11 @@
 import {
   CalendarDatum,
+  CalendarTooltipProps,
   DateOrString,
   ResponsiveTimeRange,
 } from "@nivo/calendar";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import styles from "../styles/nivoChart.module.css";
 
 interface chartProps {
   data: CalendarDatum[];
@@ -14,6 +16,13 @@ export const MyResponsiveTimeRange = ({ data, from, to }: chartProps) => {
   const [fromDay, setFromDay] = useState(new Date());
   const [toDay, setToDay] = useState(new Date());
   const [day, setDay] = useState(new Date());
+
+  const formatTime = (time: number) => {
+    return `${`0${Math.floor(time / 3600)}`.slice(-2)}:${`0${
+      Math.floor(time / 60) % 60
+    }`.slice(-2)}:${`0${time % 60}`.slice(-2)}`;
+  };
+
   useEffect(() => {
     const date = new Date();
     if (day.toLocaleDateString() !== date.toLocaleDateString()) {
@@ -43,9 +52,25 @@ export const MyResponsiveTimeRange = ({ data, from, to }: chartProps) => {
       colors={["#61cdbb", "#97e3d5", "#e8c1a0", "#f47560"]}
       margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
       weekdayTicks={[]}
+      tooltip={function (data) {
+        if (data.value === undefined) return null;
+        return (
+          <div
+            style={{
+              color: data.color,
+              backgroundColor: "black",
+              padding: "10px",
+            }}
+          >
+            {data.day} : {formatTime(+data.value)}
+          </div>
+        );
+      }}
       weekdayLegendOffset={0}
       dayBorderWidth={2}
       dayBorderColor="#ffffff"
     />
   );
 };
+
+export default MyResponsiveTimeRange;
