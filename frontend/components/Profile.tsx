@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { getMonth, saveTime } from "../apis/timeapi";
 import { auth } from "../apis/userapi";
 import styles from "../styles/Profile.module.css";
+
+import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 // import { MyResponsiveTimeRange } from "./nivoChart";
 
 const MyResponsiveTimeRange = dynamic(() => import("../components/nivoChart"), {
@@ -17,10 +19,10 @@ const Profile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [time, setTime] = useState("");
-  const [data, setData] = useState<Data[]>([]);
   const [first, setFirst] = useState<CalendarDatum[]>([]);
   const [second, setSecond] = useState<CalendarDatum[]>([]);
-  const [year, setYear] = useState(0);
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [studyTime, setStudyTime] = useState(0);
   const router = useRouter();
 
   const getAuth = async () => {
@@ -43,10 +45,6 @@ const Profile = () => {
     }`.slice(-2)}`;
   };
 
-  // const test = () => {
-  //   // const res = getMonth("2022", "6", "12");
-  // };
-
   const test = async () => {
     // console.log("savetime", startTime.toLocaleDateString());
     const start = new Date("2022-12-31 12:10:10");
@@ -61,21 +59,28 @@ const Profile = () => {
   };
 
   const getTime = async () => {
-    // const today = new Date();
-    // setYear(today.getFullYear())
     const res1 = await getMonth(year, 1, 6);
     setFirst(res1.data);
     const res2 = await getMonth(year, 6, 6);
     setSecond(res2.data);
-    // console.log(moment(today).format("YYYY-MM-DD"));
-    // console.log(today);
+    let study = 0;
+    for (let i of res1.data) {
+      study += i.value;
+    }
+    for (let i of res2.data) {
+      study += i.value;
+    }
+    setStudyTime(study);
+  };
+
+  const yearMinus = () => {
+    setYear(year - 1);
+  };
+  const yearPlus = () => {
+    setYear(year + 1);
   };
   useEffect(() => {
     if (name === "") getAuth();
-
-    const today = new Date();
-    setYear(today.getFullYear());
-    console.log(year);
   }, []);
   useEffect(() => {
     getTime();
@@ -86,7 +91,7 @@ const Profile = () => {
       <div className={styles.profile}>
         <div className={styles.profile_image}>
           <img src="/images/test.jpg"></img>
-          <button onClick={test}>test</button>
+          {/* <button onClick={test}>test</button> */}
         </div>
         <div className={styles.table}>
           <div className={styles.tbody}>
@@ -104,14 +109,24 @@ const Profile = () => {
         </div>
       </div>
       <div className={styles.chart}>
-        <div>
+        <div className={styles.chartTitle}>
+          <button onClick={yearMinus}>
+            <AiFillCaretLeft size={30} />
+          </button>
+          <p>{year}</p>
+          <button onClick={yearPlus}>
+            <AiFillCaretRight size={30} />
+          </button>
+          {studyTime}
+        </div>
+        <div className={styles.timerageChart}>
           <MyResponsiveTimeRange
             data={first}
             from={`${year - 1}-12-31`}
             to={`${year}-06-30`}
           />
         </div>
-        <div>
+        <div className={styles.timerageChart}>
           <MyResponsiveTimeRange
             data={second}
             from={`${year}-06-30`}

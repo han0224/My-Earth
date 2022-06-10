@@ -57,12 +57,37 @@ export const MyResponsiveTimeRange = ({ data, from, to }: chartProps) => {
         return (
           <div
             style={{
-              color: data.color,
-              backgroundColor: "black",
-              padding: "10px",
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
             }}
           >
-            {data.day} : {formatTime(+data.value)}
+            <div
+              style={{
+                color: "black",
+                backgroundColor: "#F4DEE0",
+                padding: "10px",
+                width: "fit-content",
+                height: "fit-content",
+                borderRadius: "10px",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "10px",
+                  color: "gray",
+                }}
+              >
+                {data.day}
+              </div>
+              <div
+                style={{
+                  fontSize: "16px",
+                }}
+              >
+                {formatTime(+data.value)}
+              </div>
+            </div>
           </div>
         );
       }}
