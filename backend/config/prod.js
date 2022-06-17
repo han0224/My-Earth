@@ -4,5 +4,5 @@
 
 module.exports = {
   MONGO_URI: process.env.MONGO_URI,
-  SESSION_SECERT: process.env.SESSIONSECERT,
+  SESSION_SECRET: process.env.SESSIONSECERT,
 };
