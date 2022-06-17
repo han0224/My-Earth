@@ -22,7 +22,7 @@ app.use(
 const session = require("express-session");
 const mongoose = require("mongoose");
 mongoose
-  .connect(keys.MongoURI, {
+  .connect(keys.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -32,10 +32,10 @@ const mongoStore = require("connect-mongo");
 
 app.use(
   session({
-    secret: process.env.PORT || keys.sessionSecert,
+    secret: process.env.PORT || keys.SESSION_SECERT,
     resave: false,
     saveUninitialized: true,
-    store: mongoStore.create({ mongoUrl: keys.MongoURI }),
+    store: mongoStore.create({ mongoUrl: keys.MONGO_URI }),
     cookie: { maxAge: 1000 * 60 * 60 * 24, domain: "localhost" }, //5분 뒤 만료
   })
 );

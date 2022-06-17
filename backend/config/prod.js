@@ -3,6 +3,6 @@
 // 아직 배포하지 않아 코드만 작성
 
 module.exports = {
-  MongoURI: process.env.MONGO_URI,
-  sessionSecert: process.env.SESSIONSECERT,
+  MONGO_URI: process.env.MONGO_URI,
+  SESSION_SECERT: process.env.SESSIONSECERT,
 };
