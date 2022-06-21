@@ -27,14 +27,13 @@ export const getMonth = async (year: Number, month: Number, num: Number) => {
 
 // body: {date: 'YYYY.MM.DD', time:Number (초)}
 // res:{success: true/false}
-export const saveTime = async (startTime: Date, endTime: Date) => {
-  const ss = Math.floor((endTime.getTime() - startTime.getTime()) / 1000);
+export const saveTime = async (date: String, time: Number) => {
   try {
     const result = await axios.post(
       URL + "save",
       {
-        date: moment(startTime).format("YYYY.MM.DD"),
-        time: ss,
+        date: date,
+        time: time,
       },
       { withCredentials: true }
     );

@@ -3,48 +3,52 @@ import styles from "../styles/Timer.module.css";
 import { VscDebugStart } from "react-icons/vsc";
 import { saveTime } from "../apis/timeapi";
 import { useDispatch, useSelector } from "react-redux";
-import { setStart, saveTime as savetime, setTimer } from "../store/timer";
+import {
+  setStart,
+  saveTime as savetime,
+  setTimer,
+  setPreTime,
+  setDate,
+} from "../store/timer";
 import { RootState } from "../store";
+import moment from "moment";
 
 const Timer = () => {
   const dispatch = useDispatch();
-  const { start, time, timer } = useSelector((state: RootState) => state.timer);
+  const { start, time, timer, preTime, date } = useSelector(
+    (state: RootState) => state.timer
+  );
   const [opacity, setOpacity] = useState(1);
-  const [startTime, setStartTime] = useState(new Date());
-  const [preTime, setPreTime] = useState(0);
   const increment = useRef<ReturnType<typeof setInterval>>();
 
   const ondispatch = (e: React.MouseEvent) => {
     console.log("ondispatch", start, time);
     if (start) {
       dispatch(setStart(false));
+      dispatch(setPreTime(time));
       setOpacity(1);
       savetimeapi();
-      console.log("clearinterval", increment);
       clearInterval(timer);
-      setPreTime(time);
     } else {
-      setStartTime(new Date());
+      const startTime = moment();
       console.log("click", startTime);
       setOpacity(0);
-      // console.log("시작 전", startTime);
       increment.current = setInterval(() => {
-        const currnettime = new Date();
-        const newDate = Math.floor(
-          (currnettime.getTime() - startTime.getTime()) / 1000
-        );
-        dispatch(savetime(newDate + preTime));
-        console.log("increment", time, currnettime, startTime);
+        const currnettime = moment();
+        const newDate = moment
+          .duration(currnettime.diff(startTime))
+          .asSeconds();
+        dispatch(savetime(Math.floor(newDate) + preTime));
+        console.log("increment", time, currnettime, startTime, preTime);
       }, 1000);
       dispatch(setTimer(increment.current));
-
       dispatch(setStart(true));
     }
   };
 
   const savetimeapi = async () => {
-    console.log("savetime", startTime.toLocaleDateString());
-    const res = await saveTime(startTime, new Date());
+    console.log("savetime", date, time);
+    const res = await saveTime(date, time);
     if (!res.success) {
       alert("시간 저장에 실패했습니다.");
     }
@@ -52,6 +56,7 @@ const Timer = () => {
   };
 
   const formatTime = (time: number) => {
+    console.log("formattime", time);
     // 오늘 하루 시간 더하기
     const min = time / 60;
     const hour = min / 60;
@@ -64,6 +69,10 @@ const Timer = () => {
   useEffect(() => {
     if (start) {
       setOpacity(0);
+    }
+    if (time === 0) {
+      const date = moment().format("YYYY-MM-DD");
+      dispatch(setDate(date));
     }
   }, []);
 

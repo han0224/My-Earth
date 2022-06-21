@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser"); // cookie
 // const config = require("./config/env/development");
-
 const app = express();
 const port = process.env.PORT || 5000;
 const keys = require("./config/keys");
