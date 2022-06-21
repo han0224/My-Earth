@@ -15,12 +15,14 @@ const MyResponsiveTimeRange = dynamic(() => import("../components/nivoChart"), {
 });
 
 const Profile = () => {
-  type Data = { value: Number; day: String };
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [time, setTime] = useState("");
+  // 1~6월 데이터를 저장할 변수
   const [first, setFirst] = useState<CalendarDatum[]>([]);
+  // 7~12월 데이터를 저장할 변수
   const [second, setSecond] = useState<CalendarDatum[]>([]);
+  // 보여줄 년도
   const [year, setYear] = useState(new Date().getFullYear());
   const [studyTime, setStudyTime] = useState(0);
   const router = useRouter();
@@ -45,19 +47,6 @@ const Profile = () => {
     }`.slice(-2)}`;
   };
 
-  const test = async () => {
-    // console.log("savetime", startTime.toLocaleDateString());
-    const start = new Date("2022-12-31 12:10:10");
-    const end = new Date("2022-12-31 19:10:10");
-    const res = await saveTime(start, end);
-    if (!res.success) {
-      alert("시간 저장에 실패했습니다.");
-    } else {
-      console.log("ok");
-    }
-    // console.log(res);
-  };
-
   const getTime = async () => {
     const res1 = await getMonth(year, 1, 6);
     setFirst(res1.data);
@@ -79,18 +68,26 @@ const Profile = () => {
   const yearPlus = () => {
     setYear(year + 1);
   };
+
+  const changeProfile = () => {
+    console.log("click");
+    // 프로필 이미지 변경할 수 있도록
+  };
+
   useEffect(() => {
     if (name === "") getAuth();
   }, []);
+
   useEffect(() => {
     getTime();
     console.log("yaer useEffect", first, second);
   }, [year]);
+
   return (
     <div className={styles.profilePage}>
       <div className={styles.profile}>
         <div className={styles.profile_image}>
-          <img src="/images/test.jpg"></img>
+          <img src="/images/profile.jpg" onClick={changeProfile}></img>
           {/* <button onClick={test}>test</button> */}
         </div>
         <div className={styles.table}>
