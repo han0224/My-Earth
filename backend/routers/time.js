@@ -17,8 +17,13 @@ timeRouter.get("/", (req, res) => {
   res.send("time");
 });
 
+//YYYY-MM-DD
 timeRouter.get("/day", auth, (req, res) => {
   // 한루 단위로 시간 가져오기
+  const body = req.body;
+  const [year, month, day] = body.day.split("-");
+  const user = req.user;
+  user.study;
 });
 
 timeRouter.get("/month/:year-:month-:num", auth, async (req, res) => {

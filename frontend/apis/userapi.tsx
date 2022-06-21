@@ -1,12 +1,12 @@
 import axios from "axios";
+import { config } from "../config";
 
-const URL = "http://3.36.62.186:5000/";
-// const URL = "http://localhost:5000/";
+const URL = config.URL + "user/";
 
 export const login = async (email: string, password: string) => {
   try {
     const result = await axios.post(
-      URL + "user/login",
+      URL + "login",
       {
         email: email,
         password: password,
@@ -27,7 +27,7 @@ export const register = async (
 ) => {
   try {
     const result = await axios.post(
-      URL + "user/register",
+      URL + "register",
       {
         name: name,
         email: email,
@@ -45,7 +45,7 @@ export const register = async (
 
 export const auth = async () => {
   try {
-    const result = await axios.get(URL + "user/auth", {
+    const result = await axios.get(URL + "auth", {
       withCredentials: true,
     });
     console.log(result);
@@ -57,7 +57,7 @@ export const auth = async () => {
 
 export const logout = async () => {
   try {
-    const result = await axios.get(URL + "user/logout", {
+    const result = await axios.get(URL + "logout", {
       withCredentials: true,
     });
     console.log("logout result", result);

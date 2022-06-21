@@ -1,8 +1,8 @@
 import axios from "axios";
 import moment from "moment";
+import { config } from "../config";
 
-// const URL = "http://3.36.62.186:5000/time/";
-const URL = "http://localhost:5000/time/";
+const URL = config.URL + "time/";
 
 // day기준으로 day+num 날까지
 //body{day:String, num:Number}
