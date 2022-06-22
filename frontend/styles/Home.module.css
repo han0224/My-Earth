@@ -32,7 +32,7 @@
 .todo {
   position: fixed;
   display: flex;
-  border: solid red;
+  /* border: solid red; */
   width: 25%;
   height: 60%;
   top: 20%;
