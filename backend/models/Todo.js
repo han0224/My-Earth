@@ -5,7 +5,7 @@ const todoSchema = mongoose.Schema({
   userEamil: String,
   status: {
     type: Number,
-    default: 1,
+    default: 0,
   },
   title: String,
 });

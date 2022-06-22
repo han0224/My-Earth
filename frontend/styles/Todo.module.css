@@ -11,9 +11,19 @@
   background-color: #af7eeb;
   border-radius: 3px;
   border: 1px solid #c6a6ec;
+}
+.todoHeader p {
+  margin: auto;
+  padding: 0;
   color: #ffffff;
   font-weight: 600;
   font-size: 22px;
+}
+.todoHeader .icon {
+  color: #ffffff;
+  position: absolute;
+  left: 0;
+  margin-left: 10px;
 }
 
 .todoList {
@@ -34,11 +44,19 @@
   width: 100%;
 }
 .todoItem {
+  width: 80%;
   display: flex;
   align-content: center;
   align-items: center;
 }
+.todoItem input:checked ~ p {
+  content: "";
+  text-decoration: line-through;
+  color: #303030;
+}
 .todoItem p {
+  width: 80%;
+
   margin: 10px 0 10px 10px;
   padding: 0;
 }
@@ -59,4 +77,23 @@
   top: 90%;
   left: 50%;
   transform: translate(-50%, 0);
+}
+.addBox {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  visibility: visible;
+}
+.addBox input {
+  border: none;
+  height: 30px;
+  background-color: rgba(255, 255, 255, 0.253);
+}
+.addBox button {
+  margin-right: 1px;
+  height: 30px;
+  width: 30px;
+  border-radius: 20px;
+  background-color: #c6a6ec;
+  border: none;
 }

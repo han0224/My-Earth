@@ -22,13 +22,34 @@ todoRouter.get("/todolist", auth, async (req, res) => {
 todoRouter.post("/savetodo", auth, (req, res) => {
   const user = req.user;
   const body = req.body;
-  const todo = new Todo({ userEamil: user.email, title: body.title });
-  todo.save();
+  try {
+    const todo = new Todo({ userEamil: user.email, title: body.title });
+    todo.save();
+    return res.status(204).end();
+  } catch (e) {
+    return res.status(500).json({ err: e });
+  }
 });
 
 //id:id, status:number / status 변경
-todoRouter.post("/setstatus", (req, res) => {});
+todoRouter.post("/setstatus", async (req, res) => {
+  const body = req.body;
+  try {
+    await Todo.findByIdAndUpdate(body.id, { status: body.status });
+    return res.status(204).end();
+  } catch (e) {
+    return res.status(500).json({ err: e });
+  }
+});
 
 //id:id / todo 삭제
-todoRouter.post("/delete", (req, res) => {});
+todoRouter.post("/delete", async (req, res) => {
+  const body = req.body;
+  try {
+    await Todo.findByIdAndRemove(body.id).exec();
+    return res.status(204).end();
+  } catch (e) {
+    return res.status(500).json({ err: e });
+  }
+});
 module.exports = todoRouter;
