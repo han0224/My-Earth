@@ -5,9 +5,11 @@ import {
   legacy_createStore as createStore,
 } from "redux";
 import timer from "./timer";
+import user from "./user";
 // ducks type으로 제작된 reducer들을 하나의 reducer로
 const rootReducer = combineReducers({
   timer,
+  user,
 });
 
 // 합쳐진 리듀서에 next redux wrapper haydrate 타입 리듀서 추가
@@ -30,9 +32,7 @@ export type RootState = ReturnType<typeof rootReducer>;
 // 리덕스 데브툴즈 확장 프로그램을 사용하기 위해서 미들웨어에 리덕스 데브툴즈를 사용하도록 하는 코드
 
 const bindMiddleware = (middleware: any) => {
-  console.log("asdf");
   if (process.env.NODE_ENV !== "production") {
-    console.log("ad");
     const { composeWithDevTools } = require("redux-devtools-extension");
     return composeWithDevTools(applyMiddleware(...middleware));
   }

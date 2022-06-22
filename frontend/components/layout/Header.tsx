@@ -5,14 +5,19 @@ import { FiSettings } from "react-icons/fi";
 import Link from "next/link";
 import { auth, logout } from "../../apis/userapi";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../store/user";
 
 const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const goUser = async () => {
     const res = await auth();
     if (res.success) {
       console.log("로그인 중", res);
+      dispatch(setUser(true));
       router.push("/user");
     } else {
       alert("로그인 해주세요");
@@ -35,6 +40,7 @@ const Header = () => {
       if (res) {
         alert(`정상적으로 로그아웃 되었습니다. ${res}`);
         window.localStorage.setItem("isLogin", "false");
+        dispatch(setUser(false));
         setIsLogin(false);
         router.push("/");
       } else {

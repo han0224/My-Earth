@@ -48,7 +48,10 @@ const initialState: TimerReduxState = {
   date: "",
 };
 
-export default function reducer(state = initialState, action: TimerActions) {
+export default function timerReducer(
+  state = initialState,
+  action: TimerActions
+) {
   switch (action.type) {
     case SET_START:
       return {
