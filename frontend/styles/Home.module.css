@@ -8,17 +8,15 @@
 
 .sidebar {
   position: fixed;
-  display: flex;
   border: solid red;
-  width: 10%;
-  height: 60%;
-  top: 20%;
-  left: 88%;
+  width: 100vw;
+  height: fit-content;
+  bottom: 0;
 }
 
 .time {
   position: fixed;
-  top: 86vh;
+  top: 83vh;
   padding: 0;
   text-align: center;
   margin: 0;

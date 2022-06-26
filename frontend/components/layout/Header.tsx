@@ -10,6 +10,7 @@ import { setUser } from "../../store/user";
 
 const Header = () => {
   const [isLogin, setIsLogin] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -49,6 +50,10 @@ const Header = () => {
     }
   };
 
+  const clickSubmenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   useEffect(() => {
     if (window.localStorage.getItem("isLogin") === "true") {
       setIsLogin(true);
@@ -64,39 +69,26 @@ const Header = () => {
       <div className={styles.menu}>
         <ul className={styles.mainmenu}>
           <li>
-            <div className={styles.fixed}>community</div>
+            <button className={styles.fixed}>community</button>
           </li>
           {isLogin ? (
             <li>
-              <div className={styles.fixed} onClick={onClick}>
+              <button className={styles.fixed} onClick={onClick}>
                 User
-              </div>
+              </button>
             </li>
           ) : (
             <li>
-              <div className={styles.fixed} onClick={onClick}>
+              <button className={styles.fixed} onClick={onClick}>
                 Login
-              </div>
+              </button>
             </li>
           )}
           <li>
             {" "}
-            <div>
+            <button onClick={clickSubmenu}>
               <FiSettings size={30} />
-            </div>
-            <ul className={styles.submenu}>
-              <li>
-                <div>about</div>
-              </li>
-              <li>
-                <div>????</div>
-              </li>
-              {isLogin === true && (
-                <li>
-                  <div onClick={clicklogout}>Logout</div>
-                </li>
-              )}
-            </ul>
+            </button>
           </li>
         </ul>
         {/* <button className={styles.communiBtn} onClick={communityBtn}>
@@ -114,6 +106,23 @@ const Header = () => {
           </div>
         </div> */}
       </div>
+      {isOpen ? (
+        <ul className={styles.submenu}>
+          <li>
+            <div>about</div>
+          </li>
+          <li>
+            <div>????</div>
+          </li>
+          {isLogin === true && (
+            <li>
+              <div onClick={clicklogout}>Logout</div>
+            </li>
+          )}
+        </ul>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

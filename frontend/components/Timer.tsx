@@ -79,7 +79,7 @@ const Timer = () => {
   return (
     <div className={styles.timer}>
       <div>{formatTime(time)}</div>
-      <button onClick={ondispatch}>중지</button>
+      {/* <button onClick={ondispatch}>중지</button> */}
       <div className={styles.btn} style={{ opacity: opacity }}>
         <VscDebugStart onClick={ondispatch} size={80} />
         {/* <img src="/images/play.png" onClick={btnHandle}></img> */}

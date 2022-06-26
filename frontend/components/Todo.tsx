@@ -74,6 +74,7 @@ const Todo = () => {
   };
   useEffect(() => {
     getTodoList();
+    console.log(todolist);
   }, []);
   useEffect(() => {
     getTodoList();
@@ -89,28 +90,29 @@ const Todo = () => {
       </div>
       {isListOpen ? (
         <div className={styles.todoList}>
-          {todolist.map((v) => (
-            <div key={v._id}>
-              <label>
-                <div className={styles.todoItem}>
-                  <input
-                    type={"checkbox"}
+          {todolist &&
+            todolist.map((v) => (
+              <div key={v._id}>
+                <label>
+                  <div className={styles.todoItem}>
+                    <input
+                      type={"checkbox"}
+                      onClick={(e) => {
+                        setStatus(v._id, v.status);
+                      }}
+                      checked={v.status === 1 ? true : false}
+                    ></input>
+                    <p>{v.title}</p>
+                  </div>
+                  <AiOutlineDelete
+                    className={styles.todoDelete}
                     onClick={(e) => {
-                      setStatus(v._id, v.status);
+                      setDelete(v._id);
                     }}
-                    checked={v.status === 1 ? true : false}
-                  ></input>
-                  <p>{v.title}</p>
-                </div>
-                <AiOutlineDelete
-                  className={styles.todoDelete}
-                  onClick={(e) => {
-                    setDelete(v._id);
-                  }}
-                />
-              </label>
-            </div>
-          ))}
+                  />
+                </label>
+              </div>
+            ))}
           {open ? (
             <div className={styles.addBox} ref={ref}>
               <input type={"text"} {...title} />

@@ -50,7 +50,9 @@
   padding: 0;
   list-style-type: none;
 }
-
+.mainmenu {
+  padding-right: 13px;
+}
 .mainmenu > li {
   user-select: none;
   cursor: pointer;
@@ -59,15 +61,18 @@
   /* border: 1px solid red; */
 }
 
-.mainmenu > li > div {
+.mainmenu > li > button {
   display: block;
   padding: 8px 16px;
   text-align: center;
   height: 40px;
 }
 .submenu {
-  opacity: 0;
-  visibility: hidden;
+  position: absolute;
+  right: 0;
+  top: 70px;
+  /* opacity: 0;
+  visibility: hidden; */
 }
 .submenu > li {
   width: 100%;
@@ -78,9 +83,9 @@
   border-bottom: 1px solid rgba(00, 00, 00, 0.3);
 }
 .submenu > li:first-child {
-  margin-top: 15px;
+  /* margin-top: 15px; */
 }
-.mainmenu > li:hover .submenu {
+/* .mainmenu > li:hover .submenu {
   opacity: 1;
   visibility: visible;
-}
+} */

@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { wrapper } from "../store";
+import Audios from "../components/Audios";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -10,6 +11,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>My Earth</title>
       </Head>
       <Component {...pageProps} />
+      <Audios />
     </>
   );
 }
