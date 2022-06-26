@@ -35,7 +35,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: mongoStore.create({ mongoUrl: keys.MONGO_URI }),
-    cookie: { maxAge: 1000 * 60 * 60 * 24, domain: "localhost" }, //5분 뒤 만료
+    cookie: { maxAge: 1000 * 60 * 60 * 24 }, //5분 뒤 만료
   })
 );
 
