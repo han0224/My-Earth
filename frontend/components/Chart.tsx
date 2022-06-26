@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import styles from "../styles/Chart.module.css";
-import { MyResponsiveTimeRange } from "./nivoChart";
 
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and

@@ -12,33 +12,33 @@ import * as THREE from "three";
 import styles from "../styles/Earth.module.css";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 
-const Star = () => {
-  const [star, setStar] = useState<number[][]>([]);
-  const obj = new Array(300)
-    .fill(0)
-    .map(() => [
-      Math.random() * 8 - 4,
-      Math.random() * 8 - 4,
-      Math.random() * 8 - 4,
-    ]);
-  useEffect(() => {
-    console.log("earth useEffect", star, typeof star, obj, typeof obj);
-    setStar(obj);
-  }, []);
+// const Star = () => {
+//   const [star, setStar] = useState<number[][]>([]);
+//   const obj = new Array(300)
+//     .fill(0)
+//     .map(() => [
+//       Math.random() * 8 - 4,
+//       Math.random() * 8 - 4,
+//       Math.random() * 8 - 4,
+//     ]);
+//   useEffect(() => {
+//     console.log("earth useEffect", star, typeof star, obj, typeof obj);
+//     setStar(obj);
+//   }, []);
 
-  //materials.push( new THREE.MeshPhongMaterial( { color: 0x000000, specular: 0x666666, emissive: 0xff0000, shininess: 10, opacity: 0.9, transparent: true }
-  //materials[ materials.length - 2 ].emissive.setHSL( 0.54, 1, 0.35 * ( 0.5 + 0.5 * Math.sin( 35 * timer ) ) );
-  return (
-    <group dispose={null}>
-      {star.map((v, i) => (
-        <mesh scale={0.01} position={[v[0], v[1], v[2]]} key={i}>
-          <sphereGeometry args={[1, 1, 0.3, 50]} />
-          <meshStandardMaterial attach="material" />
-        </mesh>
-      ))}
-    </group>
-  );
-};
+//   //materials.push( new THREE.MeshPhongMaterial( { color: 0x000000, specular: 0x666666, emissive: 0xff0000, shininess: 10, opacity: 0.9, transparent: true }
+//   //materials[ materials.length - 2 ].emissive.setHSL( 0.54, 1, 0.35 * ( 0.5 + 0.5 * Math.sin( 35 * timer ) ) );
+//   return (
+//     <group dispose={null}>
+//       {star.map((v, i) => (
+//         <mesh scale={0.01} position={[v[0], v[1], v[2]]} key={i}>
+//           <sphereGeometry args={[1, 1, 0.3, 50]} />
+//           <meshStandardMaterial attach="material" />
+//         </mesh>
+//       ))}
+//     </group>
+//   );
+// };
 
 // 인터페이스 정의하기
 interface ModelProps {

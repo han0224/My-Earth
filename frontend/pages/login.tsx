@@ -6,7 +6,6 @@ import useInput from "../hooks/useInput";
 import { auth, login } from "../apis/userapi";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store";
 import { setUser } from "../store/user";
 
 const Login = () => {

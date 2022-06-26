@@ -2,8 +2,7 @@ import type { NextPage } from "next";
 import styles from "../styles/Home.module.css";
 import Earth from "../components/Earth";
 import Layout from "../components/layout/Layout";
-import Audios from "../components/Audios";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import Timer from "../components/Timer";
 import Todo from "../components/Todo";
 

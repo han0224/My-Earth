@@ -3,7 +3,6 @@ import styles from "../styles/Login.module.css";
 import React, { useEffect, useRef, useState } from "react";
 import useInput from "../hooks/useInput";
 import { register } from "../apis/userapi";
-import { off } from "process";
 import { useRouter } from "next/router";
 
 const Signup = () => {

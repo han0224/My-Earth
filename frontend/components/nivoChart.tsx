@@ -1,6 +1,5 @@
 import {
   CalendarDatum,
-  CalendarTooltipProps,
   DateOrString,
   ResponsiveTimeRange,
 } from "@nivo/calendar";

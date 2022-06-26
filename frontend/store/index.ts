@@ -14,7 +14,14 @@ const rootReducer = combineReducers({
 
 // 합쳐진 리듀서에 next redux wrapper haydrate 타입 리듀서 추가
 // hydrate는 서버에서 생성된 디럭스 스토어를 클라이언트에서 사용할 수 있도록 전달해 주는 역할
-const reducer = (state, action) => {
+const reducer = (state: any, action: any) => {
+  console.log(
+    "reduce state, action",
+    state,
+    action,
+    typeof state,
+    typeof action
+  );
   if (action.type === HYDRATE) {
     const nextState = {
       ...state,

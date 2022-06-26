@@ -1,5 +1,4 @@
 import { CalendarDatum } from "@nivo/calendar";
-import moment from "moment";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -76,7 +75,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (name === "") getAuth();
-  }, []);
+  }, [name]);
 
   useEffect(() => {
     getTime();

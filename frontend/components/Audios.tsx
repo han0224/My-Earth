@@ -27,14 +27,17 @@ const music = [
 ];
 
 const Audios = () => {
-  const [volume, setVolume] = useState(50);
+  const [volume, setVolume] = useState(100);
   const [musicIndex, setMusicIndex] = useState(0);
   const [isPlay, setIsPlay] = useState(false);
   const [audio, setAudio] = useState<HTMLAudioElement>();
   const VolumeChange = (e: any) => {
-    console.log(e.target.value);
-    if (isPlay) {
-      setVolume(e.target.value);
+    // console.log(e.target.value);
+    setVolume(e.target.value);
+    if (!audio) {
+      setAudio(new Audio());
+    } else {
+      audio.volume * 0.01;
     }
   };
 
@@ -66,11 +69,13 @@ const Audios = () => {
       if (isPlay) {
         audio.load();
         audio.play();
-        audio.volume = volume * 0.01;
+        // audio.volume = volume * 0.01;
         audio.addEventListener("ended", () => setChange("up"));
+      } else {
+        audio.pause();
       }
     }
-  }, [musicIndex]);
+  }, [musicIndex, isPlay]);
   useEffect(() => {
     if (!audio) {
       setAudio(new Audio());
@@ -78,26 +83,28 @@ const Audios = () => {
       audio.volume = volume * 0.01;
     }
   }, [volume]);
-  useEffect(() => {
-    if (!audio) {
-      setAudio(new Audio());
-    } else {
-      if (isPlay) {
-        audio.load();
-        audio.play();
-        audio.volume = volume * 0.01;
-        audio.addEventListener("ended", () => setChange("up"));
-      } else {
-        audio.pause();
-      }
-    }
-  }, [isPlay]);
 
-  useEffect(() => {
-    if (!audio) {
-      setAudio(new Audio());
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!audio) {
+  //     setAudio(new Audio());
+  //   } else {
+  //     audio.volume = volume * 0.01;
+  //   }
+  // }, [volume]);
+  // useEffect(() => {
+  //   if (!audio) {
+  //     setAudio(new Audio());
+  //   } else {
+  //     if (isPlay) {
+  //       audio.load();
+  //       audio.play();
+  //       audio.volume = volume * 0.01;
+  //       audio.addEventListener("ended", () => setChange("up"));
+  //     } else {
+  //       audio.pause();
+  //     }
+  //   }
+  // }, [isPlay]);
 
   return (
     <div className={styles.layout}>
@@ -127,6 +134,7 @@ const Audios = () => {
           <div className={styles.volumediv}>
             <input
               className={styles.volume}
+              value={volume}
               type={"range"}
               id="volume"
               min="0"
