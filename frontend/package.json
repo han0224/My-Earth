@@ -8,9 +8,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start & yarn server",
-    "lint": "next lint"
+    "lint": "next lint",
+    "netlify-deploy": "next build && next export"
   },
   "dependencies": {
+    "@netlify/plugin-nextjs": "^4.9.3",
     "@nivo/calendar": "^0.79.1",
     "@nivo/colors": "^0.79.1",
     "@nivo/core": "^0.79.0",
