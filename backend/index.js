@@ -7,6 +7,7 @@ const port = process.env.PORT || 5000;
 const keys = require("./config/keys");
 const cors = require("cors");
 
+app.set("trust proxy", 1);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -38,7 +39,12 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: mongoStore.create({ mongoUrl: keys.MONGO_URI }),
-    cookie: { maxAge: 1000 * 60 * 60 * 24, sameSite: "none", secure: true }, //5분 뒤 만료
+    cookie: {
+      maxAge: 86400000,
+      sameSite: "none",
+      secure: true,
+      httpOnly: true,
+    },
   })
 );
 
