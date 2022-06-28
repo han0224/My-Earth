@@ -81,19 +81,19 @@ const Todo = () => {
   }, [isUser]);
   return (
     <div className={styles.todo}>
-      <div className={styles.todoHeader}>
+      <button className={styles.todoHeader}>
         <AiOutlineMenu
           className={styles.icon}
           onClick={() => setIsListOpen(!isListOpen)}
         />
         <p>Todo List</p>
-      </div>
+      </button>
       {isListOpen ? (
         <div className={styles.todoList}>
           {todolist &&
             todolist.map((v) => (
               <div key={v._id}>
-                <label>
+                <label className={styles.todolabel}>
                   <div className={styles.todoItem}>
                     <input
                       type={"checkbox"}
