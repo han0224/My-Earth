@@ -46,6 +46,7 @@ userRouter.post("/login", async (req, res) => {
         res.json({ success: true });
         if (err) console.log(err);
       });
+      console.log(req.session);
     });
   });
 
