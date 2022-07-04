@@ -11,11 +11,15 @@ todoRouter.get("/", (req, res) => {
 // 전체 가져오기
 todoRouter.get("/todolist", auth, async (req, res) => {
   const user = req.user;
-  const todolist = await Todo.find(
-    { userEamil: user.email },
-    { userEamil: 0, __v: 0 }
-  );
-  res.json({ success: true, data: todolist });
+  try {
+    const todolist = await Todo.find(
+      { userEamil: user.email },
+      { userEamil: 0, __v: 0 }
+    );
+    res.status(200).json({ data: todolist });
+  } catch (e) {
+    res.status(500).json({ err: e });
+  }
 });
 
 //title:string / 새로운 todo 저장

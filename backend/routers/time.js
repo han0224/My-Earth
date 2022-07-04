@@ -1,4 +1,3 @@
-const e = require("express");
 const express = require("express");
 const { auth } = require("../middleware/auth");
 const { Time } = require("../models/Time");
@@ -20,10 +19,10 @@ timeRouter.get("/", (req, res) => {
 //YYYY-MM-DD
 timeRouter.get("/day", auth, (req, res) => {
   // 한루 단위로 시간 가져오기
-  const body = req.body;
-  const [year, month, day] = body.day.split("-");
-  const user = req.user;
-  user.study;
+  // const body = req.body;
+  // const [year, month, day] = body.day.split("-");
+  // const user = req.user;
+  // user.study;
 });
 
 timeRouter.get("/month/:year-:month-:num", auth, async (req, res) => {
@@ -32,7 +31,7 @@ timeRouter.get("/month/:year-:month-:num", auth, async (req, res) => {
   const num = req.params.num;
 
   if (num > 12) {
-    res.json({ success: false, message: "2년 이상 조회 불가" });
+    res.status(400).json({ err: "2년 이상 조회 불가" });
   }
   let call = "";
   for (let i = 0; i < num; i++) {
@@ -65,7 +64,7 @@ timeRouter.get("/month/:year-:month-:num", auth, async (req, res) => {
   });
   await Promise.all(promises);
   console.log("!!!!!!", usertime);
-  res.json({ success: true, data: usertime });
+  res.status(200).json({ data: usertime });
   // 한달 한위로 시간 가져오기
 });
 
@@ -79,6 +78,9 @@ timeRouter.post("/save", auth, async (req, res) => {
   const id = user.study[user.study.length - 1];
   console.log("id, key", id, key);
   Time.findOne({ date: key, _id: id }, (err, time) => {
+    if (err) {
+      return res.status(500).json({ err: err });
+    }
     if (!time) {
       // 현재 시간에 저장이 되어있지 않으면
       // 새로운 객체를 만들어 저장
@@ -117,7 +119,7 @@ timeRouter.post("/save", auth, async (req, res) => {
   });
 
   console.log(user.study);
-  res.json({ success: true });
+  return res.status(204).end();
 });
 
 module.exports = timeRouter;
