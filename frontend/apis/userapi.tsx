@@ -75,7 +75,7 @@ export const logout = async () => {
       withCredentials: true,
     });
     if (result.status === 200) {
-      return result.data;
+      return result;
     } else {
       return null;
     }

@@ -19,7 +19,7 @@ export const getMonth = async (year: Number, month: Number, num: Number) => {
     });
     console.log(result);
     if (result.status === 200) {
-      return { success: true, data: result.data };
+      return { success: true, data: result.data.data };
     } else if (result.status === 500) {
       return { success: false, err: result.data.err };
     } else {

@@ -50,18 +50,20 @@ const Profile = () => {
     const res1 = await getMonth(year, 1, 6);
     const res2 = await getMonth(year, 6, 6);
     if (res1 === null || res2 === null) {
-      return;
+      setFirst([]);
+      setSecond([]);
+    } else {
+      setFirst(res1.success ? res1.data : []);
+      setSecond(res2.success ? res2.data : []);
+      let study = 0;
+      for (let i of res1.data) {
+        study += i.value;
+      }
+      for (let i of res2.data) {
+        study += i.value;
+      }
+      setStudyTime(study);
     }
-    setFirst(res1.data);
-    setSecond(res2.data);
-    let study = 0;
-    for (let i of res1.data) {
-      study += i.value;
-    }
-    for (let i of res2.data) {
-      study += i.value;
-    }
-    setStudyTime(study);
   };
 
   const yearMinus = () => {

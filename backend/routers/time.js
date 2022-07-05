@@ -50,21 +50,21 @@ timeRouter.get("/month/:year-:month-:num", auth, async (req, res) => {
   const user = req.user;
   const usertime = [];
   console.log("routers/time", user);
-
-  const promises = user.study.map(async (v) => {
-    const time = await Time.findOne({ _id: v })
-      .exec()
-      .then((result) => {
-        console.log(result);
-        if (result.date.match(reg)) {
-          // const day = result.date.replaceAll(".", "-");
-          usertime.push({ value: result.time, day: result.date });
-        }
-      })
-      .catch((e) => console.error(e));
-  });
-  await Promise.all(promises);
-  console.log("!!!!!!", usertime);
+  if (user.study) {
+    const promises = user.study.map(async (v) => {
+      const time = await Time.findOne({ _id: v })
+        .exec()
+        .then((result) => {
+          console.log(result);
+          if (result.date.match(reg)) {
+            // const day = result.date.replaceAll(".", "-");
+            usertime.push({ value: result.time, day: result.date });
+          }
+        })
+        .catch((e) => console.error(e));
+    });
+    await Promise.all(promises);
+  }
   res.status(200).json({ data: usertime });
   // 한달 한위로 시간 가져오기
 });
