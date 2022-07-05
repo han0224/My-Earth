@@ -18,9 +18,16 @@ export const getMonth = async (year: Number, month: Number, num: Number) => {
       withCredentials: true,
     });
     console.log(result);
-    return result.data;
+    if (result.status === 200) {
+      return { success: true, data: result.data };
+    } else if (result.status === 500) {
+      return { success: false, err: result.data.err };
+    } else {
+      return null;
+    }
   } catch (e) {
     console.log("error", e);
+    return null;
   }
 };
 
@@ -36,9 +43,15 @@ export const saveTime = async (date: String, time: Number) => {
       },
       { withCredentials: true }
     );
-    console.log(result);
-    return result.data;
+    if (result.status === 204) {
+      return { success: true, data: result.data };
+    } else if (result.status === 500) {
+      return { success: false, err: result.data.err };
+    } else {
+      return null;
+    }
   } catch (e) {
     console.log("error", e);
+    return null;
   }
 };

@@ -13,10 +13,16 @@ export const login = async (email: string, password: string) => {
       },
       { withCredentials: true }
     );
-    console.log(result);
-    return result.data;
+    if (result.status === 204) {
+      return { success: true, data: result.data };
+    } else if (result.status === 401) {
+      return { success: false, err: "다시 입력해 주세요" };
+    } else {
+      return null;
+    }
   } catch (e) {
     console.log("error", e);
+    return null;
   }
 };
 
@@ -36,10 +42,14 @@ export const register = async (
       { withCredentials: true }
     );
 
-    console.log(result);
-    return result.data.success;
+    if (result.status === 204) {
+      return result;
+    } else {
+      return null;
+    }
   } catch (e) {
     console.log("error", e);
+    return null;
   }
 };
 
@@ -48,10 +58,14 @@ export const auth = async () => {
     const result = await axios.get(URL + "auth", {
       withCredentials: true,
     });
-    console.log(result);
-    return result.data;
+    if (result.status === 200) {
+      return result.data;
+    } else {
+      return null;
+    }
   } catch (e) {
     console.log("error", e);
+    return null;
   }
 };
 
@@ -60,9 +74,13 @@ export const logout = async () => {
     const result = await axios.get(URL + "logout", {
       withCredentials: true,
     });
-    console.log("logout result", result);
-    return result.data.success;
+    if (result.status === 200) {
+      return result.data;
+    } else {
+      return null;
+    }
   } catch (e) {
     console.log("error", e);
+    return null;
   }
 };

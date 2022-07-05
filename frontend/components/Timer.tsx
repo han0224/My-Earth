@@ -49,9 +49,14 @@ const Timer = () => {
   const savetimeapi = async () => {
     console.log("savetime", date, time);
     const res = await saveTime(date, time);
-    if (!res.success) {
-      alert("시간 저장에 실패했습니다.");
+    if (res !== null) {
+      if (!res.success) {
+        alert("시간 저장에 실패했습니다.");
+      }
+    } else {
+      alert("네트워크 문제 발생");
     }
+
     // console.log(res);
   };
 

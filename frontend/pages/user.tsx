@@ -12,16 +12,16 @@ const User = () => {
 
   const router = useRouter();
 
-  const isLogin = async () => {
-    const res = await auth();
-    if (res.success) {
-      console.log("로그인 중", res);
-    } else {
-      window.localStorage.setItem("isLogin", "false");
-      alert("로그인이 필요합니다.");
-      router.push("/");
-    }
-  };
+  // const isLogin = async () => {
+  //   const res = await auth();
+  //   if (res.success) {
+  //     console.log("로그인 중", res);
+  //   } else {
+  //     window.localStorage.setItem("isLogin", "false");
+  //     alert("로그인이 필요합니다.");
+  //     router.push("/");
+  //   }
+  // };
 
   const handleChange = (e: any) => {
     setSelected(e.target.value);

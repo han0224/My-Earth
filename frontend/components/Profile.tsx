@@ -28,7 +28,7 @@ const Profile = () => {
 
   const getAuth = async () => {
     const res = await auth();
-    if (res.success) {
+    if (res !== null) {
       console.log(res);
       setName(res.name);
       setTime(res.time);
@@ -48,8 +48,11 @@ const Profile = () => {
 
   const getTime = async () => {
     const res1 = await getMonth(year, 1, 6);
-    setFirst(res1.data);
     const res2 = await getMonth(year, 6, 6);
+    if (res1 === null || res2 === null) {
+      return;
+    }
+    setFirst(res1.data);
     setSecond(res2.data);
     let study = 0;
     for (let i of res1.data) {

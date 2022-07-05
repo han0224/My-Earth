@@ -5,57 +5,69 @@ const URL = config.URL + "todo/";
 
 export const saveTodo = async (title: string) => {
   try {
-    const res = await axios.post(
+    const result = await axios.post(
       URL + "savetodo",
       {
         title: title,
       },
       { withCredentials: true }
     );
-    console.log(res);
-    return res.data;
+    if (result.status === 204) {
+      return { success: true, data: result.data };
+    } else if (result.status === 500) {
+      return { success: false, err: result.data.err };
+    } else {
+      return null;
+    }
   } catch (e) {
-    console.log("err", e);
+    console.log("error", e);
+    return null;
   }
 };
 
 export const todoList = async () => {
   try {
-    const res = await axios.get(
+    const result = await axios.get(
       URL + "todolist",
 
       { withCredentials: true }
     );
-    console.log(res.data);
-    console.log(typeof res.data);
-
-    return res.data;
+    if (result.status === 200) {
+      return { success: true, data: result.data };
+    } else if (result.status === 500) {
+      return { success: false, err: result.data.err };
+    } else {
+      return null;
+    }
   } catch (e) {
-    console.log("err", e);
+    console.log("error", e);
+    return null;
   }
 };
 
 export const todoDelete = async (id: string) => {
   try {
-    const res = await axios.post(
+    const result = await axios.post(
       URL + "delete",
       {
         id: id,
       },
       { withCredentials: true }
     );
-    console.log(res.data);
-    console.log(typeof res.data);
-
-    return res.data;
+    if (result.status === 204) {
+      return result.data;
+    } else {
+      return null;
+    }
   } catch (e) {
-    console.log("err", e);
+    console.log("error", e);
+    return null;
   }
 };
 
 export const setstatus = async (id: string, status: number) => {
   try {
-    const res = await axios.post(
+    const result = await axios.post(
       URL + "setstatus",
       {
         id: id,
@@ -63,11 +75,13 @@ export const setstatus = async (id: string, status: number) => {
       },
       { withCredentials: true }
     );
-    console.log(res.data);
-    console.log(typeof res.data);
-
-    return res.data;
+    if (result.status === 204) {
+      return result.data;
+    } else {
+      return null;
+    }
   } catch (e) {
-    console.log("err", e);
+    console.log("error", e);
+    return null;
   }
 };

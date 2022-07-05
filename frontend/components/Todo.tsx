@@ -64,12 +64,19 @@ const Todo = () => {
 
   const getTodoList = async () => {
     const todo = await todoList();
-    if (todo.status === 500) {
-      console.log("실패");
-      setTodoList([]);
+    if (todo !== null) {
+      if (todo.success) {
+        // console.log(todo.data.data, typeof todo.data);
+        setTodoList(todo.data.data);
+      } else {
+        alert(todo.err);
+        console.log("실패");
+        setTodoList([]);
+      }
     } else {
-      setTodoList(todo.data);
+      setTodoList([]);
     }
+
     console.log("todolist", todolist);
   };
   useEffect(() => {
@@ -90,7 +97,7 @@ const Todo = () => {
       </button>
       {isListOpen ? (
         <div className={styles.todoList}>
-          {todolist &&
+          {todolist.length > 0 &&
             todolist.map((v) => (
               <div key={v._id}>
                 <label className={styles.todolabel}>

@@ -11,9 +11,6 @@ const Home: NextPage = () => {
     <Layout>
       <div className={styles.space}>
         <Earth />
-        {/* <div className={styles.sidebar}>
-          <Audios />
-        </div> */}
         <div className={styles.todo}>
           <Todo />
         </div>
