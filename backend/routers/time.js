@@ -49,6 +49,7 @@ timeRouter.get("/month/:year-:month-:num", auth, async (req, res) => {
 
   const user = req.user;
   const usertime = [];
+  console.log("routers/time", user);
 
   const promises = user.study.map(async (v) => {
     const time = await Time.findOne({ _id: v })
@@ -110,8 +111,6 @@ timeRouter.post("/save", auth, async (req, res) => {
       }
     }
 
-    console.log(formattime);
-    console.log(newtime);
     // user.totaltime = totaltime;
     console.log("totaltime", user.totaltime, newtime, body, time);
     user.totaltime = newtime.join(":");

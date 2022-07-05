@@ -6,6 +6,7 @@
   flex-direction: column;
   top: calc(50% - 40px);
   left: calc(50% - 40px);
+  cursor: pointer;
 }
 .btn img {
   width: 50px;
