@@ -16,7 +16,7 @@ const Header = () => {
 
   const goUser = async () => {
     const res = await auth();
-    if (res.success) {
+    if (res) {
       console.log("로그인 중", res);
       dispatch(setUser(true));
       router.push("/user");
