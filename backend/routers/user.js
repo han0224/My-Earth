@@ -11,7 +11,7 @@ userRouter.post("/register", (req, res) => {
   // 회원가입시 필요한 정보들을 client 에서 가져오면
   // db에 넣어줌
   const user = new User(req.body);
-  console.log(user, req.body);
+  // console.log(user, req.body);
   // 저장, 에러시 json 형식으로 전달
   try {
     user.save();
@@ -30,7 +30,7 @@ userRouter.post("/register", (req, res) => {
 
 userRouter.post("/login", async (req, res) => {
   const userInfo = User.findOne({ email: req.body.email }, (err, user) => {
-    console.log("user", user);
+    // console.log("user", user);
     if (!user) {
       return res.status(401).json({
         err: "유저가 없습니다",
@@ -55,12 +55,10 @@ userRouter.post("/login", async (req, res) => {
       // console.log(req.session);
     });
   });
-
-  console.log("userinfo", userInfo);
 });
 
 userRouter.get("/auth", auth, (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   res.status(200).json({
     email: req.user.email,
     name: req.user.name,
@@ -69,7 +67,7 @@ userRouter.get("/auth", auth, (req, res) => {
 });
 
 userRouter.get("/logout", (req, res) => {
-  console.log(req.session);
+  // console.log(req.session);
   if (req.session.userEmail) {
     req.session.destroy((err) => {
       if (err) {

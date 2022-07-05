@@ -1,17 +1,18 @@
 const { User } = require("../models/User");
 
 const auth = (req, res, next) => {
-  console.log("auth");
+  console.log("auth", req.session);
   if (req.session.userEmail) {
     User.findOne({ email: req.session.userEmail }, (err, user) => {
       if (user) {
-        console.log("middleware", typeof user);
         req.user = user;
         next();
       }
     });
   } else {
-    return res.json({ success: false, message: "nonauth" });
+    return res
+      .status(401)
+      .json({ success: false, err: "로그인되어 있지 않음" });
   }
 };
 
