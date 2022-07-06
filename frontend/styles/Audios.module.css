@@ -13,6 +13,7 @@
 
 .musicPlayer {
   width: fit-content;
+  min-width: 220px;
   margin: auto;
   margin-bottom: auto;
   margin-top: 0;

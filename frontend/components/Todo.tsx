@@ -30,20 +30,31 @@ const Todo = () => {
   console.log("asdfasdf", isUser);
 
   const addTodo = async () => {
-    if (todolist.length === 5) {
-      alert("5개 이상은 작성할 수 없습니다.");
+    if (!isUser) {
+      alert("로그인 후 이용가능 합니다");
     } else {
-      await saveTodo(title.value);
-      await getTodoList();
-      title.onChange("");
-      setOpen(false);
+      if (todolist.length === 5) {
+        alert("5개 이상은 작성할 수 없습니다.");
+      } else {
+        await saveTodo(title.value);
+        await getTodoList();
+        title.onChange("");
+        setOpen(false);
+      }
     }
   };
 
   const setStatus = async (id: string, status: number) => {
     console.log(status);
     await setstatus(id, status === 1 ? 0 : 1);
-    await getTodoList();
+    const newtodo = todolist.map((v) => {
+      if (v._id === id) {
+        return { _id: v._id, status: v.status === 1 ? 0 : 1, title: v.title };
+      }
+      return v;
+    });
+    setTodoList(newtodo);
+    // await getTodoList();
   };
 
   const showBox = () => {
@@ -79,13 +90,17 @@ const Todo = () => {
 
     console.log("todolist", todolist);
   };
+
   useEffect(() => {
-    getTodoList();
-    console.log(todolist);
-  }, []);
-  useEffect(() => {
-    getTodoList();
+    if (isUser) {
+      getTodoList();
+    }
   }, [isUser]);
+
+  // useEffect(() => {
+  //   getTodoList();
+  // }, [isUser]);
+
   return (
     <div className={styles.todo}>
       <button className={styles.todoHeader}>
@@ -107,7 +122,7 @@ const Todo = () => {
                       onClick={(e) => {
                         setStatus(v._id, v.status);
                       }}
-                      checked={v.status === 1 ? true : false}
+                      defaultChecked={v.status === 1 ? true : false}
                     ></input>
                     <p>{v.title}</p>
                   </div>

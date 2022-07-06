@@ -109,14 +109,14 @@ const Header = () => {
       {isOpen ? (
         <ul className={styles.submenu}>
           <li>
-            <div>about</div>
+            <button>about</button>
           </li>
           <li>
-            <div>????</div>
+            <button>????</button>
           </li>
           {isLogin === true && (
             <li>
-              <div onClick={clicklogout}>Logout</div>
+              <button onClick={clicklogout}>Logout</button>
             </li>
           )}
         </ul>
