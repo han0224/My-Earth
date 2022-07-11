@@ -22,7 +22,6 @@ const Timer = () => {
   const increment = useRef<ReturnType<typeof setInterval>>();
 
   const ondispatch = (e: React.MouseEvent) => {
-    console.log("ondispatch", start, time);
     if (start) {
       dispatch(setStart(false));
       dispatch(setPreTime(time));
@@ -31,7 +30,6 @@ const Timer = () => {
       clearInterval(timer);
     } else {
       const startTime = moment();
-      console.log("click", startTime);
       setOpacity(0);
       increment.current = setInterval(() => {
         const currnettime = moment();
@@ -39,7 +37,6 @@ const Timer = () => {
           .duration(currnettime.diff(startTime))
           .asSeconds();
         dispatch(savetime(Math.floor(newDate) + preTime));
-        console.log("increment", time, currnettime, startTime, preTime);
       }, 1000);
       dispatch(setTimer(increment.current));
       dispatch(setStart(true));
@@ -56,12 +53,9 @@ const Timer = () => {
     } else {
       alert("네트워크 문제 발생");
     }
-
-    // console.log(res);
   };
 
   const formatTime = (time: number) => {
-    console.log("formattime", time);
     // 오늘 하루 시간 더하기
     const min = time / 60;
     const hour = min / 60;

@@ -13,7 +13,7 @@ export const login = async (email: string, password: string) => {
       },
       { withCredentials: true }
     );
-    if (result.status === 204) {
+    if (result.status === 200) {
       return { success: true, data: result.data };
     } else if (result.status === 401) {
       return { success: false, err: "다시 입력해 주세요" };

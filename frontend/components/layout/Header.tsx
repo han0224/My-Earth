@@ -5,31 +5,36 @@ import { FiSettings } from "react-icons/fi";
 import Link from "next/link";
 import { auth, logout } from "../../apis/userapi";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../store/user";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUser, setUser } from "../../store/user";
+import { RootState } from "../../store";
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const dispatch = useDispatch();
+  const { isUser } = useSelector((state: RootState) => state.user);
+
+  const [isLogin, setIsLogin] = useState(isUser);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const dispatch = useDispatch();
 
-  const goUser = async () => {
-    const res = await auth();
-    if (res) {
-      console.log("로그인 중", res);
-      dispatch(setUser(true));
-      router.push("/user");
-    } else {
-      alert("로그인 해주세요");
-      router.push("/");
-      window.localStorage.setItem("isLogin", "false");
-      setIsLogin(false);
-    }
-  };
-  const onClick = (e: React.MouseEvent) => {
+  // user 페이지로
+  // const goUser = async () => {
+  //   const res = await auth();
+  //   if (res) {
+  //     console.log("로그인 중", res);
+  //     // dispatch(setUser(true));
+  //     router.push("/user");
+  //   } else {
+  //     alert("로그인 해주세요");
+  //     router.push("/");
+  //     // window.localStorage.setItem("isLogin", "false");
+  //     // setIsLogin(false);
+  //   }
+  // };
+  const userClick = (e: React.MouseEvent) => {
     if (isLogin) {
-      goUser();
+      // goUser();
+      router.push("user");
     } else {
       router.push("/login");
     }
@@ -40,12 +45,14 @@ const Header = () => {
       const res = await logout();
       if (res) {
         alert(`정상적으로 로그아웃 되었습니다. ${res}`);
-        window.localStorage.setItem("isLogin", "false");
-        dispatch(setUser(false));
-        setIsLogin(false);
+        // window.localStorage.setItem("isLogin", "false");
+        // dispatch(setUser(false));
+        dispatch(deleteUser());
         router.push("/");
       } else {
         alert(`비정상로그아웃`);
+        dispatch(deleteUser());
+        router.push("/");
       }
     }
   };
@@ -54,12 +61,20 @@ const Header = () => {
     setIsOpen(!isOpen);
   };
 
+  // useEffect(() => {
+  //   if (window.localStorage.getItem("isLogin") === "true") {
+  //     setIsLogin(true);
+  //   } else setIsLogin(false);
+  //   console.log("isLogin", isLogin);
+  // }, [isLogin]);
+
   useEffect(() => {
-    if (window.localStorage.getItem("isLogin") === "true") {
+    if (isUser) {
       setIsLogin(true);
-    } else setIsLogin(false);
-    console.log("isLogin", isLogin);
-  }, [isLogin]);
+    } else {
+      setIsLogin(false);
+    }
+  }, [isUser]);
 
   return (
     <div className={styles.header}>
@@ -73,13 +88,13 @@ const Header = () => {
           </li>
           {isLogin ? (
             <li>
-              <button className={styles.fixed} onClick={onClick}>
+              <button className={styles.fixed} onClick={userClick}>
                 User
               </button>
             </li>
           ) : (
             <li>
-              <button className={styles.fixed} onClick={onClick}>
+              <button className={styles.fixed} onClick={userClick}>
                 Login
               </button>
             </li>

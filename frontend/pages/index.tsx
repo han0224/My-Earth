@@ -15,9 +15,7 @@ const Home: NextPage = () => {
           <Todo />
         </div>
         <div className={styles.time}>
-          <div className={styles.timer}>
-            <Timer />
-          </div>
+          <Timer />
         </div>
       </div>
     </Layout>

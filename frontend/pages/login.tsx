@@ -6,12 +6,15 @@ import useInput from "../hooks/useInput";
 import { auth, login } from "../apis/userapi";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store";
 import { setUser } from "../store/user";
+// import { setUser } from "../store/user";
 
 const Login = () => {
   const userid = useInput("");
   const userpassword = useInput("");
   const dispatch = useDispatch();
+
   const router = useRouter();
 
   const submitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,9 +23,8 @@ const Login = () => {
     console.log(res);
     if (res !== null) {
       if (res.success) {
-        alert(`성공`);
-        window.localStorage.setItem("isLogin", "true");
-        dispatch(setUser(true));
+        alert(`성공${res.data}`);
+        dispatch(setUser(res.data));
         router.push("/");
         console.log("로그인 성공", res);
       } else {

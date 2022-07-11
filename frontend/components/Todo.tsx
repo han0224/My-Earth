@@ -94,6 +94,8 @@ const Todo = () => {
   useEffect(() => {
     if (isUser) {
       getTodoList();
+    } else {
+      setTodoList([]);
     }
   }, [isUser]);
 

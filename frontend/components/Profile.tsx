@@ -7,6 +7,8 @@ import { auth } from "../apis/userapi";
 import styles from "../styles/Profile.module.css";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store";
 // import { MyResponsiveTimeRange } from "./nivoChart";
 
 const MyResponsiveTimeRange = dynamic(() => import("../components/nivoChart"), {
@@ -14,9 +16,13 @@ const MyResponsiveTimeRange = dynamic(() => import("../components/nivoChart"), {
 });
 
 const Profile = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [time, setTime] = useState("");
+  const dispatch = useDispatch();
+  const { isUser, name, email, time } = useSelector(
+    (state: RootState) => state.user
+  );
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [time, setTime] = useState("");
   // 1~6월 데이터를 저장할 변수
   const [first, setFirst] = useState<CalendarDatum[]>([]);
   // 7~12월 데이터를 저장할 변수
@@ -25,19 +31,6 @@ const Profile = () => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [studyTime, setStudyTime] = useState(0);
   const router = useRouter();
-
-  const getAuth = async () => {
-    const res = await auth();
-    if (res !== null) {
-      console.log(res);
-      setName(res.name);
-      setTime(res.time);
-      setEmail(res.email);
-    } else {
-      window.localStorage.setItem("isLogin", "false");
-      router.push("/");
-    }
-  };
 
   const formatTime = () => {
     const format = time.split(":").map((v) => +v);
@@ -78,9 +71,17 @@ const Profile = () => {
     // 프로필 이미지 변경할 수 있도록
   };
 
+  // useEffect(() => {
+  //   if (name === "") getAuth();
+  // }, [name]);
+
   useEffect(() => {
-    if (name === "") getAuth();
-  }, [name]);
+    console.log("로그인 후 이용해 주세요", isUser);
+    if (!isUser) {
+      alert("로그인 후 이용해 주세요");
+      router.push("/");
+    }
+  }, []);
 
   useEffect(() => {
     getTime();

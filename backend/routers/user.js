@@ -50,7 +50,11 @@ userRouter.post("/login", async (req, res) => {
           // console.log(err);
           return res.status(500).json({ err: err });
         }
-        return res.status(204).end();
+        return res.status(200).json({
+          email: req.body.email,
+          name: user.name,
+          time: user.totaltime,
+        });
       });
       // console.log(req.session);
     });
