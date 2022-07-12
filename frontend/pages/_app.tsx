@@ -1,18 +1,24 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { wrapper } from "../store";
+import { store, wrapper } from "../store";
 import Audios from "../components/Audios";
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from "react-redux";
+import { persistStore } from "redux-persist";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const persistor = persistStore(store);
   return (
-    <>
-      <Head>
-        <title>My Earth</title>
-      </Head>
-      <Component {...pageProps} />
-      <Audios />
-    </>
+    <Provider store={store}>
+      <PersistGate persistor={persistor} loading={<div>loading...</div>}>
+        <Head>
+          <title>My Earth</title>
+        </Head>
+        <Component {...pageProps} />
+        <Audios />
+      </PersistGate>
+    </Provider>
   );
 }
 
