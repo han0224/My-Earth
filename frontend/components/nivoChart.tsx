@@ -3,8 +3,7 @@ import {
   DateOrString,
   ResponsiveTimeRange,
 } from "@nivo/calendar";
-import { FC, useEffect, useState } from "react";
-import styles from "../styles/nivoChart.module.css";
+import { useEffect, useState } from "react";
 
 interface chartProps {
   data: CalendarDatum[];
@@ -25,7 +24,6 @@ export const MyResponsiveTimeRange = ({ data, from, to }: chartProps) => {
   useEffect(() => {
     const date = new Date();
     if (day.toLocaleDateString() !== date.toLocaleDateString()) {
-      console.log("!!!!!!!");
       setDay(date);
     }
   }, []);
@@ -34,17 +32,13 @@ export const MyResponsiveTimeRange = ({ data, from, to }: chartProps) => {
     // const arr = day.split(".").map((v) => +v);
     const now = new Date();
     const month = new Date(now.setMonth(now.getMonth() - 1));
-    console.log("month", month.getFullYear(), month.getMonth());
     setToDay(day);
     setFromDay(month);
-    console.log("from", data, from, to);
   }, [day]);
 
   return (
     <ResponsiveTimeRange
       data={data}
-      // from={"2021-12-31"}
-      // to={"2022-06-30"}
       from={from}
       to={to}
       emptyColor="#eeeeee"

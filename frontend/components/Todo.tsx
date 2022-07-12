@@ -27,7 +27,6 @@ const Todo = () => {
   const { isUser } = useSelector((state: RootState) => state.user);
   const title = useInput("");
   const ref = useRef<HTMLDivElement>(null);
-  console.log("asdfasdf", isUser);
 
   const addTodo = async () => {
     if (!isUser) {
@@ -45,7 +44,6 @@ const Todo = () => {
   };
 
   const setStatus = async (id: string, status: number) => {
-    console.log(status);
     await setstatus(id, status === 1 ? 0 : 1);
     const newtodo = todolist.map((v) => {
       if (v._id === id) {
@@ -54,7 +52,6 @@ const Todo = () => {
       return v;
     });
     setTodoList(newtodo);
-    // await getTodoList();
   };
 
   const showBox = () => {
@@ -67,7 +64,6 @@ const Todo = () => {
   };
 
   const setDelete = (id: string) => {
-    console.log(id);
     todoDelete(id);
     const tt = todolist.filter((v) => v._id != id);
     setTodoList(tt);
@@ -77,18 +73,14 @@ const Todo = () => {
     const todo = await todoList();
     if (todo !== null) {
       if (todo.success) {
-        // console.log(todo.data.data, typeof todo.data);
         setTodoList(todo.data.data);
       } else {
         alert(todo.err);
-        console.log("실패");
         setTodoList([]);
       }
     } else {
       setTodoList([]);
     }
-
-    console.log("todolist", todolist);
   };
 
   useEffect(() => {
@@ -98,10 +90,6 @@ const Todo = () => {
       setTodoList([]);
     }
   }, [isUser]);
-
-  // useEffect(() => {
-  //   getTodoList();
-  // }, [isUser]);
 
   return (
     <div className={styles.todo}>

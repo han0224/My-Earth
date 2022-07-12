@@ -20,7 +20,6 @@ export const saveTodo = async (title: string) => {
       return null;
     }
   } catch (e) {
-    console.log("error", e);
     return null;
   }
 };
@@ -40,7 +39,6 @@ export const todoList = async () => {
       return null;
     }
   } catch (e) {
-    console.log("error", e);
     return null;
   }
 };
@@ -60,7 +58,6 @@ export const todoDelete = async (id: string) => {
       return null;
     }
   } catch (e) {
-    console.log("error", e);
     return null;
   }
 };
@@ -81,7 +78,6 @@ export const setstatus = async (id: string, status: number) => {
       return null;
     }
   } catch (e) {
-    console.log("error", e);
     return null;
   }
 };

@@ -57,15 +57,11 @@ const makeStore = () => {
   if (isServer) {
     return createStore(reducer, bindMiddleware([]));
   } else {
-    console.log("reducer");
-
     const persistedReducer = persistReducer(persistConfig, reducer);
     const store = createStore(
       persistedReducer,
       bindMiddleware([thunkMiddleware])
     );
-    // store.__persistor = persistStore(store);
-    console.log(store);
     return store;
   }
 };

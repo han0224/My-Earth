@@ -21,7 +21,6 @@ export const login = async (email: string, password: string) => {
       return null;
     }
   } catch (e) {
-    console.log("error", e);
     return null;
   }
 };
@@ -48,7 +47,6 @@ export const register = async (
       return null;
     }
   } catch (e) {
-    console.log("error", e);
     return null;
   }
 };
@@ -64,7 +62,6 @@ export const auth = async () => {
       return null;
     }
   } catch (e) {
-    console.log("error", e);
     return null;
   }
 };
@@ -80,7 +77,6 @@ export const logout = async () => {
       return null;
     }
   } catch (e) {
-    console.log("error", e);
     return null;
   }
 };

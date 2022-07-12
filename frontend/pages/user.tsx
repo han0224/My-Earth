@@ -10,23 +10,8 @@ import Chart from "../components/Chart";
 const User = () => {
   const [selected, setSelected] = useState("profile");
 
-  const router = useRouter();
-
-  // const isLogin = async () => {
-  //   const res = await auth();
-  //   if (res.success) {
-  //     console.log("로그인 중", res);
-  //   } else {
-  //     window.localStorage.setItem("isLogin", "false");
-  //     alert("로그인이 필요합니다.");
-  //     router.push("/");
-  //   }
-  // };
-
   const handleChange = (e: any) => {
     setSelected(e.target.value);
-    console.log(e.target);
-    console.log(selected);
   };
   const testclick = () => {
     if (selected === "profile") {
@@ -35,21 +20,11 @@ const User = () => {
       setSelected("profile");
     }
   };
-  useEffect(() => {
-    // isLogin();
-  }, []);
 
   return (
     <Layout>
       <div className={styles.userPage}>
         <div className={styles.erea}>
-          {/* {selected === "chart" && (
-            <div className={styles.study_menu}>
-              <button>year</button>
-              <button>month</button>
-              <button>day</button>
-            </div>
-          )} */}
           <div className={styles.userCard}>
             <div className={styles.menu}>
               <input
@@ -71,10 +46,8 @@ const User = () => {
               <label htmlFor="chart">study chart</label>
             </div>
             {selected === "chart" ? <Chart></Chart> : <Profile />}
-            {/* <Profile /> */}
           </div>
         </div>
-        {/* <button onClick={testclick}>onClick</button> */}
       </div>
     </Layout>
   );

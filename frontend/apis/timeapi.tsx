@@ -17,7 +17,6 @@ export const getMonth = async (year: Number, month: Number, num: Number) => {
     const result = await axios.get(URL + "month/" + `${year}-${month}-${num}`, {
       withCredentials: true,
     });
-    console.log(result);
     if (result.status === 200) {
       return { success: true, data: result.data.data };
     } else if (result.status === 500) {
@@ -26,7 +25,6 @@ export const getMonth = async (year: Number, month: Number, num: Number) => {
       return null;
     }
   } catch (e) {
-    console.log("error", e);
     return null;
   }
 };
@@ -51,7 +49,6 @@ export const saveTime = async (date: String, time: Number) => {
       return null;
     }
   } catch (e) {
-    console.log("error", e);
     return null;
   }
 };

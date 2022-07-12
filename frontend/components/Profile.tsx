@@ -16,13 +16,10 @@ const MyResponsiveTimeRange = dynamic(() => import("../components/nivoChart"), {
 });
 
 const Profile = () => {
-  const dispatch = useDispatch();
   const { isUser, name, email, time } = useSelector(
     (state: RootState) => state.user
   );
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [time, setTime] = useState("");
+
   // 1~6월 데이터를 저장할 변수
   const [first, setFirst] = useState<CalendarDatum[]>([]);
   // 7~12월 데이터를 저장할 변수
@@ -71,12 +68,7 @@ const Profile = () => {
     // 프로필 이미지 변경할 수 있도록
   };
 
-  // useEffect(() => {
-  //   if (name === "") getAuth();
-  // }, [name]);
-
   useEffect(() => {
-    console.log("로그인 후 이용해 주세요", isUser);
     if (!isUser) {
       alert("로그인 후 이용해 주세요");
       router.push("/");
@@ -85,7 +77,6 @@ const Profile = () => {
 
   useEffect(() => {
     getTime();
-    console.log("yaer useEffect", first, second);
   }, [year]);
 
   return (

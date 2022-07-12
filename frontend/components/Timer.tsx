@@ -18,10 +18,15 @@ const Timer = () => {
   const { start, time, timer, preTime, date } = useSelector(
     (state: RootState) => state.timer
   );
+  const { isUser } = useSelector((state: RootState) => state.user);
   const [opacity, setOpacity] = useState(1);
   const increment = useRef<ReturnType<typeof setInterval>>();
 
   const ondispatch = (e: React.MouseEvent) => {
+    if (!isUser) {
+      alert("로그인 후 이용해 주세요");
+      return;
+    }
     if (start) {
       dispatch(setStart(false));
       dispatch(setPreTime(time));
@@ -44,7 +49,6 @@ const Timer = () => {
   };
 
   const savetimeapi = async () => {
-    console.log("savetime", date, time);
     const res = await saveTime(date, time);
     if (res !== null) {
       if (!res.success) {
@@ -78,10 +82,8 @@ const Timer = () => {
   return (
     <div className={styles.timer}>
       <div>{formatTime(time)}</div>
-      {/* <button onClick={ondispatch}>중지</button> */}
       <div className={styles.btn} style={{ opacity: opacity }}>
         <VscDebugStart onClick={ondispatch} size={80} />
-        {/* <img src="/images/play.png" onClick={btnHandle}></img> */}
       </div>
     </div>
   );

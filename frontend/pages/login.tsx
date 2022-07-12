@@ -20,19 +20,16 @@ const Login = () => {
   const submitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await login(userid.value, userpassword.value);
-    console.log(res);
     if (res !== null) {
       if (res.success) {
         alert(`성공${res.data}`);
         dispatch(setUser(res.data));
         router.push("/");
-        console.log("로그인 성공", res);
       } else {
         alert("다시한번 확인해 주세요");
       }
     } else {
       alert("네트워크 오류");
-      console.log("실패");
     }
   };
 

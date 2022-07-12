@@ -17,23 +17,8 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
-  // user 페이지로
-  // const goUser = async () => {
-  //   const res = await auth();
-  //   if (res) {
-  //     console.log("로그인 중", res);
-  //     // dispatch(setUser(true));
-  //     router.push("/user");
-  //   } else {
-  //     alert("로그인 해주세요");
-  //     router.push("/");
-  //     // window.localStorage.setItem("isLogin", "false");
-  //     // setIsLogin(false);
-  //   }
-  // };
   const userClick = (e: React.MouseEvent) => {
     if (isLogin) {
-      // goUser();
       router.push("user");
     } else {
       router.push("/login");
@@ -45,8 +30,7 @@ const Header = () => {
       const res = await logout();
       if (res) {
         alert(`정상적으로 로그아웃 되었습니다. ${res}`);
-        // window.localStorage.setItem("isLogin", "false");
-        // dispatch(setUser(false));
+
         dispatch(deleteUser());
         router.push("/");
       } else {
@@ -60,13 +44,6 @@ const Header = () => {
   const clickSubmenu = () => {
     setIsOpen(!isOpen);
   };
-
-  // useEffect(() => {
-  //   if (window.localStorage.getItem("isLogin") === "true") {
-  //     setIsLogin(true);
-  //   } else setIsLogin(false);
-  //   console.log("isLogin", isLogin);
-  // }, [isLogin]);
 
   useEffect(() => {
     if (isUser) {

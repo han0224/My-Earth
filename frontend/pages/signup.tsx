@@ -26,21 +26,17 @@ const Signup = () => {
       userpassword.value
     );
     if (res) {
-      console.log("회원가입 성공", res);
       router.push("/login");
     } else {
       alert("실패");
-      console.log("실패");
     }
   };
 
   const comparePw = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckpw(e.target.value);
     if (e.target.value !== userpassword.value) {
-      console.log("다름!", checkpw, userpassword.value);
       setOkPw(false);
     } else {
-      console.log("같음!");
       setOkPw(true);
     }
   };
