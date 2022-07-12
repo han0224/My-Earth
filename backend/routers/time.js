@@ -8,7 +8,6 @@ const timeformat = (time) => {
   const ss = (time % 3600) % 60;
   const mm = Math.floor((time % 3600) / 60);
   const hh = Math.floor(time / 3600);
-  console.log("timeformat", time, hh, mm, ss);
   return [hh, mm, ss];
 };
 
@@ -45,17 +44,14 @@ timeRouter.get("/month/:year-:month-:num", auth, async (req, res) => {
   // const reg = new RegExp(`${year}.\[${month}-${month + num}\].*`);
   // const call = `${month}-${+month + +num}`;
   const reg = new RegExp(call);
-  console.log(reg);
 
   const user = req.user;
   const usertime = [];
-  console.log("routers/time", user);
   if (user.study) {
     const promises = user.study.map(async (v) => {
       const time = await Time.findOne({ _id: v })
         .exec()
         .then((result) => {
-          console.log(result);
           if (result.date.match(reg)) {
             // const day = result.date.replaceAll(".", "-");
             usertime.push({ value: result.time, day: result.date });
@@ -69,39 +65,47 @@ timeRouter.get("/month/:year-:month-:num", auth, async (req, res) => {
   // 한달 한위로 시간 가져오기
 });
 
+const savetotalTime = (time, user) => {};
+
 //req ) date:YYYY-MM-DD / time:초기준으로 숫자 /
 timeRouter.post("/save", auth, async (req, res) => {
   const user = req.user;
   const body = req.body;
   const [year, month, day] = body.date.split(".");
-  // const key = `${year}.${month}.${day}`;
   const key = body.date;
-  const id = user.study[user.study.length - 1];
-  console.log("id, key", id, key);
-  Time.findOne({ date: key, _id: id }, (err, time) => {
-    if (err) {
-      return res.status(500).json({ err: err });
-    }
-    if (!time) {
-      // 현재 시간에 저장이 되어있지 않으면
-      // 새로운 객체를 만들어 저장
-      const t = new Time({ date: key, time: body.time });
-      console.log("t id", t._id);
-      user.study.push(t._id);
-      t.save();
-    } else {
-      // 현재 시간이 저장되어 있으면
-      // 해당 시간에 현재 시간 더하기
-      console.log(time);
-      time.time += body.time;
+
+  try {
+    let time;
+    if (user.study === undefined) {
+      time = new Time({ date: key, time: body.time });
+      user.study = [time._id];
       time.save();
+    } else {
+      const id = user.study[user.study.length - 1];
+      time = await Time.findOne({ date: key, _id: id }, (err, time) => {
+        if (err) {
+          return res.status(500).json({ err: err });
+        }
+        if (time === undefined) {
+          // 현재 시간에 저장이 되어있지 않으면
+          // 새로운 객체를 만들어 저장
+          const t = new Time({ date: key, time: body.time });
+          console.log("t id", t._id);
+          user.study.push(t._id);
+          t.save();
+        } else {
+          // 현재 시간이 저장되어 있으면
+          // 해당 시간에 현재 시간 더하기
+          time.time += body.time;
+          time.save();
+        }
+      });
+      // 전체 시간
     }
-    // 전체 시간
     const formattime = timeformat(body.time);
     const totaltime = user.totaltime.split(":").map((v) => +v);
 
     const newtime = [formattime[0] + totaltime[0]];
-    console.log("new", newtime, formattime, totaltime);
 
     for (let i = 1; i < 3; i++) {
       newtime.push(formattime[i] + totaltime[i]);
@@ -110,15 +114,12 @@ timeRouter.post("/save", auth, async (req, res) => {
         newtime[i - 1]++;
       }
     }
-
-    // user.totaltime = totaltime;
-    console.log("totaltime", user.totaltime, newtime, body, time);
     user.totaltime = newtime.join(":");
     user.save();
-  });
-
-  console.log(user.study);
-  return res.status(204).end();
+    return res.status(204).end();
+  } catch (e) {
+    return res.status(500).json({ err: e });
+  }
 });
 
 module.exports = timeRouter;
