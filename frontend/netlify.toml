@@ -1,6 +1,3 @@
 [build]
     command = "yarn netlify-deploy"
-    publish = ".next"
-
-[context.production.environment]
-    NODE_ENV = "production"
+    publish = "out"
