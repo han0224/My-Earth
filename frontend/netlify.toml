@@ -1,3 +1,6 @@
 [build]
     command = "yarn netlify-deploy"
     publish = "out"
+
+[context.production.environment]
+    NODE_ENV = "production"
