@@ -4,7 +4,7 @@
 
 <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=MongoDB&logoColor=white"> 
 
-바로가기 [my earth](https://62b85ade3cacc200091dc7ef--dynamic-cannoli-c2d1ae.netlify.app/user)
+배포 사이트 [my earth](https://dynamic-cannoli-c2d1ae.netlify.app/)
 
 ## 소개
 next.js 와 node.js 를 이용하여 내가 공부할 때 사용할려고 만들고 있는 사이트
