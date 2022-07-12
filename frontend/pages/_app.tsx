@@ -16,6 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <title>My Earth</title>
         </Head>
         <Component {...pageProps} />
+        {/* main 페이지랑 오디오 재생 시에만 */}
         <Audios />
       </PersistGate>
     </Provider>
