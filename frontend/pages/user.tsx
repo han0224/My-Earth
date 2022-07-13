@@ -1,10 +1,9 @@
 import Layout from "../components/layout/Layout";
 import styles from "../styles/User.module.css";
-import React, { useEffect, useRef, useState } from "react";
-import { auth } from "../apis/userapi";
-import { useRouter } from "next/router";
+import React, { useState } from "react";
 import Profile from "../components/Profile";
 import Chart from "../components/Chart";
+import { todayTime } from "../apis/timeapi";
 // import Chart from "../components/Chart";
 
 const User = () => {
@@ -14,11 +13,13 @@ const User = () => {
     setSelected(e.target.value);
   };
   const testclick = () => {
-    if (selected === "profile") {
-      setSelected("study");
-    } else {
-      setSelected("profile");
-    }
+    const result = todayTime("2022-07-13");
+    console.log(result);
+    // if (selected === "profile") {
+    //   setSelected("study");
+    // } else {
+    //   setSelected("profile");
+    // }
   };
 
   return (
@@ -47,6 +48,7 @@ const User = () => {
             </div>
             {selected === "chart" ? <Chart></Chart> : <Profile />}
           </div>
+          <button onClick={testclick}>test</button>
         </div>
       </div>
     </Layout>

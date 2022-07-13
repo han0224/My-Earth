@@ -3,11 +3,13 @@ import styles from "../styles/Login.module.css";
 import React from "react";
 import Link from "next/link";
 import useInput from "../hooks/useInput";
-import { auth, login } from "../apis/userapi";
+import { login } from "../apis/userapi";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store";
 import { setUser } from "../store/user";
+import { todayTime } from "../apis/timeapi";
+import moment from "moment";
+import { saveTime } from "../store/timer";
 // import { setUser } from "../store/user";
 
 const Login = () => {
@@ -20,16 +22,18 @@ const Login = () => {
   const submitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await login(userid.value, userpassword.value);
-    if (res !== null) {
-      if (res.success) {
-        alert(`성공${res.data}`);
-        dispatch(setUser(res.data));
-        router.push("/");
-      } else {
-        alert("다시한번 확인해 주세요");
+    if (res.success) {
+      // alert(`성공`);
+      const result = await todayTime(moment().format("YYYY-MM-DD"));
+      if (result !== null) {
+        console.log(result);
+        console.log(result.data);
+        dispatch(saveTime(result.data));
       }
+      dispatch(setUser(res.data));
+      router.push("/");
     } else {
-      alert("네트워크 오류");
+      alert(`${res.message}`);
     }
   };
 

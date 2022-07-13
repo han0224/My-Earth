@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/Header.module.css";
-import { BiUser } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 import Link from "next/link";
-import { auth, logout } from "../../apis/userapi";
+import { logout } from "../../apis/userapi";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteUser, setUser } from "../../store/user";
+import { deleteUser } from "../../store/user";
 import { RootState } from "../../store";
 
 const Header = () => {

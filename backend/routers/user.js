@@ -19,18 +19,10 @@ userRouter.post("/register", (req, res) => {
   } catch (e) {
     return res.status(500).json({ err: e });
   }
-  // user.save((err, userInfo) => {
-  //   if (e) {
-  //     return res.status(401).json({ err: e });
-  //   } else {
-  //     return res.status(204).end();
-  //   }
-  // });
 });
 
 userRouter.post("/login", async (req, res) => {
   const userInfo = User.findOne({ email: req.body.email }, (err, user) => {
-    // console.log("user", user);
     if (!user) {
       return res.status(401).json({
         err: "유저가 없습니다",

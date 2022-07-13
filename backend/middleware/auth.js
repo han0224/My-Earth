@@ -1,7 +1,6 @@
 const { User } = require("../models/User");
 
 const auth = (req, res, next) => {
-  console.log("auth", req.session);
   if (req.session.userEmail) {
     User.findOne({ email: req.session.userEmail }, (err, user) => {
       if (user) {

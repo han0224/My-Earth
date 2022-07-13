@@ -8,6 +8,21 @@ const URL = config.URL + "time/";
 //res{success:true/false, time:[date:String, time:Number]} ->분기준
 export const getDay = async (num: Number, day: string) => {};
 
+export const todayTime = async (today: string) => {
+  try {
+    const result = await axios.get(URL + "today/" + today, {
+      withCredentials: true,
+    });
+    if (result.status === 200) {
+      return { success: true, data: result.data.time };
+    } else {
+      return null;
+    }
+  } catch (e) {
+    return null;
+  }
+};
+
 // start 달부터 end달까지 res.data.time.time -> 분기준
 // body{month:String, num:Number}
 // res{success:true,false, time:[month:Number, time:Number]}

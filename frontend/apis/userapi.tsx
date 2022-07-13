@@ -13,15 +13,14 @@ export const login = async (email: string, password: string) => {
       },
       { withCredentials: true }
     );
+    console.log("!!!!!!!!!!!!", result.status);
     if (result.status === 200) {
       return { success: true, data: result.data };
-    } else if (result.status === 401) {
-      return { success: false, err: "다시 입력해 주세요" };
     } else {
-      return null;
+      return { success: false, message: "다시 한번 입력해 주세요" };
     }
   } catch (e) {
-    return null;
+    return { success: false, message: "다시 한번 입력해 주세요" };
   }
 };
 
