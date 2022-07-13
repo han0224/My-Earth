@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser } from "../../store/user";
 import { RootState } from "../../store";
+import { initTimer } from "../../store/timer";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -27,16 +28,10 @@ const Header = () => {
   const clicklogout = async (e: any) => {
     if (isLogin) {
       const res = await logout();
-      if (res) {
-        alert(`정상적으로 로그아웃 되었습니다. ${res}`);
-
-        dispatch(deleteUser());
-        router.push("/");
-      } else {
-        alert(`비정상로그아웃`);
-        dispatch(deleteUser());
-        router.push("/");
-      }
+      alert(res ? `정상적으로 로그아웃 되었습니다.` : `비정상로그아웃`);
+      dispatch(deleteUser());
+      dispatch(initTimer());
+      router.push("/");
     }
   };
 

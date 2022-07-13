@@ -1,4 +1,6 @@
 export const config = {
-  // URL: "https://my-earth-backend.herokuapp.com/",
-  URL: "http://localhost:5000/",
+  URL:
+    process.env.NODE_ENV === "production"
+      ? "https://my-earth-backend.herokuapp.com/"
+      : "http://localhost:5000/",
 };

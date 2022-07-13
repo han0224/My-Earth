@@ -3,6 +3,7 @@ export const SAVE_TIME = "timer/SAVE_TIME" as const;
 export const SET_TIMER = "timer/SET_TIMER" as const;
 export const SET_PRE_TIME = "timer/SET_PRE_TIME" as const;
 export const SET_DATE = "timer/SET_DATE" as const;
+export const INIT_TIMER = "timer/INIT_TIMER" as const;
 
 export const setStart = (start: boolean) => ({
   type: SET_START,
@@ -24,13 +25,22 @@ export const setDate = (date: string) => ({
   type: SET_DATE,
   date: date,
 });
+export const initTimer = () => ({
+  type: INIT_TIMER,
+  start: false,
+  preTime: 0,
+  time: 0,
+  timer: undefined,
+  date: "",
+});
 
 type TimerActions =
   | ReturnType<typeof setStart>
   | ReturnType<typeof saveTime>
   | ReturnType<typeof setPreTime>
   | ReturnType<typeof setDate>
-  | ReturnType<typeof setTimer>;
+  | ReturnType<typeof setTimer>
+  | ReturnType<typeof initTimer>;
 
 type TimerReduxState = {
   start: boolean;
@@ -92,6 +102,14 @@ export default function timerReducer(
         timer: state.timer,
         preTime: state.preTime,
         date: action.date,
+      };
+    case INIT_TIMER:
+      return {
+        start: state.start,
+        time: state.time,
+        timer: state.timer,
+        preTime: state.preTime,
+        date: state.date,
       };
     default:
       return state;
