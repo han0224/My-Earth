@@ -40,7 +40,6 @@ app.use(
     saveUninitialized: true,
     store: mongoStore.create({ mongoUrl: keys.MONGO_URI }),
     cookie: {
-      maxAge: 86400000,
       sameSite: process.env.NODE_ENV === undefined ? "lax" : "none",
       secure: process.env.NODE_ENV === undefined ? false : true,
       httpOnly: true,

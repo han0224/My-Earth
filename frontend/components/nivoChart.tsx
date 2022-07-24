@@ -29,7 +29,6 @@ export const MyResponsiveTimeRange = ({ data, from, to }: chartProps) => {
   }, []);
 
   useEffect(() => {
-    // const arr = day.split(".").map((v) => +v);
     const now = new Date();
     const month = new Date(now.setMonth(now.getMonth() - 1));
     setToDay(day);

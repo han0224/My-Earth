@@ -6,10 +6,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { saveTodo, setstatus, todoDelete, todoList } from "../apis/todo";
 import styles from "../styles/Todo.module.css";
 import { AiOutlineDelete, AiOutlineMenu } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { MdAdd } from "react-icons/md";
 import useInput from "../hooks/useInput";
+import { deleteUser } from "../store/user";
+import { initTimer } from "../store/timer";
+import { useRouter } from "next/router";
 
 // 로그인 상태일 시
 // 추가 버튼, 삭제 버튼, 완료 버튼
@@ -25,6 +28,8 @@ const Todo = () => {
   const [open, setOpen] = useState(false);
   const [isListOpen, setIsListOpen] = useState(true);
   const { isUser } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+  const router = useRouter();
   const title = useInput("");
   const ref = useRef<HTMLDivElement>(null);
 
@@ -71,19 +76,21 @@ const Todo = () => {
 
   const getTodoList = async () => {
     const todo = await todoList();
-    if (todo !== null) {
-      if (todo.success) {
-        setTodoList(todo.data.data);
-      } else {
-        alert(todo.err);
-        setTodoList([]);
-      }
+    if (todo.success) {
+      setTodoList(todo.data.data);
     } else {
-      setTodoList([]);
+      dispatch(deleteUser());
+      dispatch(initTimer());
+      router.push("/");
+      alert(todo.err);
     }
   };
 
   useEffect(() => {
+    // 2번 실행됨.
+    // React.StrictMode 이것때문
+    // 잠재적인 문제를 알아내기 위한 도구로 개발모드에서만 영향을 끼침
+    // 없애고 싶으면 app에서 지우면 되는데 next에서는 next.config.js 에서 이 설정이 true로 설정되어 있다.
     if (isUser) {
       getTodoList();
     } else {

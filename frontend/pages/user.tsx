@@ -3,8 +3,6 @@ import styles from "../styles/User.module.css";
 import React, { useState } from "react";
 import Profile from "../components/Profile";
 import Chart from "../components/Chart";
-import { todayTime } from "../apis/timeapi";
-// import Chart from "../components/Chart";
 
 const User = () => {
   const [selected, setSelected] = useState("profile");
@@ -13,13 +11,7 @@ const User = () => {
     setSelected(e.target.value);
   };
   const testclick = () => {
-    const result = todayTime("2022-07-13");
-    console.log(result);
-    // if (selected === "profile") {
-    //   setSelected("study");
-    // } else {
-    //   setSelected("profile");
-    // }
+    // test
   };
 
   return (
@@ -48,7 +40,7 @@ const User = () => {
             </div>
             {selected === "chart" ? <Chart></Chart> : <Profile />}
           </div>
-          <button onClick={testclick}>test</button>
+          {/* <button onClick={testclick}>test</button> */}
         </div>
       </div>
     </Layout>

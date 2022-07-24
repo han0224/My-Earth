@@ -43,13 +43,13 @@ const Profile = () => {
       setFirst([]);
       setSecond([]);
     } else {
-      setFirst(res1.success ? res1.data : []);
-      setSecond(res2.success ? res2.data : []);
+      setFirst(res1.success ? res1.data.data : []);
+      setSecond(res2.success ? res2.data.data : []);
       let study = 0;
-      for (let i of res1.data) {
+      for (let i of res1.data.data) {
         study += i.value;
       }
-      for (let i of res2.data) {
+      for (let i of res2.data.data) {
         study += i.value;
       }
       setStudyTime(study);

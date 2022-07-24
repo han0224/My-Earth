@@ -3,13 +3,13 @@ import styles from "../styles/Login.module.css";
 import React from "react";
 import Link from "next/link";
 import useInput from "../hooks/useInput";
-import { login } from "../apis/userapi";
+import { auth, login } from "../apis/userapi";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../store/user";
+import { deleteUser, setUser } from "../store/user";
 import { todayTime } from "../apis/timeapi";
 import moment from "moment";
-import { saveTime } from "../store/timer";
+import { initTimer, saveTime } from "../store/timer";
 // import { setUser } from "../store/user";
 
 const Login = () => {
@@ -23,17 +23,22 @@ const Login = () => {
     e.preventDefault();
     const res = await login(userid.value, userpassword.value);
     if (res.success) {
-      // alert(`성공`);
-      const result = await todayTime(moment().format("YYYY-MM-DD"));
-      if (result !== null) {
-        console.log(result);
-        console.log(result.data);
-        dispatch(saveTime(result.data));
+      const time = await todayTime(moment().format("YYYY-MM-DD"));
+      if (time.success) {
+        dispatch(saveTime(time.data));
       }
-      dispatch(setUser(res.data));
+      const user = await auth();
+      if (user.success) {
+        dispatch(setUser(user.data));
+      }
+      if (!user.success || !time.success) {
+        dispatch(deleteUser());
+        dispatch(initTimer());
+        alert("다시 시도해 주세요");
+      }
       router.push("/");
     } else {
-      alert(`${res.message}`);
+      alert(`${res.err}`);
     }
   };
 

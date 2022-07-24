@@ -52,9 +52,6 @@ timeRouter.get("/month/:year-:month-:num", auth, async (req, res) => {
     }
     call += `${yy}-${+month + i}-* |`;
   }
-
-  // const reg = new RegExp(`${year}.\[${month}-${month + num}\].*`);
-  // const call = `${month}-${+month + +num}`;
   const reg = new RegExp(call);
 
   const user = req.user;
@@ -95,7 +92,6 @@ timeRouter.post("/save", auth, async (req, res) => {
       const id = user.study[user.study.length - 1];
       time = await Time.findOne({ date: key, _id: id }, (err, time) => {
         if (err) {
-          console.log("save: err");
           return res.status(500).json({ err: err });
         }
         if (time === null) {
@@ -132,8 +128,6 @@ timeRouter.post("/save", auth, async (req, res) => {
     user.save();
     return res.status(204).end();
   } catch (e) {
-    console.log("save: catch");
-
     return res.status(500).json({ err: e });
   }
 });
