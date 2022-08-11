@@ -20,13 +20,10 @@ const Profile = () => {
     (state: RootState) => state.user
   );
 
-  // 1~6월 데이터를 저장할 변수
-  const [first, setFirst] = useState<CalendarDatum[]>([]);
-  // 7~12월 데이터를 저장할 변수
-  const [second, setSecond] = useState<CalendarDatum[]>([]);
   // 보여줄 년도
   const [year, setYear] = useState(new Date().getFullYear());
-  const [studyTime, setStudyTime] = useState(0);
+  const [data, setData] = useState<CalendarDatum[]>([]);
+
   const router = useRouter();
 
   const formatTime = () => {
@@ -37,22 +34,11 @@ const Profile = () => {
   };
 
   const getTime = async () => {
-    const res1 = await getMonth(year, 1, 6);
-    const res2 = await getMonth(year, 6, 6);
-    if (res1 === null || res2 === null) {
-      setFirst([]);
-      setSecond([]);
+    const res = await getMonth(year, 1, 12);
+    if (res === null) {
+      setData([]);
     } else {
-      setFirst(res1.success ? res1.data.data : []);
-      setSecond(res2.success ? res2.data.data : []);
-      let study = 0;
-      for (let i of res1.data.data) {
-        study += i.value;
-      }
-      for (let i of res2.data.data) {
-        study += i.value;
-      }
-      setStudyTime(study);
+      setData(res.success ? res.data.data : []);
     }
   };
 
@@ -110,18 +96,19 @@ const Profile = () => {
           <button onClick={yearPlus}>
             <AiFillCaretRight size={30} />
           </button>
-          {studyTime}
         </div>
         <div className={styles.timerageChart}>
           <MyResponsiveTimeRange
-            data={first}
+            // data={first}
+            data={data}
             from={`${year - 1}-12-31`}
             to={`${year}-06-30`}
           />
         </div>
         <div className={styles.timerageChart}>
           <MyResponsiveTimeRange
-            data={second}
+            // data={second}
+            data={data}
             from={`${year}-06-30`}
             to={`${year}-12-31`}
           />

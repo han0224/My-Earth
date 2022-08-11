@@ -35,6 +35,11 @@ const Header = () => {
     }
   };
 
+  const goPage = (page: String) => {
+    console.log("QQ");
+    router.push(`/${page}`);
+  };
+
   const clickSubmenu = () => {
     setIsOpen(!isOpen);
   };
@@ -77,25 +82,11 @@ const Header = () => {
             </button>
           </li>
         </ul>
-        {/* <button className={styles.communiBtn} onClick={communityBtn}>
-          community
-        </button>
-        <div className={styles.user}>
-          {isLogin ? (
-            <button onClick={onClick}>User</button>
-          ) : (
-            <button onClick={onClick}>login</button>
-          )}
-
-          <div className={styles.setting}>
-            <FiSettings size={30} />
-          </div>
-        </div> */}
       </div>
       {isOpen ? (
         <ul className={styles.submenu}>
           <li>
-            <button>about</button>
+            <button onClick={() => goPage("about")}>about</button>
           </li>
           <li>
             <button>????</button>

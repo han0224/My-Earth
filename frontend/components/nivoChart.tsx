@@ -11,8 +11,6 @@ interface chartProps {
   to: DateOrString | undefined;
 }
 export const MyResponsiveTimeRange = ({ data, from, to }: chartProps) => {
-  const [fromDay, setFromDay] = useState(new Date());
-  const [toDay, setToDay] = useState(new Date());
   const [day, setDay] = useState(new Date());
 
   const formatTime = (time: number) => {
@@ -31,8 +29,6 @@ export const MyResponsiveTimeRange = ({ data, from, to }: chartProps) => {
   useEffect(() => {
     const now = new Date();
     const month = new Date(now.setMonth(now.getMonth() - 1));
-    setToDay(day);
-    setFromDay(month);
   }, [day]);
 
   return (

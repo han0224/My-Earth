@@ -1,8 +1,11 @@
+import Layout from "../components/layout/Layout";
+import styles from "../styles/About.module.css";
+
 const About = () => {
   return (
-    <div>
-      <div>hihihih</div>
-    </div>
+    <Layout>
+      <div className={styles.space}></div>
+    </Layout>
   );
 };
 

@@ -6,12 +6,13 @@ import Audios from "../components/Audios";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import { persistStore } from "redux-persist";
+import Loading from "../components/Loading";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const persistor = persistStore(store);
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor} loading={<div>loading...</div>}>
+      <PersistGate persistor={persistor} loading={<Loading />}>
         <Head>
           <title>My Earth</title>
         </Head>

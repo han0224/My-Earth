@@ -10,9 +10,6 @@ const User = () => {
   const handleChange = (e: any) => {
     setSelected(e.target.value);
   };
-  const testclick = () => {
-    // test
-  };
 
   return (
     <Layout>
@@ -38,9 +35,8 @@ const User = () => {
               />
               <label htmlFor="chart">study chart</label>
             </div>
-            {selected === "chart" ? <Chart></Chart> : <Profile />}
+            {selected === "chart" ? <Chart /> : <Profile />}
           </div>
-          {/* <button onClick={testclick}>test</button> */}
         </div>
       </div>
     </Layout>
