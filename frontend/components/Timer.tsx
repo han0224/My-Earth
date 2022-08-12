@@ -18,6 +18,7 @@ const Timer = () => {
   const { start, time, timer, preTime, date } = useSelector(
     (state: RootState) => state.timer
   );
+  console.log("useSelector", time);
   const { isUser } = useSelector((state: RootState) => state.user);
   const [opacity, setOpacity] = useState(1);
   const increment = useRef<ReturnType<typeof setInterval>>();
@@ -61,6 +62,9 @@ const Timer = () => {
 
   const formatTime = (time: number) => {
     // 오늘 하루 시간 더하기
+    if (isNaN(time)) {
+      time = 0;
+    }
     const min = time / 60;
     const hour = min / 60;
     const sec = time % 60;
