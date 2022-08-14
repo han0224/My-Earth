@@ -1,5 +1,5 @@
 import { useState } from "react";
-import HowTo from "../components/Howto";
+import HowTo from "../components/HowTo";
 import Introduction from "../components/Introduction";
 import Layout from "../components/layout/Layout";
 import styles from "../styles/About.module.css";
