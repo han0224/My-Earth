@@ -1,62 +1,21 @@
-.userPage {
+.space {
   background: linear-gradient(to bottom, #0eac8a 0%, #420065 100%);
   width: 100vw;
-  height: 100vh;
-}
-.erea {
-  display: flex;
-  /* flex-direction: column; */
-  padding-top: 70px;
-  height: calc(100% - 70px);
   height: 100%;
-  width: 100%;
   display: flex;
+  flex-direction: column;
+  /* height: calc(100% - 70px);
+  height: 100%; */
   align-items: center;
   justify-content: center;
   align-content: center;
 }
-
-.userCard {
-  position: relative;
-  background-color: aliceblue;
-  display: flex;
-  margin: auto;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 20px;
-  width: 70%;
-  height: 80%;
-}
-
-/* linear-gradient(to bottom, #0eac8a 0%, #420065 100%) */
-/* #cdd1ff; */
-
-.study_menu {
-  margin: auto 0;
-  /* position: absolute;
-  top: 80px; */
-  display: flex;
-  flex-direction: column;
-}
-
-.study_menu button {
-  margin: 5px 0 5px 5px;
-  width: 80px;
-  height: 40px;
-  background-color: #cdd1ff;
-  /* box-shadow: 1px -1px 2px #cdd1ff; */
-  border: solid 2px rgba(00, 00, 00, 0.3);
-  border-radius: 10px;
-}
-
 .menu {
   background-color: aliceblue;
   border: 1px solid rgba(00, 00, 00, 0.3);
   border-radius: 30px;
   padding: 5px 3px;
-  position: absolute;
-  top: -60px;
+
   margin: 10px 0;
 }
 
@@ -80,3 +39,15 @@
   background-color: #0094aa;
   color: white;
 }
+
+.userCard {
+  width: 75%;
+  height: 70%;
+  background-color: aliceblue;
+  box-shadow: 2px 2px 3px rgb(0, 0, 0);
+  border-radius: 20px;
+  padding: 0 30px;
+}
+
+/* linear-gradient(to bottom, #0eac8a 0%, #420065 100%) */
+/* #cdd1ff; */

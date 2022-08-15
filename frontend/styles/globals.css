@@ -30,7 +30,13 @@ a {
 * {
   box-sizing: border-box;
 }
-p {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
   padding: 0;
 }
@@ -39,16 +45,17 @@ button {
 }
 
 ::-webkit-scrollbar {
-  width: 11px;
+  width: 15px;
 }
 ::-webkit-scrollbar-thumb {
-  height: 17%;
-  background: linear-gradient(to bottom, #0eac8a 0%, #420065 100%);
+  background-clip: padding-box;
+  border: 3px solid transparent;
   border-radius: 20px;
-  border: 1px solid rgb(135, 135, 135);
+
+  background: lightcoral;
 }
 ::-webkit-scrollbar-track {
-  background-color: rgb(56, 56, 56);
+  background: darkgray;
   border-radius: 20px;
-  margin: 10px;
+  margin: 10px 0;
 }

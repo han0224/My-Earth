@@ -7,16 +7,34 @@ import styles from "../styles/About.module.css";
 const About = () => {
   const [menu, setMenu] = useState("introduction");
 
+  const handleChange = (menu: string) => {
+    setMenu(menu);
+  };
   return (
     <Layout>
       <div className={styles.space}>
+        <div className={styles.menu}>
+          <input
+            type="radio"
+            id="introduction"
+            value="introduction"
+            name="select"
+            onChange={() => handleChange("introduction")}
+            defaultChecked
+          />
+          <label htmlFor="introduction">Introduction</label>
+          <input
+            type="radio"
+            id="how to"
+            value="how to"
+            name="select"
+            onChange={() => handleChange("how to")}
+          />
+          <label htmlFor="how to">How to</label>
+          {/* <button onClick={() => setMenu("introduction")}>Introduction</button>
+          <button onClick={() => setMenu("How to")}>How to</button> */}
+        </div>
         <div className={styles.card}>
-          <div className={styles.menu}>
-            <button onClick={() => setMenu("introduction")}>
-              Introduction
-            </button>
-            <button onClick={() => setMenu("How to")}>How to</button>
-          </div>
           <div className={styles.content}>
             {menu === "introduction" ? <Introduction /> : <HowTo />}
           </div>

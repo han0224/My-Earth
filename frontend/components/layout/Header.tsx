@@ -28,7 +28,6 @@ const Header = () => {
   const clicklogout = async (e: any) => {
     if (isLogin) {
       const res = await logout();
-      alert(res ? `정상적으로 로그아웃 되었습니다.` : `비정상로그아웃`);
       dispatch(deleteUser());
       dispatch(initTimer());
       router.push("/");
@@ -36,7 +35,6 @@ const Header = () => {
   };
 
   const goPage = (page: String) => {
-    console.log("QQ");
     router.push(`/${page}`);
   };
 
@@ -60,7 +58,9 @@ const Header = () => {
       <div className={styles.menu}>
         <ul className={styles.mainmenu}>
           <li>
-            <button className={styles.fixed}>community</button>
+            <button className={styles.fixed} onClick={() => alert("준비중")}>
+              community
+            </button>
           </li>
           {isLogin ? (
             <li>
@@ -88,9 +88,7 @@ const Header = () => {
           <li>
             <button onClick={() => goPage("about")}>about</button>
           </li>
-          <li>
-            <button>????</button>
-          </li>
+
           {isLogin === true && (
             <li>
               <button onClick={clicklogout}>Logout</button>

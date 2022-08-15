@@ -13,30 +13,28 @@ const User = () => {
 
   return (
     <Layout>
-      <div className={styles.userPage}>
-        <div className={styles.erea}>
-          <div className={styles.userCard}>
-            <div className={styles.menu}>
-              <input
-                type="radio"
-                id="profile"
-                value="profile"
-                name="select"
-                onChange={handleChange}
-                defaultChecked
-              />
-              <label htmlFor="profile">profile</label>
-              <input
-                type="radio"
-                id="chart"
-                value="chart"
-                name="select"
-                onChange={handleChange}
-              />
-              <label htmlFor="chart">study chart</label>
-            </div>
-            {selected === "chart" ? <Chart /> : <Profile />}
-          </div>
+      <div className={styles.space}>
+        <div className={styles.menu}>
+          <input
+            type="radio"
+            id="profile"
+            value="profile"
+            name="select"
+            onChange={handleChange}
+            defaultChecked
+          />
+          <label htmlFor="profile">profile</label>
+          <input
+            type="radio"
+            id="chart"
+            value="chart"
+            name="select"
+            onChange={handleChange}
+          />
+          <label htmlFor="chart">study chart</label>
+        </div>
+        <div className={styles.userCard}>
+          {selected === "chart" ? <Chart /> : <Profile />}
         </div>
       </div>
     </Layout>
