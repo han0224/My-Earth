@@ -3,6 +3,7 @@
 
 export const SET_USER = "user/SET_USER" as const;
 export const DELETE_USER = "user/DELETE_USER" as const;
+export const UPDATE_TIME = "user/UPDATE_USER" as const;
 
 interface userI {
   email: string;
@@ -16,6 +17,10 @@ export const setUser = (user: userI) => ({
   name: user.name,
   time: user.time,
 });
+export const updateUser = (time: string) => ({
+  type: UPDATE_TIME,
+  time: time,
+});
 
 export const deleteUser = () => ({
   type: DELETE_USER,
@@ -25,7 +30,10 @@ export const deleteUser = () => ({
   time: "",
 });
 
-type UserActions = ReturnType<typeof setUser> | ReturnType<typeof deleteUser>;
+type UserActions =
+  | ReturnType<typeof setUser>
+  | ReturnType<typeof deleteUser>
+  | ReturnType<typeof updateUser>;
 
 type UserReduxState = {
   isUser: boolean;
@@ -55,6 +63,13 @@ export default function userReducer(state = initialState, action: UserActions) {
         isUser: action.isUser,
         email: action.email,
         name: action.name,
+        time: action.time,
+      };
+    case UPDATE_TIME:
+      return {
+        isUser: state.isUser,
+        email: state.email,
+        name: state.name,
         time: action.time,
       };
     default:

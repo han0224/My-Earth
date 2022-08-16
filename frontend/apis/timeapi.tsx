@@ -101,3 +101,18 @@ export const saveTime = async (date: String, time: Number) => {
   //   return null;
   // }
 };
+
+export const updateTotalTime = async () => {
+  const resut = axios
+    .post(URL + "/update/totalTime", {}, { withCredentials: true })
+    .then((response) => {
+      return { success: true, err: "" };
+    })
+    .catch((e) => {
+      if (e.response.status === 500) {
+        return { success: false, err: e.response.data.err };
+      } else {
+        return { success: false, err: e.message };
+      }
+    });
+};

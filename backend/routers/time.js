@@ -74,7 +74,20 @@ timeRouter.get("/month/:year-:month-:num", auth, async (req, res) => {
   // 한달 한위로 시간 가져오기
 });
 
-const savetotalTime = (time, user) => {};
+const savetotalTime = (user, addTotalTime) => {
+  const formattime = timeformat(addTotalTime);
+  const totaltime = user.totaltime.split(":").map((v) => +v);
+  const newtime = [formattime[0] + totaltime[0]];
+
+  for (let i = 1; i < 3; i++) {
+    newtime.push(formattime[i] + totaltime[i]);
+    if (newtime[i] > 60) {
+      newtime[i] -= 60;
+      newtime[i - 1]++;
+    }
+  }
+  user.totaltime = newtime.join(":");
+};
 
 //req ) date:YYYY-MM-DD / time:초기준으로 숫자 /
 timeRouter.post("/save", auth, async (req, res) => {
@@ -82,9 +95,13 @@ timeRouter.post("/save", auth, async (req, res) => {
   const body = req.body;
   const key = body.date;
 
+  let addTotalTime;
   try {
     let time;
     if (user.study.length === 0) {
+      // 처음 저장할 경우
+      addTotalTime = body.time;
+      savetotalTime(user, addTotalTime);
       time = new Time({ date: key, time: body.time });
       user.study = [time._id];
       time.save();
@@ -97,12 +114,17 @@ timeRouter.post("/save", auth, async (req, res) => {
         if (time === null) {
           // 현재 시간에 저장이 되어있지 않으면
           // 새로운 객체를 만들어 저장
+          addTotalTime = body.time;
+          savetotalTime(user, addTotalTime);
+
           const t = new Time({ date: key, time: body.time });
           user.study.push(t._id);
           t.save();
         } else {
           // 현재 시간이 저장되어 있으면
           // 해당 시간에 현재 시간 더하기
+          addTotalTime = Math.abs(time.time - body.time);
+          savetotalTime(user, addTotalTime);
           time.time = body.time;
           time.save();
         }
@@ -110,24 +132,35 @@ timeRouter.post("/save", auth, async (req, res) => {
         .clone()
         .catch((e) => console.log(e));
     }
-
-    // 전체 시간
-    const formattime = timeformat(body.time);
-    const totaltime = user.totaltime.split(":").map((v) => +v);
-
-    const newtime = [formattime[0] + totaltime[0]];
-
-    for (let i = 1; i < 3; i++) {
-      newtime.push(formattime[i] + totaltime[i]);
-      if (newtime[i] > 60) {
-        newtime[i] -= 60;
-        newtime[i - 1]++;
-      }
-    }
-    user.totaltime = newtime.join(":");
     user.save();
     return res.status(204).end();
   } catch (e) {
+    return res.status(500).json({ err: e });
+  }
+});
+
+timeRouter.post("/update/totalTime", auth, async (req, res) => {
+  // total time 수정
+  // 현재 db에 있는 몇 데이터의 totaltime이 이상함
+  const user = req.user;
+  const body = req.body;
+  let totalTime = 0;
+  try {
+    user.totaltime = 0;
+    const findTime = await Time.find({ _id: { $in: user.study } });
+    for (let study of findTime) {
+      totalTime += +study.time;
+    }
+    user.totaltime = timeformat(totalTime).join(":");
+    user.save();
+    // for (let id of user.study) {
+    //   console.log(id);
+    // }
+    // console.log(totalTime);
+    // user.totaltime = totalTime.reduce((acc, cur) => acc + cur, 0);
+    return res.status(204).end();
+  } catch (e) {
+    console.log("end err", e);
     return res.status(500).json({ err: e });
   }
 });

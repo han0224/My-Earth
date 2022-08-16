@@ -42,11 +42,11 @@ type TimerActions =
   | ReturnType<typeof setTimer>
   | ReturnType<typeof initTimer>;
 
-type TimerReduxState = {
+export type TimerReduxState = {
   start: boolean;
   time: number;
   preTime: number;
-  timer: typeof setInterval | undefined;
+  timer: undefined | number;
   date: string;
 };
 // 초기상태

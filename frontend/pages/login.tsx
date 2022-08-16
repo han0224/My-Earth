@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, setUser } from "../store/user";
 import { todayTime } from "../apis/timeapi";
 import moment from "moment";
-import { initTimer, saveTime } from "../store/timer";
+import { initTimer, saveTime, setPreTime } from "../store/timer";
 // import { setUser } from "../store/user";
 
 const Login = () => {
@@ -25,10 +25,12 @@ const Login = () => {
     if (res.success) {
       const time = await todayTime(moment().format("YYYY-MM-DD"));
       if (time.success) {
-        dispatch(saveTime(time.data));
+        dispatch(saveTime(time.data.time));
+        dispatch(setPreTime(time.data.time));
       }
       const user = await auth();
       if (user.success) {
+        console.log("user success: ", user.data);
         dispatch(setUser(user.data));
       }
       if (!user.success || !time.success) {

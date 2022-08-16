@@ -2,7 +2,7 @@ import { CalendarDatum } from "@nivo/calendar";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { getMonth, saveTime } from "../apis/timeapi";
+import { getMonth, saveTime, updateTotalTime } from "../apis/timeapi";
 import { auth } from "../apis/userapi";
 import styles from "../styles/Profile.module.css";
 
@@ -27,6 +27,7 @@ const Profile = () => {
   const router = useRouter();
 
   const formatTime = () => {
+    console.log("timetimetime", time);
     const format = time.split(":").map((v) => +v);
     return `${`0${format[0]}`.slice(-2)}:${`0${format[1]}`.slice(-2)}:${`0${
       format[2] % 60
@@ -49,8 +50,10 @@ const Profile = () => {
     setYear(year + 1);
   };
 
-  const changeProfile = () => {
+  const changeProfile = async () => {
     console.log("click");
+    const res = await updateTotalTime();
+
     // 프로필 이미지 변경할 수 있도록
   };
 
@@ -70,7 +73,6 @@ const Profile = () => {
       <div className={styles.profile}>
         <div className={styles.profile_image}>
           <img src="/images/profile.jpg" onClick={changeProfile}></img>
-          {/* <button onClick={test}>test</button> */}
         </div>
         <div className={styles.table}>
           <div className={styles.tbody}>
@@ -99,7 +101,6 @@ const Profile = () => {
         </div>
         <div className={styles.timerageChart}>
           <MyResponsiveTimeRange
-            // data={first}
             data={data}
             from={`${year - 1}-12-31`}
             to={`${year}-06-30`}
@@ -107,7 +108,6 @@ const Profile = () => {
         </div>
         <div className={styles.timerageChart}>
           <MyResponsiveTimeRange
-            // data={second}
             data={data}
             from={`${year}-06-30`}
             to={`${year}-12-31`}

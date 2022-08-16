@@ -9,13 +9,16 @@ import {
   setTimer,
   setPreTime,
   setDate,
+  TimerReduxState,
 } from "../store/timer";
 import { RootState } from "../store";
 import moment from "moment";
+import { auth } from "../apis/userapi";
+import { setUser, updateUser } from "../store/user";
 
 const Timer = () => {
   const dispatch = useDispatch();
-  const { start, time, timer, preTime, date } = useSelector(
+  const { start, time, timer, preTime, date }: TimerReduxState = useSelector(
     (state: RootState) => state.timer
   );
   console.log("useSelector", time);
@@ -29,12 +32,14 @@ const Timer = () => {
       return;
     }
     if (start) {
+      // 중지
       dispatch(setStart(false));
       dispatch(setPreTime(time));
       setOpacity(1);
       savetimeapi();
       clearInterval(timer);
     } else {
+      // 시작
       const startTime = moment();
       setOpacity(0);
       increment.current = setInterval(() => {
@@ -54,20 +59,26 @@ const Timer = () => {
     if (res !== null) {
       if (!res.success) {
         alert("시간 저장에 실패했습니다.");
+      } else {
+        const user = await auth();
+        if (user.success) {
+          dispatch(updateUser(user.data.time));
+        }
       }
     } else {
       alert("네트워크 문제 발생");
     }
   };
 
-  const formatTime = (time: number) => {
+  const formatTime = (Numtime: number) => {
     // 오늘 하루 시간 더하기
-    if (isNaN(time)) {
-      time = 0;
+    console.log("time", time, Numtime);
+    if (isNaN(Numtime)) {
+      Numtime = 0;
     }
-    const min = time / 60;
+    const min = Numtime / 60;
     const hour = min / 60;
-    const sec = time % 60;
+    const sec = Numtime % 60;
     return `${`0${Math.floor(hour)}`.slice(-2)}:${`0${
       Math.floor(min) % 60
     }`.slice(-2)}:${`0${sec}`.slice(-2)}`;

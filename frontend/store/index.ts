@@ -1,4 +1,5 @@
 // redux-persist, localstorage에 저장
+import AsyncStorage from "@react-native-community/async-storage";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { createWrapper, HYDRATE } from "next-redux-wrapper";
@@ -43,8 +44,8 @@ const bindMiddleware = (middleware: any) => {
 };
 const persistConfig = {
   key: "root",
-  storage,
-  whitelist: ["user"],
+  storage: AsyncStorage,
+  whitelist: ["user", "timer"],
 };
 
 // createStore는 Store를 만들어주는 역할
@@ -54,6 +55,7 @@ const persistConfig = {
 // Next.js는 유저가 요청할 때마다 reudx stroe를 새로 생성함
 const makeStore = () => {
   const isServer = typeof window === "undefined";
+  console.log("serverss", isServer);
   if (isServer) {
     return createStore(reducer, bindMiddleware([]));
   } else {
@@ -72,4 +74,5 @@ export const wrapper = createWrapper(makeStore, {
 
 export const persistedReducer = persistReducer(persistConfig, reducer);
 export const store = makeStore();
+console.log("sotre", store);
 export type RootState = ReturnType<typeof rootReducer>;
