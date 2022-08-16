@@ -7,6 +7,7 @@ import { auth } from "../apis/userapi";
 import styles from "../styles/Profile.module.css";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
+import { GoInfo } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 // import { MyResponsiveTimeRange } from "./nivoChart";
@@ -86,6 +87,10 @@ const Profile = () => {
           <div className={styles.tbody}>
             <div>time</div>
             <span>{formatTime()}</span>
+            <button className={styles.infoBtn}>
+              <GoInfo size={20} />
+              <p className={styles.infoBox}>늦게 반영될 수 있습니다.</p>
+            </button>
           </div>
         </div>
       </div>

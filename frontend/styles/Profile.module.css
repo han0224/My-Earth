@@ -1,4 +1,6 @@
 .profilePage {
+  position: relative;
+
   width: 100%;
   height: 100%;
   display: flex;
@@ -39,7 +41,7 @@
   display: flex;
   flex-direction: column;
   margin: auto;
-  border-right: 1px solid red;
+  border-right: 2px solid rgb(234, 234, 234);
 }
 .profile_image {
   width: 150px;
@@ -83,9 +85,31 @@
   padding-left: 10px;
 }
 
+.infoBtn {
+  border: none;
+  background-color: transparent;
+  color: gray;
+}
+.infoBtn:hover .infoBox {
+  opacity: 1;
+}
+.infoBox {
+  opacity: 0;
+  padding: 10px;
+  border-radius: 10px;
+  color: rgb(0, 0, 0);
+  border: 2px solid rgb(212, 211, 211);
+  background-color: rgb(237, 241, 244);
+  position: absolute;
+  left: 37%;
+  z-index: 5;
+  transition: all 0.3s;
+}
+
 @media (max-width: 1440px) {
   .profile {
     width: 100%;
+    border: none;
   }
   .chart {
     display: none;

@@ -100,56 +100,56 @@ const Todo = () => {
 
   return (
     <div className={styles.todo}>
-      <button className={styles.todoHeader}>
-        <AiOutlineMenu
-          className={styles.icon}
-          onClick={() => setIsListOpen(!isListOpen)}
-        />
+      <button
+        className={styles.todoHeader}
+        onClick={() => setIsListOpen(!isListOpen)}
+      >
+        <AiOutlineMenu className={styles.icon} />
         <p>Todo List</p>
       </button>
-      {isListOpen ? (
-        <div className={styles.todoList}>
-          {todolist.length > 0 &&
-            todolist.map((v) => (
-              <div key={v._id}>
-                <label className={styles.todolabel}>
-                  <div className={styles.todoItem}>
-                    <input
-                      type={"checkbox"}
-                      onClick={(e) => {
-                        setStatus(v._id, v.status);
-                      }}
-                      defaultChecked={v.status === 1 ? true : false}
-                    ></input>
-                    <p>{v.title}</p>
-                  </div>
-                  <AiOutlineDelete
-                    className={styles.todoDelete}
+      {/* {isListOpen ? ( */}
+      <div className={isListOpen ? styles.todoList : styles.closeTodoList}>
+        {todolist.length > 0 &&
+          todolist.map((v) => (
+            <div key={v._id}>
+              <label className={styles.todolabel}>
+                <div className={styles.todoItem}>
+                  <input
+                    type={"checkbox"}
                     onClick={(e) => {
-                      setDelete(v._id);
+                      setStatus(v._id, v.status);
                     }}
-                  />
-                </label>
-              </div>
-            ))}
-          {open ? (
-            <div className={styles.addBox} ref={ref}>
-              <input type={"text"} {...title} />
-              <button onClick={addTodo}>
-                <MdAdd />
-              </button>
+                    defaultChecked={v.status === 1 ? true : false}
+                  ></input>
+                  <p>{v.title}</p>
+                </div>
+                <AiOutlineDelete
+                  className={styles.todoDelete}
+                  onClick={(e) => {
+                    setDelete(v._id);
+                  }}
+                />
+              </label>
             </div>
-          ) : (
-            <></>
-          )}
+          ))}
+        {open ? (
+          <div className={styles.addBox} ref={ref}>
+            <input type={"text"} {...title} />
+            <button onClick={addTodo}>
+              <MdAdd />
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
 
-          <button className={styles.todoButton} onClick={showBox}>
-            + New task
-          </button>
-        </div>
-      ) : (
-        <></>
-      )}
+        <button className={styles.todoButton} onClick={showBox}>
+          + New task
+        </button>
+      </div>
+      {/* // ) : (
+      //   <></>
+      // )} */}
     </div>
   );
 };
