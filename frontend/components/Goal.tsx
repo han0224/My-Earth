@@ -3,7 +3,7 @@ import styles from "../styles/Goal.module.css";
 import GoalContent from "./GoalContent";
 
 const Goal = () => {
-  const [selected, setSelected] = useState("profile");
+  const [selected, setSelected] = useState("week");
 
   return (
     <div className={styles.goalComponent}>

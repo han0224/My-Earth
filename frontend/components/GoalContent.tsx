@@ -12,10 +12,26 @@ const GoalContent = (pros: Pros) => {
   }, []);
   return (
     <div className={styles.contentComponent}>
-      <div>
-        {list.map((v) => (
-          <input type={"checkbox"} />
-        ))}
+      <div className={styles.todo}>
+        <h1>todo</h1>
+        <div className={styles.items}>
+          <div className={styles.item}>
+            <input type="checkbox" id="one" />
+            <label htmlFor="one">oneoneoneoneoneoneoneoneoneoneoneone</label>
+            <p>sdfjklsdfjklsdfjklsdfjklsdfjklsdfjklsdfjkl</p>
+          </div>
+          <div className={styles.item}>
+            <input type="checkbox" id="two" />
+            <label htmlFor="two">oneoneoneoneoneoneoneoneoneoneoneone</label>
+            <p>sdfjklsdfjklsdfjklsdfjklsdfjklsdfjklsdfjkl</p>
+          </div>
+        </div>
+      </div>
+      <div className={styles.do}>
+        <h1>do</h1>
+      </div>
+      <div className={styles.done}>
+        <h1>done</h1>
       </div>
     </div>
   );
