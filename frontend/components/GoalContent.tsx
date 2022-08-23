@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/GoalContent.module.css";
 
 interface Pros {
@@ -13,6 +13,8 @@ const GoalContent = (pros: Pros) => {
   const [todoIndex, setTodoIndex] = useState(-1);
   const [doIndex, setDoIndex] = useState(-1);
   const [doneIndex, setDoneIndex] = useState(-1);
+  const [newIndex, setNewIndex] = useState(-1);
+  const [status, setStatus] = useState("");
 
   const [todoTmp, setTodoTmp] = useState<Array<itemType>>([]);
   const [doTmp, setDoTmp] = useState<Array<itemType>>([]);
@@ -34,8 +36,19 @@ const GoalContent = (pros: Pros) => {
     setDoneIndex(doneTmp.findIndex((v) => v.id === id));
   };
 
-  const dragenter = () => {
-    // console.log("드래그 요소가 영역에 들어옴");
+  const dragenter = (
+    e: React.DragEvent<HTMLElement>,
+    index: number,
+    status: string
+  ) => {
+    e.preventDefault();
+    setNewIndex(index);
+    setStatus(status);
+    // y위치를 토대로 위쪽, 아래쪽 확인 필요
+    const { target } = e;
+
+    console.log("dragenter, ", index);
+    // 겹쳐진 요소의 인덱스 찾기
   };
 
   const dragover = (e: React.DragEvent<HTMLDivElement>, type: string) => {
@@ -53,58 +66,70 @@ const GoalContent = (pros: Pros) => {
 
   const drop = (e: React.DragEvent<HTMLDivElement>, type: string) => {
     e.preventDefault();
-
     const [index, before] =
       todoIndex !== -1
         ? [todoIndex, "todo"]
         : doIndex !== -1
         ? [doIndex, "do"]
         : [doneIndex, "done"];
-    if (type === before) {
-      return;
-    }
-    const item = deleteItem(index, before);
-    insertItem(item, type);
+
+    const flag = changeItem(index, before);
+    if (flag === null) console.log("error");
   };
-  const deleteItem = (index: number, type: string) => {
-    let item = { id: "", title: "", content: "" };
-    switch (type) {
-      case "todo":
-        item = todoTmp[index];
-        setTodoTmp(todoTmp.filter((v) => v !== item));
-        break;
-      case "do":
-        item = doTmp[index];
-        setDoTmp(doTmp.filter((v) => v !== item));
-        break;
-      case "done":
-        item = doneTmp[index];
-        setDoneTmp(doneTmp.filter((v) => v !== item));
-        break;
-      default:
-        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", index, type);
-        break;
-    }
-    return item;
-  };
-  const insertItem = (item: itemType, type: string) => {
-    if (item === undefined) {
-      console.log("undefined");
-      return;
-    }
-    switch (type) {
-      case "todo":
-        setTodoTmp([...todoTmp, item]);
-        break;
-      case "do":
-        setDoTmp([...doTmp, item]);
-        break;
-      case "done":
-        setDoneTmp([...doneTmp, item]);
-        break;
-      default:
-        console.log("!!!!!!!!1insert, default");
-        break;
+
+  const changeItem = (index: number, beforeType: string) => {
+    // [o] 현재 status에서 item을 가져오기
+    // [ ] status newIndex자리에 item추가
+    // [ ] 현재 item을 삭제 -> item 뒤의 값들을 앞으로 한칸씩 옮김
+
+    const statusTmp = [
+      {
+        type: "todo",
+        item: todoTmp[index],
+        tmp: [...todoTmp],
+        setStatus: (arr: Array<itemType>) => setTodoTmp(arr),
+      },
+      {
+        type: "do",
+        item: doTmp[index],
+        tmp: [...doTmp],
+        setStatus: (arr: Array<itemType>) => setDoTmp(arr),
+      },
+      {
+        type: "done",
+        item: doneTmp[index],
+        tmp: [...doneTmp],
+        setStatus: (arr: Array<itemType>) => setDoneTmp(arr),
+      },
+    ];
+
+    const beforeUpdateStatus = statusTmp.find((v) => v.type === beforeType);
+    const afterUpdateStatus = statusTmp.find((v) => v.type === status);
+
+    if (!beforeUpdateStatus || !afterUpdateStatus) return null;
+
+    const beforeUpdateItem = beforeUpdateStatus.item;
+    const beforeUpdateStatusArray = beforeUpdateStatus.setStatus;
+    const beforeUpdateStatusData = beforeUpdateStatus.tmp;
+
+    const afterUpdateStatusArray = afterUpdateStatus.setStatus;
+    const afterUpdateStatusData = afterUpdateStatus.tmp;
+
+    if (beforeType === status) {
+      [afterUpdateStatusData[index], afterUpdateStatusData[newIndex]] = [
+        afterUpdateStatusData[newIndex],
+        afterUpdateStatusData[index],
+      ];
+      afterUpdateStatusArray(afterUpdateStatusData);
+    } else {
+      // item 추가
+      afterUpdateStatusData.splice(newIndex, 0, beforeUpdateItem);
+      afterUpdateStatusArray(afterUpdateStatusData);
+
+      // itme 삭제
+      beforeUpdateStatusArray(
+        beforeUpdateStatusData.filter((v) => v !== beforeUpdateItem)
+      );
     }
   };
 
@@ -119,6 +144,11 @@ const GoalContent = (pros: Pros) => {
         id: "12",
         title: "todotwo",
         content: "todotwo content",
+      },
+      {
+        id: "13",
+        title: "todo3",
+        content: "todo3 content",
       },
     ]);
     setDoTmp([
@@ -146,23 +176,24 @@ const GoalContent = (pros: Pros) => {
       },
     ]);
   }, []);
+
   return (
     <div className={styles.contentComponent}>
       <div
         className={styles.todo}
         ref={todoRef}
-        onDragEnter={dragenter}
         onDragOver={(e) => dragover(e, "todo")}
         onDrop={(e) => drop(e, "todo")}
       >
         <h1>todo</h1>
         <div className={styles.items}>
           {todoTmp.length !== 0 ? (
-            todoTmp.map((v) => (
+            todoTmp.map((v, i) => (
               <div
                 key={v.id}
                 className={styles.item}
                 onDragStart={dragStart}
+                onDragEnter={(e) => dragenter(e, i, "todo")}
                 draggable
               >
                 <input type="checkbox" id={v.id} />
@@ -178,18 +209,18 @@ const GoalContent = (pros: Pros) => {
       <div
         className={styles.do}
         ref={doRef}
-        onDragEnter={dragenter}
         onDragOver={(e) => dragover(e, "do")}
         onDrop={(e) => drop(e, "do")}
       >
         <h1>do</h1>
         <div className={styles.items}>
           {doTmp.length !== 0 ? (
-            doTmp.map((v) => (
+            doTmp.map((v, i) => (
               <div
                 key={v.id}
                 className={styles.item}
                 onDragStart={dragStart}
+                onDragEnter={(e) => dragenter(e, i, "do")}
                 draggable
               >
                 <input type="checkbox" id={v.id} />
@@ -205,18 +236,18 @@ const GoalContent = (pros: Pros) => {
       <div
         className={styles.done}
         ref={doneRef}
-        onDragEnter={dragenter}
         onDragOver={(e) => dragover(e, "done")}
         onDrop={(e) => drop(e, "done")}
       >
         <h1>done</h1>
         <div className={styles.items}>
           {doneTmp.length !== 0 ? (
-            doneTmp.map((v) => (
+            doneTmp.map((v, i) => (
               <div
                 key={v.id}
                 className={styles.item}
                 onDragStart={dragStart}
+                onDragEnter={(e) => dragenter(e, i, "done")}
                 draggable
               >
                 <input type="checkbox" id={v.id} />
