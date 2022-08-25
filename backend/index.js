@@ -50,10 +50,12 @@ app.use(
 const userRouter = require("./routers/user");
 const timeRouter = require("./routers/time");
 const todoRouter = require("./routers/todo");
+const goalRouter = require("./routers/goal");
 
 app.use("/user", userRouter);
 app.use("/time", timeRouter);
 app.use("/todo", todoRouter);
+app.use("/goal", goalRouter);
 
 app.get("/", (req, res) => res.send("Develog!"));
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
