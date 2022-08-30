@@ -6,9 +6,10 @@ const goalSchema = mongoose.Schema({
     trim: true,
     unique: 1,
   },
-  todo: [{ title: String, content: String }],
-  do: [{ title: String, content: String }],
-  done: [{ title: String, content: String }],
+  week: [{ title: String, content: String }],
+  month: [{ title: String, content: String }],
+  year: [{ title: String, content: String }],
+  final: [{ title: String, content: String }],
 });
 
 const Goal = mongoose.model("Goal", goalSchema);

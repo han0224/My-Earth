@@ -11,11 +11,13 @@ import {
 } from "redux";
 import timer from "./timer";
 import user from "./user";
+import goal from "./goal";
 
 // reducer들을 하나의 reducer로
 const rootReducer = combineReducers({
   timer,
   user,
+  goal,
 });
 
 // 합쳐진 리듀서에 next redux wrapper haydrate 타입 리듀서 추가

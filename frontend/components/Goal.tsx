@@ -1,9 +1,28 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getGoal } from "../apis/goalapi";
+import { RootState } from "../store";
+import { setGoal } from "../store/goal";
 import styles from "../styles/Goal.module.css";
 import GoalContent from "./GoalContent";
 
 const Goal = () => {
+  const dispatch = useDispatch();
+  const { email } = useSelector((state: RootState) => state.user);
   const [selected, setSelected] = useState("week");
+  // .week, .month, .year, .final
+  const getList = async () => {
+    const result = await getGoal(email);
+    if (!result.success) {
+      console.log("err", result.err);
+    } else if (result.data) {
+      dispatch(setGoal(result.data));
+    }
+  };
+
+  useEffect(() => {
+    getList();
+  }, []);
 
   return (
     <div className={styles.goalComponent}>

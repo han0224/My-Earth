@@ -27,17 +27,23 @@ goalRouter.get("/get/:email", (req, res) => {
   }
 });
 
-// body : todo [], do[], done[]
-goalRouter.post("/save/:email", async (req, res) => {
-  const { email } = req.params;
-  console.log(req.body);
+// [x]body : todo [], do[], done[]
+// [o]body : [week / month / year / final] data:[{title:String, content:String, status:Number}]
+goalRouter.post("/save/:type/:email", async (req, res) => {
+  const { email, type } = req.params;
   try {
+    // await Goal.updateOne(
+    //   { email: email },
+    //   { todo: req.body.todo, do: req.body.do, done: req.body.done },
+    //   { upsert: true }
+    // );
     await Goal.updateOne(
       { email: email },
-      { todo: req.body.todo, do: req.body.do, done: req.body.done },
+      {
+        [type]: req.body.data,
+      },
       { upsert: true }
     );
-
     return res.status(204).end();
   } catch (err) {
     return res.status(500).json({ err: err });

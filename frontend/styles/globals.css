@@ -43,6 +43,10 @@ h6 {
 button {
   cursor: pointer;
 }
+ul {
+  list-style: none;
+  padding: 0;
+}
 
 ::-webkit-scrollbar {
   width: 15px;
