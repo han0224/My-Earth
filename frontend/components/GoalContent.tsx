@@ -68,6 +68,15 @@ const GoalContent = (props: Props) => {
         updateItem();
       } else {
         textareaRef.current.disabled = false;
+        textareaRef.current.focus();
+        console.log(
+          textareaRef.current.value,
+          textareaRef.current.value.length
+        );
+        textareaRef.current.setSelectionRange(
+          0,
+          textareaRef.current.value.length
+        );
       }
     }
     setModify(!modify);

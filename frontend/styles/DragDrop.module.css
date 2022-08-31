@@ -14,7 +14,8 @@
   border: 1px solid #ddd1d1;
   border-radius: 7px;
   font-size: 24px;
-  margin: 10px 3px;
+  margin: 5px 3px;
+  padding: 3px 0;
   padding-left: 5px;
 }
 .dragContainer > input[type="radio"] {
@@ -23,7 +24,4 @@
 .dragContainer > input[type="radio"]:checked + label {
   background-color: #cba0ae;
   color: white;
-}
-.over {
-  background-color: aqua;
 }

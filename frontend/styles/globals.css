@@ -12,14 +12,22 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 html,
 body {
   user-select: none;
   padding: 0;
   margin: 0;
-
-  /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  /* 
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
+  font-family: "NanumSquareRound";
 }
 
 a {
@@ -46,6 +54,11 @@ button {
 ul {
   list-style: none;
   padding: 0;
+}
+
+::selection {
+  background: #7fb77e;
+  color: white;
 }
 
 ::-webkit-scrollbar {
