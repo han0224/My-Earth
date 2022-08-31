@@ -3,9 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { saveGoal } from "../apis/goalapi";
 import useAddItem from "../hooks/useAddItem";
 import { RootState } from "../store";
-import { updateFinal, updateWeek, updateYear, updatMonth } from "../store/goal";
+import {
+  updateFinal,
+  updateWeek,
+  updateYear,
+  updateMonth,
+} from "../store/goal";
 import styles from "../styles/GoalContent.module.css";
-import { dataType, itemType } from "../types/GoalType";
+import { itemType } from "../types/GoalType";
 import DragDrop from "./DragDrop";
 
 interface Props {
@@ -29,7 +34,7 @@ const GoalContent = (props: Props) => {
   const text = useAddItem("");
 
   const save = async () => {
-    const result = await saveGoal(goalStatus[status], email, props.goal);
+    const result = await saveGoal(goalStatus[status], email, status);
     if (!result.success) {
       console.log("error");
     }
@@ -45,20 +50,18 @@ const GoalContent = (props: Props) => {
       if (status === "week") {
         dispatch(updateWeek([...goalStatus.week, item]));
       } else if (status === "month") {
-        dispatch(updatMonth([...goalStatus.month, item]));
+        dispatch(updateMonth([...goalStatus.month, item]));
       } else if (status === "year") {
         dispatch(updateYear([...goalStatus.year, item]));
       } else if (status === "final") {
         dispatch(updateFinal([...goalStatus.final, item]));
       } else return;
-      save();
     }
   };
 
   const onClickButton = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    console.log("click");
     if (textareaRef.current) {
       if (modify) {
         textareaRef.current.disabled = true;
@@ -88,7 +91,7 @@ const GoalContent = (props: Props) => {
     } else return;
     before[update.index].title = update.title;
     before[update.index].content = detail;
-    save();
+    updateList(before);
   };
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -96,15 +99,47 @@ const GoalContent = (props: Props) => {
     setDetail(value);
   };
 
+  const deleteItem = (
+    e: React.MouseEvent<SVGElement, MouseEvent>,
+    index: number
+  ) => {
+    const updateArray = [
+      ...goalStatus[status].slice(0, index),
+      ...goalStatus[status].slice(index + 1),
+    ];
+    updateList(updateArray);
+  };
+
+  const updateList = (updateOrder: Array<itemType>) => {
+    if (status === "week") {
+      dispatch(updateWeek(updateOrder));
+    } else if (status === "month") {
+      dispatch(updateMonth(updateOrder));
+    } else if (status === "year") {
+      dispatch(updateYear(updateOrder));
+    } else if (status === "final") {
+      dispatch(updateFinal(updateOrder));
+    } else return;
+  };
   useEffect(() => {
     setStauts(props.goal);
     setDetail("");
   }, [props]);
 
+  useEffect(() => {
+    save();
+  }, [goalStatus]);
+
   return (
     <div className={styles.contentComponent}>
       <div className={styles.item}>
-        <DragDrop data={goalStatus[status]} status={status} clicked={checked} />
+        <DragDrop
+          data={goalStatus[status]}
+          status={status}
+          clicked={checked}
+          deleteItem={deleteItem}
+          updateList={updateList}
+        />
         <input
           type={"text"}
           placeholder={"+ add"}
@@ -121,7 +156,6 @@ const GoalContent = (props: Props) => {
         ></textarea>
         <button onClick={onClickButton}>modify</button>
       </div>
-      {/* <button onClick={save}>save</button> */}
     </div>
   );
 };

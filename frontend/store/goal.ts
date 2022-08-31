@@ -20,7 +20,7 @@ export const updateWeek = (goal: Array<itemType>) => ({
   type: UPDATE_WEEK,
   week: goal,
 });
-export const updatMonth = (goal: Array<itemType>) => ({
+export const updateMonth = (goal: Array<itemType>) => ({
   type: UPDATE_MONTH,
   month: goal,
 });
@@ -34,7 +34,7 @@ export const updateFinal = (goal: Array<itemType>) => ({
 });
 type UserActions =
   | ReturnType<typeof updateWeek>
-  | ReturnType<typeof updatMonth>
+  | ReturnType<typeof updateMonth>
   | ReturnType<typeof updateYear>
   | ReturnType<typeof updateFinal>
   | ReturnType<typeof setGoal>;
