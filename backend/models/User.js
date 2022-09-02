@@ -26,7 +26,7 @@ const userSchema = mongoose.Schema({
     type: String,
     default: "00:00:00",
   },
-  study: [{ type: mongoose.SchemaTypes.ObjectId, ref: time }],
+  // study: [{ type: mongoose.SchemaTypes.ObjectId, ref: time }],
 });
 // study[date:0000-00-00 , time: 초단위로]
 

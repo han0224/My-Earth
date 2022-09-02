@@ -27,118 +27,131 @@ timeRouter.get("/day", auth, (req, res) => {
 timeRouter.get("/today/:day", auth, async (req, res) => {
   const day = req.params.day;
   const user = req.user;
-  const id = user.study[user.study.length > 0 ? user.study.length - 1 : -1];
-  const time = await Time.findOne({ _id: id });
-  if (time !== null && time.date === day) {
-    return res.status(200).json({ time: time.time });
-  } else {
-    return res.status(200).json({ time: 0 });
+
+  try {
+    Time.findOne({ email: user.email }, (err, time) => {
+      if (err) {
+        return res.status(500).json({ err: err });
+      } else if (time === null) {
+        const time = new Time({ email: user.email });
+        time.save();
+        return res.status(200).json({ time: 0 });
+      } else {
+        const index = time.time.findIndex((value) => value.date === day);
+        if (index === -1) return res.status(200).json({ time: 0 });
+        else return res.status(200).json({ time: time.time[index].time });
+      }
+    });
+  } catch (err) {
+    return res.status(500).json({ err: err });
   }
 });
 
-timeRouter.get("/month/:year-:month-:num", auth, async (req, res) => {
+// 한달 찾기
+timeRouter.get("/month/:year/:month", auth, async (req, res) => {
   const year = req.params.year;
   const month = req.params.month;
-  const num = req.params.num;
-
-  if (num > 12) {
-    return res.status(400).json({ err: "2년 이상 조회 불가" });
-  }
-  let call = "";
-  for (let i = 0; i < num; i++) {
-    let yy = year;
-    if (+month + i > 12) {
-      yy = +year + 1;
-    }
-    call += `${yy}-${+month + i}-* |`;
-  }
-  const reg = new RegExp(call);
-
   const user = req.user;
-  const usertime = [];
-  if (user.study) {
-    const promises = user.study.map(async (v) => {
-      const time = await Time.findOne({ _id: v })
-        .exec()
-        .then((result) => {
-          if (result.date.match(reg)) {
-            // const day = result.date.replaceAll(".", "-");
-            usertime.push({ value: result.time, day: result.date });
-          }
-        })
-        .catch((e) => console.error(e));
-    });
-    await Promise.all(promises);
-  }
-  res.status(200).json({ data: usertime });
-  // 한달 한위로 시간 가져오기
-});
 
-const savetotalTime = (user, addTotalTime) => {
-  const formattime = timeformat(addTotalTime);
-  const totaltime = user.totaltime.split(":").map((v) => +v);
-  const newtime = [formattime[0] + totaltime[0]];
-
-  for (let i = 1; i < 3; i++) {
-    newtime.push(formattime[i] + totaltime[i]);
-    if (newtime[i] > 60) {
-      newtime[i] -= 60;
-      newtime[i - 1]++;
-    }
-  }
-  user.totaltime = newtime.join(":");
-};
-
-//req ) date:YYYY-MM-DD / time:초기준으로 숫자 /
-timeRouter.post("/save", auth, async (req, res) => {
-  const user = req.user;
-  const body = req.body;
-  const key = body.date;
-
-  let addTotalTime;
   try {
-    let time;
-    if (user.study.length === 0) {
-      // 처음 저장할 경우
-      addTotalTime = body.time;
-      savetotalTime(user, addTotalTime);
-      time = new Time({ date: key, time: body.time });
-      user.study = [time._id];
-      time.save();
-    } else {
-      const id = user.study[user.study.length - 1];
-      time = await Time.findOne({ date: key, _id: id }, (err, time) => {
-        if (err) {
-          return res.status(500).json({ err: err });
-        }
-        if (time === null) {
-          // 현재 시간에 저장이 되어있지 않으면
-          // 새로운 객체를 만들어 저장
-          addTotalTime = body.time;
-          savetotalTime(user, addTotalTime);
-
-          const t = new Time({ date: key, time: body.time });
-          user.study.push(t._id);
-          t.save();
-        } else {
-          // 현재 시간이 저장되어 있으면
-          // 해당 시간에 현재 시간 더하기
-          addTotalTime = Math.abs(time.time - body.time);
-          savetotalTime(user, addTotalTime);
-          time.time = body.time;
-          time.save();
-        }
-      })
-        .clone()
-        .catch((e) => console.log(e));
-    }
-    user.save();
-    return res.status(204).end();
+    await Time.findOne({ email: user.email }, (err, time) => {
+      if (err) {
+        return res.status(500).json({ err: err });
+      } else if (time === null) {
+        const newTime = new Time({
+          email: user.email,
+          time: [],
+        });
+        newTime.save();
+        return res.status(200).json({ data: [] });
+      } else {
+        const data = time.time.map((v) => {
+          const yy = +v.date.split("-")[0];
+          const mm = +v.date.split("-")[1];
+          if (+year === yy && +month === mm) {
+            return { value: v.time, day: v.date };
+          }
+          return null;
+        });
+        return res.status(200).json({ data: data.filter((v) => v != null) });
+      }
+    })
+      .clone()
+      .catch(function (err) {
+        console.log(err);
+      });
   } catch (e) {
     return res.status(500).json({ err: e });
   }
 });
 
+// 일년 찾기
+timeRouter.get("/year/:year", auth, async (req, res) => {
+  const { year } = req.params;
+  const user = req.user;
+
+  try {
+    await Time.findOne({ email: user.email }, (err, time) => {
+      if (err) {
+        return res.status(500).json({ err: err });
+      } else if (time === null) {
+        const newTime = new Time({
+          email: user.email,
+          time: [],
+        });
+        newTime.save();
+        return res.status(200).json({ data: [] });
+      } else {
+        const data = time.time.map((v) => {
+          const yy = +v.date.split("-")[0];
+          if (+year === yy) {
+            return { value: v.time, day: v.date };
+          }
+          return null;
+        });
+        return res.status(200).json({ data: data.filter((v) => v != null) });
+      }
+    })
+      .clone()
+      .catch(function (err) {
+        console.log(err);
+      });
+  } catch (e) {
+    console.log("!", e);
+    return res.status(500).json({ err: e });
+  }
+});
+
+timeRouter.post("/save", auth, async (req, res) => {
+  const user = req.user;
+  const body = req.body;
+  try {
+    await Time.findOne({ email: user.email }, (err, time) => {
+      console.log(err, time);
+      if (err) {
+        return res.status(500).json({ err: err });
+      } else if (time === null) {
+        // 첫 저장
+        const newTime = new Time({
+          email: user.email,
+          time: [{ date: body.date, time: body.time }],
+        });
+        newTime.save();
+        return res.status(204).end();
+      } else {
+        const index = time.time.findIndex((obj) => obj.date === body.date);
+        if (index === -1) time.time.push({ date: body.date, time: body.time });
+        else time.time[index].time = body.time;
+        time.save();
+        return res.status(204).end();
+      }
+    });
+  } catch (err) {
+    return res.status(500).json({ err: err });
+  }
+});
+
+// 수정 필요
 timeRouter.post("/update/totalTime", auth, async (req, res) => {
   // total time 수정
   // 현재 db에 있는 몇 데이터의 totaltime이 이상함
@@ -146,22 +159,32 @@ timeRouter.post("/update/totalTime", auth, async (req, res) => {
   const body = req.body;
   let totalTime = 0;
   try {
-    user.totaltime = 0;
-    const findTime = await Time.find({ _id: { $in: user.study } });
-    for (let study of findTime) {
-      totalTime += +study.time;
-    }
-    user.totaltime = timeformat(totalTime).join(":");
-    user.save();
-    // for (let id of user.study) {
-    //   console.log(id);
-    // }
-    // console.log(totalTime);
-    // user.totaltime = totalTime.reduce((acc, cur) => acc + cur, 0);
-    return res.status(204).end();
-  } catch (e) {
-    console.log("end err", e);
-    return res.status(500).json({ err: e });
+    await Time.findOne({ email: user.email }, (err, time) => {
+      if (err) {
+        return res.status(500).json({ err: err });
+      } else if (time === null) {
+        const newTime = new Time({
+          email: user.email,
+          time: [{ date: body.date, time: body.time }],
+        });
+        newTime.save();
+        return res.status(204).end();
+      } else {
+        time.time.forEach((v) => {
+          totalTime += v.time;
+          console.log("!!!!", v);
+        });
+        console.log("pre", user.totaltime);
+        user.totaltime = timeformat(totalTime).join(":");
+        console.log("end", user.totaltime);
+        user.save();
+        return res.status(204).end();
+      }
+    })
+      .clone()
+      .catch((e) => console.log("totlatime err: ", e));
+  } catch (err) {
+    return res.status(500).json({ err: err });
   }
 });
 

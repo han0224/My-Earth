@@ -43,9 +43,9 @@ export const todayTime = async (today: string) => {
 // body{month:String, num:Number}
 // res{success:true,false, time:[month:Number, time:Number]}
 //`${year}-${month}-${num}`
-export const getMonth = async (year: Number, month: Number, num: Number) => {
+export const getMonth = async (year: Number, month: Number) => {
   const result = await axios
-    .get(URL + "month/" + `${year}-${month}-${num}`, {
+    .get(URL + "month/" + `${year}/${month}`, {
       withCredentials: true,
     })
     .then((response) => {
@@ -59,13 +59,24 @@ export const getMonth = async (year: Number, month: Number, num: Number) => {
       }
     });
   return result;
-  // if (result.status === 200) {
-  //   return { success: true, data: result.data.data };
-  // } else if (result.status === 500) {
-  //   return { success: false, err: result.data.err };
-  // } else {
-  //   return null;
-  // }
+};
+
+export const getYear = async (year: Number) => {
+  const result = await axios
+    .get(URL + "year/" + `${year}`, {
+      withCredentials: true,
+    })
+    .then((response) => {
+      return { success: true, data: response.data, err: "" };
+    })
+    .catch((e) => {
+      if (e.response.status === 401) {
+        return { success: false, data: "", err: e.response.data.err };
+      } else {
+        return { success: false, data: "", err: e.message };
+      }
+    });
+  return result;
 };
 
 // body: {date: 'YYYY.MM.DD', time:Number (초)}

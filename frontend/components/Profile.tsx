@@ -2,7 +2,13 @@ import { CalendarDatum } from "@nivo/calendar";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { getMonth, saveTime, updateTotalTime } from "../apis/timeapi";
+import {
+  getMonth,
+  getYear,
+  saveTime,
+  todayTime,
+  updateTotalTime,
+} from "../apis/timeapi";
 import { auth } from "../apis/userapi";
 import styles from "../styles/Profile.module.css";
 
@@ -36,7 +42,8 @@ const Profile = () => {
   };
 
   const getTime = async () => {
-    const res = await getMonth(year, 1, 12);
+    // const res = await getMonth(year, 1);
+    const res = await getYear(year);
     if (res === null) {
       setData([]);
     } else {
@@ -53,8 +60,10 @@ const Profile = () => {
 
   const changeProfile = async () => {
     console.log("click");
-    const res = await updateTotalTime();
-
+    // const res = await updateTotalTime();
+    // const res = await saveTime("2022-08-28", 20);
+    // const res = await todayTime("2022-08-31");
+    const res = await getMonth(2022, 9);
     // 프로필 이미지 변경할 수 있도록
   };
 
@@ -62,7 +71,7 @@ const Profile = () => {
     if (!isUser) {
       alert("로그인 후 이용해 주세요");
       router.push("/");
-    }
+    } else updateTotalTime();
   }, []);
 
   useEffect(() => {
