@@ -88,10 +88,8 @@ const Timer = () => {
     if (start) {
       setOpacity(0);
     }
-    if (time === 0) {
-      const date = moment().format("YYYY-MM-DD");
-      dispatch(setDate(date));
-    }
+    const date = moment().format("YYYY-MM-DD");
+    dispatch(setDate(date));
   }, []);
 
   return (

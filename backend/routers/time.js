@@ -127,7 +127,7 @@ timeRouter.post("/save", auth, async (req, res) => {
   const body = req.body;
   try {
     await Time.findOne({ email: user.email }, (err, time) => {
-      console.log(err, time);
+      console.log("=========================", err, time);
       if (err) {
         return res.status(500).json({ err: err });
       } else if (time === null) {
@@ -142,10 +142,13 @@ timeRouter.post("/save", auth, async (req, res) => {
         const index = time.time.findIndex((obj) => obj.date === body.date);
         if (index === -1) time.time.push({ date: body.date, time: body.time });
         else time.time[index].time = body.time;
+        console.log(time.time, index, body);
         time.save();
         return res.status(204).end();
       }
-    });
+    })
+      .clone()
+      .catch((e) => console.log("save err", e));
   } catch (err) {
     return res.status(500).json({ err: err });
   }
