@@ -21,7 +21,6 @@ const Timer = () => {
   const { start, time, timer, preTime, date }: TimerReduxState = useSelector(
     (state: RootState) => state.timer
   );
-  console.log("useSelector", time);
   const { isUser } = useSelector((state: RootState) => state.user);
   const [opacity, setOpacity] = useState(1);
   const increment = useRef<ReturnType<typeof setInterval>>();

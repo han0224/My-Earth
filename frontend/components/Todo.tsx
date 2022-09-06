@@ -107,7 +107,6 @@ const Todo = () => {
         <AiOutlineMenu className={styles.icon} />
         <p>Todo List</p>
       </button>
-      {/* {isListOpen ? ( */}
       <div className={isListOpen ? styles.todoList : styles.closeTodoList}>
         {todolist.length > 0 &&
           todolist.map((v) => (
@@ -147,9 +146,6 @@ const Todo = () => {
           + New task
         </button>
       </div>
-      {/* // ) : (
-      //   <></>
-      // )} */}
     </div>
   );
 };

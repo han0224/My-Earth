@@ -11,7 +11,6 @@ interface chartProps {
   to: DateOrString | undefined;
 }
 export const MyResponsiveTimeRange = ({ data, from, to }: chartProps) => {
-  console.log("chart!!!!!!!!!1", data);
   const [day, setDay] = useState(new Date());
 
   const formatTime = (time: number) => {

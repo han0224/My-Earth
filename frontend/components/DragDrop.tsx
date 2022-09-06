@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { getGoal } from "../apis/goalapi";
-import { RootState } from "../store";
 import styles from "../styles/DragDrop.module.css";
-import { dataType, itemType } from "../types/GoalType";
+import { itemType } from "../types/GoalType";
 import { AiOutlineDelete } from "react-icons/ai";
 
 interface propsType {
@@ -84,7 +81,6 @@ const DragDrop = (props: propsType) => {
     title: string,
     content: string
   ) => {
-    // console.log(e, text);
     props.clicked(index, { title: title, content: content });
   };
 
@@ -118,7 +114,6 @@ const DragDrop = (props: propsType) => {
             {value.title}
             <AiOutlineDelete onClick={(e) => props.deleteItem(e, index)} />
           </label>
-          {/* <p>{value.content}</p> */}
         </>
       ))}
     </div>

@@ -16,10 +16,7 @@ const Signup = () => {
 
   const submitSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // if (!okPw) {
-    //   ref.current.style.color = "red";
-    //   return;
-    // }
+
     const res = await register(
       username.value,
       userid.value,

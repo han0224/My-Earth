@@ -5,12 +5,11 @@ import Link from "next/link";
 import useInput from "../hooks/useInput";
 import { auth, login } from "../apis/userapi";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { deleteUser, setUser } from "../store/user";
 import { todayTime } from "../apis/timeapi";
 import moment from "moment";
 import { initTimer, saveTime, setPreTime } from "../store/timer";
-// import { setUser } from "../store/user";
 
 const Login = () => {
   const userid = useInput("");
@@ -73,9 +72,6 @@ const Login = () => {
           </Link>
         </div>
       </div>
-      {/* <button onClick={test} style={{ background: "#fff", fontSize: "60px" }}>
-        [test] login check
-      </button> */}
     </Layout>
   );
 };

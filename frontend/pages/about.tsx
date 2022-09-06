@@ -31,8 +31,6 @@ const About = () => {
             onChange={() => handleChange("how to")}
           />
           <label htmlFor="how to">How to</label>
-          {/* <button onClick={() => setMenu("introduction")}>Introduction</button>
-          <button onClick={() => setMenu("How to")}>How to</button> */}
         </div>
         <div className={styles.card}>
           <div className={styles.content}>

@@ -2,21 +2,14 @@ import { CalendarDatum } from "@nivo/calendar";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import {
-  getMonth,
-  getYear,
-  saveTime,
-  todayTime,
-  updateTotalTime,
-} from "../apis/timeapi";
-import { auth } from "../apis/userapi";
+import { getMonth, getYear, updateTotalTime } from "../apis/timeapi";
 import styles from "../styles/Profile.module.css";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 import { GoInfo } from "react-icons/go";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../store";
-// import { MyResponsiveTimeRange } from "./nivoChart";
+import { getGoal } from "../apis/goalapi";
 
 const MyResponsiveTimeRange = dynamic(() => import("../components/nivoChart"), {
   ssr: false,
@@ -34,7 +27,6 @@ const Profile = () => {
   const router = useRouter();
 
   const formatTime = () => {
-    console.log("timetimetime", time);
     const format = time.split(":").map((v) => +v);
     return `${`0${format[0]}`.slice(-2)}:${`0${format[1]}`.slice(-2)}:${`0${
       format[2] % 60
@@ -42,7 +34,6 @@ const Profile = () => {
   };
 
   const getTime = async () => {
-    // const res = await getMonth(year, 1);
     const res = await getYear(year);
     if (res === null) {
       setData([]);
@@ -58,13 +49,14 @@ const Profile = () => {
     setYear(year + 1);
   };
 
+  // 현재 test용으로 사용중인 함수
   const changeProfile = async () => {
     console.log("click");
     // const res = await updateTotalTime();
     // const res = await saveTime("2022-08-28", 20);
     // const res = await todayTime("2022-08-31");
-    const res = await getMonth(2022, 9);
-    // 프로필 이미지 변경할 수 있도록
+    // const res = await getMonth(2022, 9);
+    const res = await getGoal("dbn02@naver.com");
   };
 
   useEffect(() => {

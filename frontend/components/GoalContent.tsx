@@ -10,7 +10,7 @@ import {
   updateMonth,
 } from "../store/goal";
 import styles from "../styles/GoalContent.module.css";
-import { itemType } from "../types/GoalType";
+import { dataType, itemType } from "../types/GoalType";
 import DragDrop from "./DragDrop";
 
 interface Props {
@@ -28,12 +28,33 @@ const GoalContent = (props: Props) => {
     title: "",
     content: "",
   });
+  const initData = goalStatus;
   const [detail, setDetail] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [modify, setModify] = useState(false);
   const text = useAddItem("");
 
+  const statusType = [
+    {
+      status: "week",
+      setUpdate: (item: itemType[]) => dispatch(updateWeek(item)),
+    },
+    {
+      status: "month",
+      setUpdate: (item: itemType[]) => dispatch(updateMonth(item)),
+    },
+    {
+      status: "year",
+      setUpdate: (item: itemType[]) => dispatch(updateYear(item)),
+    },
+    {
+      status: "final",
+      setUpdate: (item: itemType[]) => dispatch(updateFinal(item)),
+    },
+  ];
+
   const save = async () => {
+    if (initData[status] === goalStatus[status]) return;
     const result = await saveGoal(goalStatus[status], email, status);
     if (!result.success) {
       console.log("error");
@@ -47,15 +68,11 @@ const GoalContent = (props: Props) => {
         content: "",
       };
       text.setValue("");
-      if (status === "week") {
-        dispatch(updateWeek([...goalStatus.week, item]));
-      } else if (status === "month") {
-        dispatch(updateMonth([...goalStatus.month, item]));
-      } else if (status === "year") {
-        dispatch(updateYear([...goalStatus.year, item]));
-      } else if (status === "final") {
-        dispatch(updateFinal([...goalStatus.final, item]));
-      } else return;
+      const index = statusType.findIndex((v) => v.status === status);
+      if (index === -1) return;
+      // let before = statusType[index].getGoal();
+      const before = goalStatus[status];
+      statusType[index].setUpdate([...before, item]);
     }
   };
 
@@ -88,16 +105,11 @@ const GoalContent = (props: Props) => {
   };
 
   const updateItem = () => {
-    let before;
-    if (status === "week") {
-      before = goalStatus.week;
-    } else if (status === "month") {
-      before = goalStatus.month;
-    } else if (status === "year") {
-      before = goalStatus.year;
-    } else if (status === "final") {
-      before = goalStatus.final;
-    } else return;
+    const index = statusType.findIndex((v) => v.status === status);
+    if (index === -1) return;
+    // let before = statusType[index].getGoal();
+    const before = goalStatus[status];
+
     before[update.index].title = update.title;
     before[update.index].content = detail;
     updateList(before);
@@ -120,15 +132,9 @@ const GoalContent = (props: Props) => {
   };
 
   const updateList = (updateOrder: Array<itemType>) => {
-    if (status === "week") {
-      dispatch(updateWeek(updateOrder));
-    } else if (status === "month") {
-      dispatch(updateMonth(updateOrder));
-    } else if (status === "year") {
-      dispatch(updateYear(updateOrder));
-    } else if (status === "final") {
-      dispatch(updateFinal(updateOrder));
-    } else return;
+    const type = statusType.findIndex((v) => v.status === status);
+    if (type === -1) return;
+    statusType[type].setUpdate(updateOrder);
   };
   useEffect(() => {
     setStauts(props.goal);
