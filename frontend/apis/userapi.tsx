@@ -26,11 +26,6 @@ export const login = async (email: string, password: string) => {
       }
     });
   return result;
-  // if (result.status === 200) {
-  //   return { success: true, data: result.data };
-  // } else {
-  //   return { success: false, message: "다시 한번 입력해 주세요" };
-  // }
 };
 
 export const register = async (
@@ -61,12 +56,6 @@ export const register = async (
       }
     });
   return result;
-
-  // if (result.status === 204) {
-  //   return result;
-  // } else {
-  //   return null;
-  // }
 };
 
 export const auth = async () => {
@@ -87,11 +76,6 @@ export const auth = async () => {
       }
     });
   return result;
-  // if (result.status === 200) {
-  //   return result.data;
-  // } else {
-  //   return null;
-  // }
 };
 
 export const logout = async () => {
@@ -112,9 +96,32 @@ export const logout = async () => {
       }
     });
   return result;
-  // if (result.status === 200) {
-  //   return result;
-  // } else {
-  //   return null;
-  // }
 };
+
+export const getImg = async () => {
+  const result = await axios
+    .get(URL + "image", { withCredentials: true })
+    .then((response) => {
+      return { success: true, data: response.data, err: "" };
+    })
+    .catch((e) => {
+      if (e.response.status === 500) {
+        return { success: false, data: "", err: e.response.data.err };
+      } else {
+        return { success: false, data: "", err: e.message };
+      }
+    });
+  return result;
+};
+
+// export const setImg = async (img) => {
+//   const result = await axios
+//     .post(URL + "set/image", { image: img }, { withCredentials: true })
+//     .then((response) => {
+//       return { success: true, err: "" };
+//     })
+//     .catch((e) => {
+//       return { success: false, err: e };
+//     });
+//   return result;
+// };

@@ -71,4 +71,27 @@ userRouter.get("/logout", (req, res) => {
   }
 });
 
+userRouter.get("/image", auth, (req, res) => {
+  // 1. 이미지를 기본이미지로 전부 저장해두기
+  // 2. 이미지가 없으면 빈 문자열을 반환해 프론트에서 처리하기
+  try {
+    const img = req.user.image || "";
+    console.log(img);
+    return res.status(200).json({ data: img });
+  } catch (e) {
+    return res.status(500).json({ err: e });
+  }
+});
+
+userRouter.post("/set/image", auth, (req, res) => {
+  const body = req.body;
+  const user = req.user;
+  try {
+    user.image = body.image;
+    user.save();
+    return res.status(204).end();
+  } catch (e) {
+    return res.status(500).json({ err: e });
+  }
+});
 module.exports = userRouter;

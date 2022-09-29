@@ -4,12 +4,10 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getMonth, getYear, updateTotalTime } from "../apis/timeapi";
 import styles from "../styles/Profile.module.css";
-
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 import { GoInfo } from "react-icons/go";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { getGoal } from "../apis/goalapi";
 
 const MyResponsiveTimeRange = dynamic(() => import("../components/nivoChart"), {
   ssr: false,
@@ -23,6 +21,9 @@ const Profile = () => {
   // 보여줄 년도
   const [year, setYear] = useState(new Date().getFullYear());
   const [data, setData] = useState<CalendarDatum[]>([]);
+
+  const [profileImg, setProfileImg] = useState();
+  const [file, setFile] = useState({ profileImg: "" });
 
   const router = useRouter();
 
@@ -49,15 +50,30 @@ const Profile = () => {
     setYear(year + 1);
   };
 
-  // 현재 test용으로 사용중인 함수
-  const changeProfile = async () => {
-    console.log("click");
-    // const res = await updateTotalTime();
-    // const res = await saveTime("2022-08-28", 20);
-    // const res = await todayTime("2022-08-31");
-    // const res = await getMonth(2022, 9);
-    const res = await getGoal("dbn02@naver.com");
-  };
+  // const changeProfile = async (e) => {
+  //   console.log("changeProfile: ", e.target.files[0], e);
+  //   setFile({ profileImg: e.target.files[0] });
+  //   // const formData = new FormData();
+  //   // formData.append("profileImg", profileImg);
+
+  //   console.log("click", e);
+  //   // const res = await updateTotalTime();
+  //   // const res = await saveTime("2022-08-28", 20);
+  //   // const res = await todayTime("2022-08-31");
+  //   // const res = await getMonth(2022, 9);
+  //   // const res = await getGoal("dbn02@naver.com");
+  //   // const res = await getImg();
+  //   // 이미지 올리기
+  //   submit(e);
+  // };
+
+  // const submit = (e) => {
+  //   console.group("onsubmit");
+  //   const formData = new FormData();
+  //   formData.append("profileImg", file.profileImg);
+
+  //   const res = setImg(file.profileImg);
+  // };
 
   useEffect(() => {
     if (!isUser) {
@@ -74,7 +90,10 @@ const Profile = () => {
     <div className={styles.profilePage}>
       <div className={styles.profile}>
         <div className={styles.profile_image}>
-          <img src="/images/profile.jpg" onClick={changeProfile}></img>
+          <input type="file" accept="image/*" id="profileImg" />
+          <label htmlFor="profileImg">
+            <img src={profileImg}></img>
+          </label>
         </div>
         <div className={styles.table}>
           <div className={styles.tbody}>
