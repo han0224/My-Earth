@@ -31,12 +31,20 @@ mongoose
   .catch((error) => console.log("[error]", error));
 const mongoStore = require("connect-mongo");
 
+console.log(process.env.NODE_ENV);
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     store: mongoStore.create({ mongoUrl: process.env.MONGO_URI }),
+    cookie: {
+      secure: process.env.NODE_ENV === "development" ? false : true,
+      sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 1000,
+    },
   })
 );
 
