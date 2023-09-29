@@ -35,6 +35,7 @@ userRouter.post("/login", async (req, res) => {
         });
       }
       req.session.userEmail = user.email;
+      console.log(req.session);
       return res.status(200).json({
         email: req.session.userEmail,
         name: user.name,
