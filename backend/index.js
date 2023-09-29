@@ -35,7 +35,7 @@ console.log(process.env.NODE_ENV);
 
 const sessionCookie = {
   secure: process.env.NODE_ENV === "development" ? false : true,
-  sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
+  sameSite: process.env.NODE_ENV === "development" ? "lax" : "None",
   httpOnly: true,
   maxAge: 60 * 60 * 24 * 1000,
 };
@@ -46,7 +46,11 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: mongoStore.create({ mongoUrl: process.env.MONGO_URI }),
-    cookie: sessionCookie,
+    cookie: {
+      sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
+      secure: process.env.NODE_ENV === "development" ? false : true,
+      httpOnly: true,
+    },
   })
 );
 
