@@ -1,6 +1,7 @@
 import { apiInstance } from ".";
 
 const api = apiInstance();
+const URL = "time/";
 
 // day기준으로 day+num 날까지
 //body{day:String, num:Number}
@@ -9,7 +10,7 @@ export const getDay = async (num: Number, day: string) => {};
 
 export const todayTime = async (today: string) => {
   const result = await api
-    .get("today/" + today, {
+    .get(URL + "today/" + today, {
       withCredentials: true,
     })
     .then((response) => {
@@ -31,7 +32,7 @@ export const todayTime = async (today: string) => {
 //`${year}-${month}-${num}`
 export const getMonth = async (year: Number, month: Number) => {
   const result = await api
-    .get("time/" + "month/" + `${year}/${month}`, {
+    .get(URL + "month/" + `${year}/${month}`, {
       withCredentials: true,
     })
     .then((response) => {
@@ -70,7 +71,7 @@ export const getYear = async (year: Number) => {
 export const saveTime = async (date: String, time: Number) => {
   const result = await api
     .post(
-      "time/" + "save",
+      URL + "save",
       {
         date: date,
         time: time,
@@ -94,7 +95,7 @@ export const saveTime = async (date: String, time: Number) => {
 
 export const updateTotalTime = async () => {
   const resut = api
-    .post("time/" + "/update/totalTime", {}, { withCredentials: true })
+    .post(URL + "/update/totalTime", {}, { withCredentials: true })
     .then((response) => {
       return { success: true, err: "" };
     })
