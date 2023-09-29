@@ -29,7 +29,6 @@ const Login = () => {
       }
       const user = await auth();
       if (user.success) {
-        console.log("user success: ", user.data);
         dispatch(setUser(user.data));
       }
       if (!user.success || !time.success) {

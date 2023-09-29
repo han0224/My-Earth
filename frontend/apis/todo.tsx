@@ -1,10 +1,9 @@
-import axios from "axios";
-import { config } from "../config";
+import { apiInstance } from ".";
 
-const URL = config.URL + "todo/";
-
+const URL = "todo/";
+const api = apiInstance();
 export const saveTodo = async (title: string) => {
-  const result = await axios
+  const result = await api
     .post(
       URL + "savetodo",
       {
@@ -35,7 +34,7 @@ export const saveTodo = async (title: string) => {
 };
 
 export const todoList = async () => {
-  const result = await axios
+  const result = await api
     .get(URL + "todolist", { withCredentials: true })
     .then((response) => {
       return { success: true, data: response.data, err: "" };
@@ -53,7 +52,7 @@ export const todoList = async () => {
 };
 
 export const todoDelete = async (id: string) => {
-  const result = await axios
+  const result = await api
     .post(
       URL + "delete",
       {
@@ -82,7 +81,7 @@ export const todoDelete = async (id: string) => {
 };
 
 export const setstatus = async (id: string, status: number) => {
-  const result = await axios
+  const result = await api
     .post(
       URL + "setstatus",
       {

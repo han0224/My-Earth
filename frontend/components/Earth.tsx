@@ -1,3 +1,5 @@
+//
+/* eslint-disable react/no-unknown-property */
 import { Suspense, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, OrbitControls, Environment, Stars } from "@react-three/drei";
@@ -49,7 +51,7 @@ const Model = (props: ModelProps) => {
         geometry={nodes["URF-Height_Lampd_0"].geometry}
         material={materials.Lampd}
         material-color="lightgreen"
-      ></mesh>
+      />
     </group>
   );
 };
@@ -57,8 +59,14 @@ const Model = (props: ModelProps) => {
 const Earth = () => {
   const ref = useRef<THREE.Mesh>(null);
   useFrame(() => (ref.current!.rotation.y += 0.01));
+  const position = {
+    position: [0, 0, 0],
+  };
+  // const earth = await Model(position);
+  // console.log("1231", earth);
   return (
     <mesh ref={ref}>
+      {/* <earth /> */}
       <Model position={[0, 0, 0]} />
     </mesh>
   );
@@ -73,12 +81,11 @@ const Viewer = () => {
       dpr={[1, 2]}
       camera={{ position: [5, 0, 0], fov: 50 }}
     >
-      <ambientLight intensity={0.1} />
+      <ambientLight intensity={0.5} />
       <directionalLight position={[0, 3, 0]} color="#11E8BB" />
       <directionalLight position={[0, -3, -0.3]} color="#8200C9" />
       <Suspense fallback={null}>
         <Earth />
-        {/* <Star /> */}
         <Stars
           radius={30}
           depth={10}
@@ -87,7 +94,6 @@ const Viewer = () => {
           saturation={0}
           fade={true}
         />
-        <Environment preset="city" />
       </Suspense>
       <OrbitControls
         ref={ref}

@@ -1,10 +1,9 @@
 const express = require("express");
 const { auth } = require("../middleware/auth");
 const { Time } = require("../models/Time");
-const { User } = require("../models/User");
 const timeRouter = express.Router();
 
-const timeformat = (time) => {
+const timeFormat = (time) => {
   const ss = (time % 3600) % 60;
   const mm = Math.floor((time % 3600) / 60);
   const hh = Math.floor(time / 3600);
@@ -127,7 +126,6 @@ timeRouter.post("/save", auth, async (req, res) => {
   const body = req.body;
   try {
     await Time.findOne({ email: user.email }, (err, time) => {
-      console.log("=========================", err, time);
       if (err) {
         return res.status(500).json({ err: err });
       } else if (time === null) {
@@ -142,7 +140,6 @@ timeRouter.post("/save", auth, async (req, res) => {
         const index = time.time.findIndex((obj) => obj.date === body.date);
         if (index === -1) time.time.push({ date: body.date, time: body.time });
         else time.time[index].time = body.time;
-        console.log(time.time, index, body);
         time.save();
         return res.status(204).end();
       }
@@ -175,11 +172,8 @@ timeRouter.post("/update/totalTime", auth, async (req, res) => {
       } else {
         time.time.forEach((v) => {
           totalTime += v.time;
-          console.log("!!!!", v);
         });
-        console.log("pre", user.totaltime);
-        user.totaltime = timeformat(totalTime).join(":");
-        console.log("end", user.totaltime);
+        user.totaltime = timeFormat(totalTime).join(":");
         user.save();
         return res.status(204).end();
       }

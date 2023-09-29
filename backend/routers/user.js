@@ -24,14 +24,14 @@ userRouter.post("/login", async (req, res) => {
   const userInfo = User.findOne({ email: req.body.email }, (err, user) => {
     if (!user) {
       return res.status(401).json({
-        err: "유저가 없습니다",
+        err: "로그인 오류",
       });
     }
 
     user.comparePassword(req.body.password, (err, isMath) => {
       if (!isMath) {
         return res.status(401).json({
-          err: "비밀번호가 틀렸습니다.",
+          err: "로그인 오류",
         });
       }
 
@@ -76,7 +76,6 @@ userRouter.get("/image", auth, (req, res) => {
   // 2. 이미지가 없으면 빈 문자열을 반환해 프론트에서 처리하기
   try {
     const img = req.user.image || "";
-    console.log(img);
     return res.status(200).json({ data: img });
   } catch (e) {
     return res.status(500).json({ err: e });

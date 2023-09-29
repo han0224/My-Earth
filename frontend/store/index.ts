@@ -1,8 +1,9 @@
 // redux-persist, localstorage에 저장
-import AsyncStorage from "@react-native-community/async-storage";
+// import AsyncStorage from "@react-native-community/async-storage";
 import { persistReducer } from "redux-persist";
 import { createWrapper, HYDRATE } from "next-redux-wrapper";
 import thunkMiddleware from "redux-thunk";
+import storage from "redux-persist/lib/storage";
 import {
   applyMiddleware,
   combineReducers,
@@ -11,12 +12,14 @@ import {
 import timer from "./timer";
 import user from "./user";
 import goal from "./goal";
+import loading from "./loading";
 
 // reducer들을 하나의 reducer로
 const rootReducer = combineReducers({
   timer,
   user,
   goal,
+  loading,
 });
 
 // 합쳐진 리듀서에 next redux wrapper haydrate 타입 리듀서 추가
@@ -45,7 +48,7 @@ const bindMiddleware = (middleware: any) => {
 };
 const persistConfig = {
   key: "root",
-  storage: AsyncStorage,
+  storage: storage,
   whitelist: ["user", "timer"],
 };
 

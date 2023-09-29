@@ -1,10 +1,6 @@
-import axios from "axios";
-import { config } from "../config";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteUser } from "../store/user";
-import { initTimer } from "../store/timer";
+import { apiInstance } from ".";
 
-const URL = config.URL + "time/";
+const api = apiInstance();
 
 // day기준으로 day+num 날까지
 //body{day:String, num:Number}
@@ -12,8 +8,8 @@ const URL = config.URL + "time/";
 export const getDay = async (num: Number, day: string) => {};
 
 export const todayTime = async (today: string) => {
-  const result = await axios
-    .get(URL + "today/" + today, {
+  const result = await api
+    .get("today/" + today, {
       withCredentials: true,
     })
     .then((response) => {
@@ -27,16 +23,6 @@ export const todayTime = async (today: string) => {
       }
     });
   return result;
-  // if (result.status === 200) {
-  //   return { success: true, data: result.data.time };
-  // } else if (result.status === 401) {
-  //   const dispatch = useDispatch();
-  //   dispatch(deleteUser());
-  //   dispatch(initTimer());
-  //   return { success: false, message: result.data.err };
-  // } else {
-  //   return { success: false, message: "오류 발생" };
-  // }
 };
 
 // start 달부터 end달까지 res.data.time.time -> 분기준
@@ -44,8 +30,8 @@ export const todayTime = async (today: string) => {
 // res{success:true,false, time:[month:Number, time:Number]}
 //`${year}-${month}-${num}`
 export const getMonth = async (year: Number, month: Number) => {
-  const result = await axios
-    .get(URL + "month/" + `${year}/${month}`, {
+  const result = await api
+    .get("time/" + "month/" + `${year}/${month}`, {
       withCredentials: true,
     })
     .then((response) => {
@@ -62,8 +48,8 @@ export const getMonth = async (year: Number, month: Number) => {
 };
 
 export const getYear = async (year: Number) => {
-  const result = await axios
-    .get(URL + "year/" + `${year}`, {
+  const result = await api
+    .get("time/" + "year/" + `${year}`, {
       withCredentials: true,
     })
     .then((response) => {
@@ -82,9 +68,9 @@ export const getYear = async (year: Number) => {
 // body: {date: 'YYYY.MM.DD', time:Number (초)}
 // res:{success: true/false}
 export const saveTime = async (date: String, time: Number) => {
-  const result = await axios
+  const result = await api
     .post(
-      URL + "save",
+      "time/" + "save",
       {
         date: date,
         time: time,
@@ -104,18 +90,11 @@ export const saveTime = async (date: String, time: Number) => {
       }
     });
   return result;
-  // if (result.status === 204) {
-  //   return { success: true, data: result.data };
-  // } else if (result.status === 500) {
-  //   return { success: false, err: result.data.err };
-  // } else {
-  //   return null;
-  // }
 };
 
 export const updateTotalTime = async () => {
-  const resut = axios
-    .post(URL + "/update/totalTime", {}, { withCredentials: true })
+  const resut = api
+    .post("time/" + "/update/totalTime", {}, { withCredentials: true })
     .then((response) => {
       return { success: true, err: "" };
     })

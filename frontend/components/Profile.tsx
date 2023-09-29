@@ -1,26 +1,23 @@
-import { CalendarDatum } from "@nivo/calendar";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getMonth, getYear, updateTotalTime } from "../apis/timeapi";
 import styles from "../styles/Profile.module.css";
-import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 import { GoInfo } from "react-icons/go";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-
-const MyResponsiveTimeRange = dynamic(() => import("../components/nivoChart"), {
-  ssr: false,
-});
-
+import StudyChart from "./charts/StudyChart";
+import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
+import ArrowBackIosNewSharpIcon from "@mui/icons-material/ArrowBackIosNewSharp";
 const Profile = () => {
   const { isUser, name, email, time } = useSelector(
     (state: RootState) => state.user
   );
 
+  const date = new Date();
   // 보여줄 년도
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [data, setData] = useState<CalendarDatum[]>([]);
+  const [year, setYear] = useState(date.getFullYear());
+  const [month, setMonth] = useState(date.getMonth());
+  const [data, setData] = useState([]);
 
   const [profileImg, setProfileImg] = useState();
   const [file, setFile] = useState({ profileImg: "" });
@@ -35,7 +32,7 @@ const Profile = () => {
   };
 
   const getTime = async () => {
-    const res = await getYear(year);
+    const res = await getMonth(year, month + 1);
     if (res === null) {
       setData([]);
     } else {
@@ -43,11 +40,25 @@ const Profile = () => {
     }
   };
 
-  const yearMinus = () => {
-    setYear(year - 1);
+  const monthMinus = () => {
+    setMonth((pre) => {
+      if (pre < 1) {
+        setYear((preY) => preY - 1);
+        return 11;
+      } else {
+        return pre - 1;
+      }
+    });
   };
-  const yearPlus = () => {
-    setYear(year + 1);
+  const monthPlus = () => {
+    setMonth((pre) => {
+      if (pre > 10) {
+        setYear((preY) => preY + 1);
+        return 0;
+      } else {
+        return pre + 1;
+      }
+    });
   };
 
   // const changeProfile = async (e) => {
@@ -84,17 +95,17 @@ const Profile = () => {
 
   useEffect(() => {
     getTime();
-  }, [year]);
+  }, [month]);
 
   return (
     <div className={styles.profilePage}>
       <div className={styles.profile}>
-        <div className={styles.profile_image}>
+        {/* <div className={styles.profile_image}>
           <input type="file" accept="image/*" id="profileImg" />
           <label htmlFor="profileImg">
             <img src={profileImg}></img>
           </label>
-        </div>
+        </div> */}
         <div className={styles.table}>
           <div className={styles.tbody}>
             <div>name</div>
@@ -116,27 +127,18 @@ const Profile = () => {
       </div>
       <div className={styles.chart}>
         <div className={styles.chartTitle}>
-          <button onClick={yearMinus}>
-            <AiFillCaretLeft size={30} />
+          <button onClick={monthMinus}>
+            <ArrowBackIosNewSharpIcon />
           </button>
-          <p>{year}</p>
-          <button onClick={yearPlus}>
-            <AiFillCaretRight size={30} />
+          <p>
+            {year}/{`0${month + 1}`.slice(-2)}
+          </p>
+          <button onClick={monthPlus}>
+            <ArrowForwardIosSharpIcon />
           </button>
         </div>
         <div className={styles.timerageChart}>
-          <MyResponsiveTimeRange
-            data={data}
-            from={`${year - 1}-12-31`}
-            to={`${year}-06-30`}
-          />
-        </div>
-        <div className={styles.timerageChart}>
-          <MyResponsiveTimeRange
-            data={data}
-            from={`${year}-06-30`}
-            to={`${year}-12-31`}
-          />
+          <StudyChart data={data} />
         </div>
       </div>
     </div>

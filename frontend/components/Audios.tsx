@@ -1,11 +1,22 @@
 import { useEffect, useState } from "react";
 import styles from "../styles/Audios.module.css";
-import {
-  IoPlayCircle,
-  IoPlaySkipForward,
-  IoPlaySkipBack,
-  IoStopCircle,
-} from "react-icons/io5";
+import Box from "@mui/material/Box";
+import FastForwardSharpIcon from "@mui/icons-material/FastForwardSharp";
+import FastRewindSharpIcon from "@mui/icons-material/FastRewindSharp";
+import StopCircleSharpIcon from "@mui/icons-material/StopCircleSharp";
+import PlayCircleFilledSharpIcon from "@mui/icons-material/PlayCircleFilledSharp";
+import Slider, { SliderValueLabelProps } from "@mui/material/Slider";
+import Tooltip from "@mui/material/Tooltip";
+
+function ValueLabelComponent(props: SliderValueLabelProps) {
+  const { children, value } = props;
+
+  return (
+    <Tooltip enterTouchDelay={0} placement="top" title={value}>
+      {children}
+    </Tooltip>
+  );
+}
 
 const music = [
   {
@@ -27,7 +38,7 @@ const music = [
 ];
 
 const Audios = () => {
-  const [volume, setVolume] = useState(100);
+  const [volume, setVolume] = useState(50);
   const [musicIndex, setMusicIndex] = useState(0);
   const [isPlay, setIsPlay] = useState(false);
   const [audio, setAudio] = useState<HTMLAudioElement>();
@@ -69,7 +80,9 @@ const Audios = () => {
         audio.load();
         audio.play();
         // audio.volume = volume * 0.01;
-        audio.addEventListener("ended", () => setChange("up"));
+        audio.addEventListener("ended", () => {
+          setChange("up");
+        });
       } else {
         audio.pause();
       }
@@ -91,33 +104,41 @@ const Audios = () => {
           <span>{music[musicIndex].artist}</span>
         </div>
         <div className={styles.musicBtn}>
-          <IoPlaySkipBack
-            size={30}
-            onClick={() => {
-              setChange("down");
-            }}
-          />
+          <button onClick={() => setChange("down")}>
+            <FastRewindSharpIcon style={{ fill: "white" }} fontSize="large" />
+          </button>
           {isPlay ? (
-            <IoStopCircle size={30} onClick={setMusic} />
+            <button onClick={setMusic}>
+              <StopCircleSharpIcon style={{ fill: "white" }} fontSize="large" />
+            </button>
           ) : (
-            <IoPlayCircle size={30} onClick={setMusic} />
+            <button onClick={setMusic}>
+              <PlayCircleFilledSharpIcon
+                style={{ fill: "white" }}
+                fontSize="large"
+              />
+            </button>
           )}
-          <IoPlaySkipForward
-            size={30}
-            onClick={() => {
-              setChange("up");
-            }}
-          />
-          <div className={styles.volumediv}>
-            <input
-              className={styles.volume}
-              value={volume}
-              type={"range"}
-              id="volume"
-              min="0"
-              max="100"
-              onChange={VolumeChange}
-            ></input>
+          <button onClick={() => setChange("up")}>
+            <FastForwardSharpIcon style={{ fill: "white" }} fontSize="large" />
+          </button>
+          <div className={styles.volume}>
+            <Box sx={{ width: 1 }}>
+              <Slider
+                valueLabelDisplay="auto"
+                slots={{
+                  valueLabel: ValueLabelComponent,
+                }}
+                aria-label="Volume"
+                value={volume}
+                onChange={VolumeChange}
+                min={0}
+                max={100}
+                sx={{
+                  color: "#AF7EEA",
+                }}
+              />
+            </Box>
           </div>
         </div>
       </div>

@@ -1,2 +1,4 @@
 backend/config/dev.js
 backend/config/env/development.js
+
+frontend/.env

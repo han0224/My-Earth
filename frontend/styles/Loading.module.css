@@ -2,4 +2,7 @@
   width: 100vw;
   height: 100vh;
   background: linear-gradient(to bottom, #0eac8a 0%, #420065 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

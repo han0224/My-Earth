@@ -1,13 +1,10 @@
-import axios from "axios";
-import { useSelector } from "react-redux";
-import { config } from "../config";
-import { RootState } from "../store";
 import { itemType } from "../types/GoalType";
+import { apiInstance } from ".";
 
-const URL = config.URL + "goal/";
-
+const URL = "goal/";
+const api = apiInstance();
 export const getGoal = async (email: string) => {
-  const result = await axios
+  const result = await api
     .get(URL + `get/${email}`, {
       withCredentials: true,
     })
@@ -36,7 +33,7 @@ export const saveGoal = async (
   email: string,
   type: string
 ) => {
-  const result = await axios
+  const result = await api
     .post(
       URL + `save/${type}/${email}`,
       {

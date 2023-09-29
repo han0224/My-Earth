@@ -54,7 +54,6 @@ const GoalContent = (props: Props) => {
   ];
 
   const save = async () => {
-    console.log(initData[status], goalStatus[status]);
     // if (initData[status] === goalStatus[status]) return;
     const result = await saveGoal(goalStatus[status], email, status);
     if (!result.success) {
@@ -143,7 +142,6 @@ const GoalContent = (props: Props) => {
   }, [props]);
 
   useEffect(() => {
-    console.log("!!!");
     save();
   }, [goalStatus]);
 

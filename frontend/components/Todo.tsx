@@ -2,18 +2,21 @@
 // 로그인 상태면 todo 목록 불러오기
 // 로그인 상태가 아니면 '로그인 후 사용 가능합니다' 표시
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { saveTodo, setstatus, todoDelete, todoList } from "../apis/todo";
 import styles from "../styles/Todo.module.css";
-import { AiOutlineDelete, AiOutlineMenu } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
-import { MdAdd } from "react-icons/md";
+// import { MdAdd } from "react-icons/md";
 import useInput from "../hooks/useInput";
 import { deleteUser } from "../store/user";
 import { initTimer } from "../store/timer";
 import { useRouter } from "next/router";
 
+import DeleteSharpIcon from "@mui/icons-material/DeleteSharp";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import Button from "@mui/material/Button";
 // 로그인 상태일 시
 // 추가 버튼, 삭제 버튼, 완료 버튼
 
@@ -31,7 +34,6 @@ const Todo = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const title = useInput("");
-  const ref = useRef<HTMLDivElement>(null);
 
   const addTodo = async () => {
     if (!isUser) {
@@ -100,13 +102,21 @@ const Todo = () => {
 
   return (
     <div className={styles.todo}>
-      <button
+      <Button
+        color="secondary"
+        variant="contained"
+        onClick={() => setIsListOpen(!isListOpen)}
+      >
+        <FormatListBulletedIcon />
+        &nbsp; TODO List
+      </Button>
+      {/* <button
         className={styles.todoHeader}
         onClick={() => setIsListOpen(!isListOpen)}
       >
         <AiOutlineMenu className={styles.icon} />
         <p>Todo List</p>
-      </button>
+      </button> */}
       <div className={isListOpen ? styles.todoList : styles.closeTodoList}>
         {todolist.length > 0 &&
           todolist.map((v) => (
@@ -122,20 +132,29 @@ const Todo = () => {
                   ></input>
                   <p>{v.title}</p>
                 </div>
-                <AiOutlineDelete
+                <DeleteSharpIcon
                   className={styles.todoDelete}
-                  onClick={(e) => {
+                  onClick={() => {
                     setDelete(v._id);
                   }}
                 />
               </label>
             </div>
           ))}
-        {open ? (
-          <div className={styles.addBox} ref={ref}>
-            <input type={"text"} {...title} />
-            <button onClick={addTodo}>
-              <MdAdd />
+        {open && isListOpen ? (
+          <div className={styles.addBox}>
+            <input
+              autoFocus
+              onKeyDown={(event) => (event.key === "Enter" ? addTodo() : "")}
+              type={"text"}
+              {...title}
+            />
+            <button>
+              <AddCircleIcon
+                fontSize="large"
+                color="secondary"
+                onClick={addTodo}
+              />
             </button>
           </div>
         ) : (

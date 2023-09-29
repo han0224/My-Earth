@@ -1,10 +1,9 @@
-import axios from "axios";
-import { config } from "../config";
+import { apiInstance } from ".";
 
-const URL = config.URL + "user/";
-
+const URL = "user/";
+const api = apiInstance();
 export const login = async (email: string, password: string) => {
-  const result = await axios
+  const result = await api
     .post(
       URL + "login",
       {
@@ -33,7 +32,7 @@ export const register = async (
   email: string,
   password: string
 ) => {
-  const result = await axios
+  const result = await api
     .post(
       URL + "register",
       {
@@ -59,7 +58,7 @@ export const register = async (
 };
 
 export const auth = async () => {
-  const result = await axios
+  const result = await api
     .get(URL + "auth", {
       withCredentials: true,
     })
@@ -79,7 +78,7 @@ export const auth = async () => {
 };
 
 export const logout = async () => {
-  const result = await axios
+  const result = await api
     .get(URL + "logout", {
       withCredentials: true,
     })
@@ -99,7 +98,7 @@ export const logout = async () => {
 };
 
 export const getImg = async () => {
-  const result = await axios
+  const result = await api
     .get(URL + "image", { withCredentials: true })
     .then((response) => {
       return { success: true, data: response.data, err: "" };
@@ -113,15 +112,3 @@ export const getImg = async () => {
     });
   return result;
 };
-
-// export const setImg = async (img) => {
-//   const result = await axios
-//     .post(URL + "set/image", { image: img }, { withCredentials: true })
-//     .then((response) => {
-//       return { success: true, err: "" };
-//     })
-//     .catch((e) => {
-//       return { success: false, err: e };
-//     });
-//   return result;
-// };
