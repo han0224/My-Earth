@@ -37,11 +37,6 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: mongoStore.create({ mongoUrl: process.env.MONGO_URI }),
-    cookie: {
-      sameSite: process.env.NODE_ENV ? "lax" : "none",
-      secure: process.env.NODE_ENV ? false : true,
-      httpOnly: true,
-    },
   })
 );
 

@@ -34,17 +34,11 @@ userRouter.post("/login", async (req, res) => {
           err: "로그인 오류",
         });
       }
-
-      req.session.save(function () {
-        req.session.userEmail = user.email;
-        if (err) {
-          return res.status(500).json({ err: err });
-        }
-        return res.status(200).json({
-          email: req.body.email,
-          name: user.name,
-          time: user.totaltime,
-        });
+      req.session.userEmail = user.email;
+      return res.status(200).json({
+        email: req.session.userEmail,
+        name: user.name,
+        time: user.totaltime,
       });
     });
   });

@@ -4,14 +4,10 @@ const URL = "user/";
 const api = apiInstance();
 export const login = async (email: string, password: string) => {
   const result = await api
-    .post(
-      URL + "login",
-      {
-        email: email,
-        password: password,
-      },
-      { withCredentials: true }
-    )
+    .post(URL + "login", {
+      email: email,
+      password: password,
+    })
     .then((response) => {
       return { success: true, err: "" };
     })
