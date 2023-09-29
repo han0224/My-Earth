@@ -15,7 +15,7 @@ const User = () => {
   return (
     <Layout>
       <div className={styles.space}>
-        <Box sx={boxSx}>
+        <Box sx={boxSx} component={"div"}>
           <div className={styles.userCard}>
             <Profile />
           </div>
