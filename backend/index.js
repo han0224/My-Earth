@@ -34,8 +34,8 @@ const mongoStore = require("connect-mongo");
 console.log(process.env.NODE_ENV);
 
 const sessionCookie = {
-  secure: process.env.NODE_ENV === "development" ? false : true,
-  sameSite: process.env.NODE_ENV === "development" ? "lax" : "None",
+  secure: true,
+  sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
   httpOnly: true,
   maxAge: 60 * 60 * 24 * 1000,
 };
@@ -47,9 +47,9 @@ app.use(
     saveUninitialized: true,
     store: mongoStore.create({ mongoUrl: process.env.MONGO_URI }),
     cookie: {
-      sameSite: "none",
       secure: true,
-      // httpOnly: true,
+      sameSite: "None",
+      httpOnly: true,
     },
   })
 );
