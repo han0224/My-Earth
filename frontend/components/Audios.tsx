@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import styles from "../styles/Audios.module.css";
-import Box from "@mui/material/Box";
 import FastForwardSharpIcon from "@mui/icons-material/FastForwardSharp";
 import FastRewindSharpIcon from "@mui/icons-material/FastRewindSharp";
 import StopCircleSharpIcon from "@mui/icons-material/StopCircleSharp";
 import PlayCircleFilledSharpIcon from "@mui/icons-material/PlayCircleFilledSharp";
 import Slider, { SliderValueLabelProps } from "@mui/material/Slider";
 import Tooltip from "@mui/material/Tooltip";
+import { Box } from "@mui/material";
 
 function ValueLabelComponent(props: SliderValueLabelProps) {
   const { children, value } = props;
@@ -123,7 +123,7 @@ const Audios = () => {
             <FastForwardSharpIcon style={{ fill: "white" }} fontSize="large" />
           </button>
           <div className={styles.volume}>
-            <Box sx={{ width: 1 }}>
+            <Box component={"div"}>
               <Slider
                 valueLabelDisplay="auto"
                 slots={{
