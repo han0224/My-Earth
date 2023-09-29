@@ -33,20 +33,24 @@ const mongoStore = require("connect-mongo");
 
 console.log(process.env.NODE_ENV);
 
+const sessionCookie = {
+  secure: process.env.NODE_ENV === "development" ? false : true,
+  sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
+  httpOnly: true,
+  maxAge: 60 * 60 * 24 * 1000,
+};
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     store: mongoStore.create({ mongoUrl: process.env.MONGO_URI }),
-    cookie: {
-      secure: process.env.NODE_ENV === "development" ? false : true,
-      sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
-      httpOnly: true,
-      maxAge: 60 * 60 * 24 * 1000,
-    },
+    cookie: sessionCookie,
   })
 );
+
+console.log(sessionCookie);
 
 const userRouter = require("./routers/user");
 const timeRouter = require("./routers/time");
