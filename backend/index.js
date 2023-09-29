@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://my-earth.vercel.app/"],
+    origin: ["http://localhost:3000", "https://my-earth.vercel.app"],
     methods: ["GET", "POST", "OPTIONS"],
     credentials: true,
   })
